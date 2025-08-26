@@ -1,6 +1,6 @@
 # ⚙ LOOPIS Config
 
-"LOOPIS Config" (loopis-config) is a WordPress plugin that configures a clean WordPress installation for LOOPIS.<br>
+"LOOPIS Config" is a WordPress plugin that configures a clean WordPress installation for LOOPIS.app<br>
 
 ## 💡 Status
 This is a new project in development by volunteers under the name "develoopers".<br>
