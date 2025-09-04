@@ -12,3 +12,4 @@ if (!defined('ABSPATH')) {
     exit; 
 }
 
+// This is just a test commit by johan-hagvil 
