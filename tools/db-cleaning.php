@@ -1,10 +1,20 @@
 <?php
+
+ // Prevent direct access
+// if (!defined('ABSPATH')) { 
+//     exit; 
+// }
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 // Only run if you are logged in as admin
 
 require_once('../../../../wp-load.php'); // Adjust path as needed
+
+// Include the file that contains the function to delete pages
+require_once __DIR__ . '/../../db/loopis-insert-pages.php';
+
 echo "Starting up dev-cleanup to remove/empty all tables!<br><br>";
 
 if (!current_user_can('administrator')) {
@@ -27,6 +37,9 @@ function loopis_db_cleanup() {
     echo ">>> Now dropping the whole tables!<br>";
     $wpdb->query("DROP TABLE IF EXISTS $lockers_table");
     $wpdb->query("DROP TABLE IF EXISTS $settings_table");
+
+    // Remove the inserted pages as well
+    loopis_delete_pages();
 }
 
 loopis_db_cleanup();

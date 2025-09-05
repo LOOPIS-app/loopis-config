@@ -1,13 +1,17 @@
 <?php
 // This file makes insert of default data into the loopis_lockers table in the database
 
+// Prevent direct access
+if (!defined('ABSPATH')) { 
+    exit; 
+} 
 function loopis_settings_insert() {
     error_log('LOOPIS Config table-settings insert');
 
     global $wpdb;
     $table = $wpdb->prefix . 'loopis_settings';
 
-    // Lägg till/ta bort rader enkelt här:
+    // Add or remove records here:
     $defaults = [
         'welcome_email_subject' => '💚 Välkommen!',
         'welcome_email_greeting' => 'Hej [user_first_name]!',
@@ -20,7 +24,7 @@ function loopis_settings_insert() {
     ];
 
     foreach ($defaults as $key => $value) {
-        // Om nyckeln finns, uppdatera. Om inte, skapa.
+        // If the key exists, update it, otherwise insert it.
         $exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table WHERE setting_key = %s", $key));
         if ($exists) {
             $wpdb->update($table, ['setting_value' => $value], ['setting_key' => $key]);
