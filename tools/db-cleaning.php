@@ -13,7 +13,7 @@ error_reporting(E_ALL);
 require_once('../../../../wp-load.php'); // Adjust path as needed
 
 // Include the file that contains the function to delete pages
-require_once __DIR__ . '/../../db/loopis-insert-pages.php';
+require_once __DIR__ . '/../db/loopis-insert-pages.php';
 
 echo "Starting up dev-cleanup to remove/empty all tables!<br><br>";
 
