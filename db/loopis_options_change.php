@@ -1,5 +1,4 @@
 <?php
-// filepath: c:\Users\lingo\Local Sites\test1\app\public\wp-content\plugins\loopis-config\db\loopis-insert-options.php
 if (!defined('ABSPATH')) { 
     exit; 
 }
