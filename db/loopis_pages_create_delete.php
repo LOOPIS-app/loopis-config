@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
  *
  * @return void
  */
-function loopis_insert_pages() {
+function loopis_pages_create() {
     error_log('LOOPIS Config insert pages');
     $pages_to_create = array(
         array(
@@ -112,11 +112,11 @@ function loopis_insert_pages() {
 }
 
 /**
- * Function to delete pages created by loopis_insert_pages()
+ * Function to delete pages created by loopis_pages_create_delete()
  *
  * @return void
  */
-function loopis_delete_pages() {
+function loopis_pages_delete() {
     // Define the same unique meta key that was used during creation.
     $meta_key_to_delete = '_loopis_config_page';
 
@@ -137,7 +137,7 @@ function loopis_delete_pages() {
     if ($pages_to_delete->have_posts()) {
         foreach ($pages_to_delete->posts as $post_id) {
             // Force delete the page (bypass trash).
-            error_log("loopis_delete_pages: Deleting page ID $post_id");
+            // error_log("loopis_delete_pages: Deleting page ID $post_id");
 
             wp_delete_post($post_id, true);
         }
