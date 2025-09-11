@@ -2,7 +2,7 @@
 /*
 Plugin Name: LOOPIS Config
 Version: 0.2
-Author: developers Johan*2
+Author: LOOPIS Developers
 Author URI: https://loopis.org
 Description: Plugin for configuring a clean WP installation for LOOPIS.app
 */
