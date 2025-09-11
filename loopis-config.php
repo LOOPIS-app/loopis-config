@@ -20,3 +20,4 @@ register_activation_hook(__FILE__, 'loopis_db_setup');
 
 error_log("End of Loopis Config: ==================================================================");
 
+
