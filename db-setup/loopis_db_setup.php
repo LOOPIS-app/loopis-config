@@ -14,8 +14,8 @@ if (!defined('ABSPATH')) {
 } 
 
 // Include necessary files
-require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_lockers_create_update.php';
-require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_settings_create_update.php';
+require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_lockers_create.php';
+require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_settings_create.php';
 require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_settings_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_pages_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_tags_insert.php';
@@ -26,10 +26,10 @@ function loopis_db_setup() {
     error_log('>>> Start of main function loopis_db_setup');
 
     // Create (or update) LOOPIS custom table 'loopis_lockers'
-    loopis_lockers_create_update();
+    loopis_lockers_create();
 
     // Create (or update) LOOPIS custom table 'loopis_settings'
-    loopis_settings_create_update();
+    loopis_settings_create();
 
     // Insert LOOPIS default values into 'loopis_settings'
     loopis_settings_insert();

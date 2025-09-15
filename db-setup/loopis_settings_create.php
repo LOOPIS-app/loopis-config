@@ -19,8 +19,8 @@ if (!defined('ABSPATH')) {
 /**
  * Create (or update) table 'loopis_settings'
  */
-function loopis_settings_create_update() {
-    error_log('Running function loopis_settings_create_update...');
+function loopis_settings_create() {
+    error_log('Running function loopis_settings_create...');
 
     global $wpdb;
     $table = $wpdb->prefix . 'loopis_settings';
