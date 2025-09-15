@@ -1,12 +1,26 @@
 <?php
-// This file makes insert of default data into the loopis_lockers table in the database
+/**
+ * Function to insert default settings into the 'loopis_settings' table.
+ *
+ * This function is called by main function 'loopis_db_setup'.
+ * 
+ * Modify the default settings here if needed, then reactivate the plugin.
+ * Do not change the column names, as that may break existing installations.
+ *
+ * @package LOOPIS_Config
+ * @subpackage Database
+ */
 
 // Prevent direct access
 if (!defined('ABSPATH')) { 
     exit; 
 } 
+
+/**
+ * Insert values into 'loopis_settings'
+ */
 function loopis_settings_insert() {
-    error_log('LOOPIS Config table-settings insert');
+    error_log('Running function loopis_settings_insert...');
 
     global $wpdb;
     $table = $wpdb->prefix . 'loopis_settings';
