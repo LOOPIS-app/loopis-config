@@ -1,15 +1,27 @@
 <?php
+/**
+ * Function to insert LOOPIS default tags in the WordPress database.
+ *
+ * This function is called by main function 'loopis_db_setup'.
+ * 
+ * Corresponding function to remove the tags is called by 'loopis_db_cleanup'.
+ *
+ * @package LOOPIS_Config
+ * @subpackage Database
+ */
 
+// Prevent direct access
 if (!defined('ABSPATH')) {
     exit;
 }
 
 /**
- * Inserts tags into wp_terms with a specific term_group.
+ * Insert tags into 'wp_terms'
  */
 function loopis_tags_insert() {
-    global $wpdb;
+    error_log('Running function loopis_tags_insert...');
 
+    // Define the tags to insert
     $tags = [
         ['name' => 'Inredning',        'slug' => 'inredning'],
         ['name' => 'Böcker',           'slug' => 'bocker'],
@@ -47,44 +59,25 @@ function loopis_tags_insert() {
         ['name' => 'Bil & cykel',      'slug' => 'bil-cykel'],
     ];
 
-    $term_group = 10;
-
+    // Insert each tag if it doesn't already exist
     foreach ($tags as $tag) {
         // Check if term already exists
-        $existing = $wpdb->get_var($wpdb->prepare(
-            "SELECT term_id FROM {$wpdb->terms} WHERE slug = %s", $tag['slug']
-        ));
-
+        $existing = term_exists($tag['slug'], 'post_tag');
+        
         if (!$existing) {
-            $wpdb->insert(
-                $wpdb->terms,
-                [
-                    'name'       => $tag['name'],
-                    'slug'       => $tag['slug'],
-                    'term_group' => $term_group,
-                ]
+            $result = wp_insert_term(
+                $tag['name'],    // term name
+                'post_tag',      // taxonomy
+                array(
+                    'slug' => $tag['slug']
+                )
             );
+            
+            if (is_wp_error($result)) {
+                error_log('Error inserting tag: ' . $result->get_error_message());
+            } else {
+                error_log('Successfully inserted tag: ' . $tag['name']);
+            }
         }
-    }
-}
-
-/**
- * Deletes all tags in wp_terms with the specific term_group.
- */
-function loopis_tags_delete() {
-    global $wpdb;
-    $term_group = 10;
-
-    // Get all term_ids with this group
-    $term_ids = $wpdb->get_col($wpdb->prepare(
-        "SELECT term_id FROM {$wpdb->terms} WHERE term_group = %d", $term_group
-    ));
-
-    if (!empty($term_ids)) {
-        $in = implode(',', array_map('intval', $term_ids));
-        // Remove from term_taxonomy first (to avoid orphaned rows)
-        $wpdb->query("DELETE FROM {$wpdb->term_taxonomy} WHERE term_id IN ($in)");
-        // Remove from terms table
-        $wpdb->query("DELETE FROM {$wpdb->terms} WHERE term_id IN ($in)");
     }
 }

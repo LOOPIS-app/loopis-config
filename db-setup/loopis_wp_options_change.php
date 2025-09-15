@@ -1,9 +1,24 @@
 <?php
+/**
+ * Function to change the default WordPress settings in the 'wp_options' table.
+ *
+ * This function is called by main function 'loopis_db_setup'.
+ *
+ * @package LOOPIS_Config
+ * @subpackage Database
+ */
+
+// Prevent direct access
 if (!defined('ABSPATH')) { 
     exit; 
 }
 
-function loopis_options_change() {
+/**
+ * Change settings in 'wp_options'
+ */
+function loopis_wp_options_change() {
+    error_log('Running function loopis_wp_options_change...');
+    
     $options_to_set = array(
         'blogname'              => 'LOOPIS',
         'blogdescription'       => '–',

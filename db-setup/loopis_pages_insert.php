@@ -1,6 +1,13 @@
 <?php
 /**
- * The file that creates initial pages in WordPress
+ * Functions to create LOOPIS pages in the WordPress database.
+ *
+ * This function is called by main function 'loopis_db_setup'.
+ * 
+ * Corresponding function to remove the pages is called by 'loopis_db_cleanup'.
+ *
+ * @package LOOPIS_Config
+ * @subpackage Database
  */
 
 // Prevent direct access
@@ -9,12 +16,14 @@ if (!defined('ABSPATH')) {
 } 
 
 /**
- * Inserts pages into the WordPress database if they do not already exist.
+ * Inserts pages into wp_posts
  *
  * @return void
  */
-function loopis_pages_create() {
-    error_log('LOOPIS Config insert pages');
+function loopis_pages_insert() {
+    error_log('Running function loopis_pages_insert...');
+
+    // Define the pages to create
     $pages_to_create = array(
         array(
             'post_title' => 'Frågor & svar',
@@ -107,39 +116,6 @@ function loopis_pages_create() {
                 // Add the unique meta tag to the newly created page.
                 add_post_meta($new_page_id, $meta_key_to_add, $meta_value_to_add, true);
             }
-        }
-    }
-}
-
-/**
- * Function to delete pages created by loopis_pages_create_delete()
- *
- * @return void
- */
-function loopis_pages_delete() {
-    // Define the same unique meta key that was used during creation.
-    $meta_key_to_delete = '_loopis_config_page';
-
-    // Create a query to find all pages with the specific meta key.
-    $pages_to_delete = new WP_Query(array(
-        'post_type'  => 'page',
-        'meta_query' => array(
-            array(
-                'key'   => $meta_key_to_delete,
-                'value' => '1',
-            ),
-        ),
-        'fields'     => 'ids', 
-        'posts_per_page' => -1, // <-- Fetch all matching pages!
-    ));
-
-    // If there are pages to delete, loop through them and delete.
-    if ($pages_to_delete->have_posts()) {
-        foreach ($pages_to_delete->posts as $post_id) {
-            // Force delete the page (bypass trash).
-            // error_log("loopis_delete_pages: Deleting page ID $post_id");
-
-            wp_delete_post($post_id, true);
         }
     }
 }

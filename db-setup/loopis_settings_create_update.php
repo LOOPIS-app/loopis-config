@@ -1,14 +1,26 @@
 <?php
-// This file creates or updates the loopis_settings table in the database
-// - If you want to change the table structure, do it here and then reactivate the plugin
-// - Do not change the table name or column names, as that may break existing installations 
+/**
+ * Function to create (or update) the database table 'loopis_settings'.
+ *
+ * This function is called by main function 'loopis_db_setup'.
+ * 
+ * Change the table structure here if needed, then reactivate the plugin.
+ * Do not change the table name or column names, as that may break existing installations.
+ *
+ * @package LOOPIS_Config
+ * @subpackage Database
+ */
+
 // Prevent direct access
 if (!defined('ABSPATH')) { 
     exit; 
 } 
 
+/**
+ * Create (or update) table 'loopis_settings'
+ */
 function loopis_settings_create_update() {
-    error_log('LOOPIS Config table_settings create or update');
+    error_log('Running function loopis_settings_create_update...');
 
     global $wpdb;
     $table = $wpdb->prefix . 'loopis_settings';
