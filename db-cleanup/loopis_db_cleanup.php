@@ -2,7 +2,7 @@
 /** 
  * Tool for cleaning up tables and data created by plugin 'LOOPIS Config'.
  *
- * You need to remove the ABSPATH check to allow direct access via URL.
+ * This function is accessed via URL.
  * 
  * WARNING! This tool is intended for development purposes only.
  * Use with caution and only in a safe development environment!
@@ -10,11 +10,6 @@
  * @package LOOPIS_Config
  * @subpackage Dev-tools
  */
-
- // Prevent direct access (remove to allow)
-if (!defined('ABSPATH')) { 
-    exit; 
-}
 
 // Enable error reporting for debugging
 ini_set('display_errors', 1);
@@ -37,7 +32,7 @@ echo "Database cleanup starting!<br><br>";
 
 // Define the function
 function loopis_db_cleanup() {
-    error_log('>>> Start of main function loopis_db_cleanup');
+    error_log('=== Start: loopis_db_cleanup ===');
 
     global $wpdb;
     $lockers_table = $wpdb->prefix . 'loopis_lockers';
@@ -51,20 +46,20 @@ function loopis_db_cleanup() {
     //$wpdb->query("DELETE FROM $settings_table");
     
     // Option 2: Drop LOOPIS custom tables
-    echo "Dropping the LOOPIS custom tables.<br>";
+    echo "• Dropping the LOOPIS custom tables...<br>";
     $wpdb->query("DROP TABLE IF EXISTS $lockers_table");
     $wpdb->query("DROP TABLE IF EXISTS $settings_table");
 
     // Remove values inserted into WordPress tables
-    echo "Deleting values inserted into WordPress tables.<br>";
+    echo "• Deleting values inserted into WordPress tables...<br>";
     loopis_pages_delete();
     loopis_tags_delete(); 
-    
-    error_log(">>> End of main function loopis_db_cleanup<br>");
+
+    error_log("=== End: loopis_db_cleanup ===");
 }
 
 // Call the function
 loopis_db_cleanup();
 
 // Announce completion
-echo ">>> Database cleanup done!<br>";
+echo "<br>Database cleanup done!<br>";

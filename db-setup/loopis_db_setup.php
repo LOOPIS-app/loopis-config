@@ -23,7 +23,7 @@ require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_wp_options_change.php';
 
 // Define the main function
 function loopis_db_setup() {
-    error_log('>>> Start of main function loopis_db_setup');
+    error_log('>>> Database Setup Starting!');
 
     // Create (or update) LOOPIS custom table 'loopis_lockers'
     loopis_lockers_create();
@@ -43,5 +43,5 @@ function loopis_db_setup() {
     // Change WordPress settings in 'wp_options'
     loopis_wp_options_change();
 
-    error_log('>>> End of main function loopis_db_setup');
+    error_log('>>> Database Setup Complete!');
 }
