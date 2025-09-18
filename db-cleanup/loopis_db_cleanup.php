@@ -4,7 +4,7 @@
  *
  * This function is accessed via URL.
  * 
- * WARNING! This tool is intended for development purposes only.
+ * WARNING! The cleanup tool is intended for development purposes only.
  * Use with caution and only in a safe development environment!
  * 
  * @package LOOPIS_Config
