@@ -44,7 +44,7 @@ function loopis_config_menu() {
         'manage_options',         // Capability
         'loopis_config_setup',        // Menu Slug
         'loopis_config_setup_page',   // Function to display the page(change if submenus included)
-        LOOPIS_CONFIG_DIR . 'assets/images/loopis-icon-20x20.png'   // Loopis Icon 
+        LOOPIS_CONFIG_URL . 'assets/images/loopis-icon-20x20.png'   // Loopis Icon 
     );
 }
 
