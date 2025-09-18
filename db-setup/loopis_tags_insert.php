@@ -20,7 +20,6 @@ if (!defined('ABSPATH')) {
  */
 function loopis_tags_insert() {
     error_log('Running function loopis_tags_insert...');
-    // Error for testing: throw new Exception("trasig!");
     // Define the tags to insert
     $tags = [
         ['name' => 'Accessoarer',      'slug' => 'accessoarer'],

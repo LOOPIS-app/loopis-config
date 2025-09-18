@@ -139,8 +139,8 @@ function looper_config_sm_run_funcidlist($list){
             $function(); 
             set_step_status($id, 'Ok');
         } catch (Throwable $e) {
-            echo 'Caught error in function call {$function} : ' . $e->getMessage();
-            error_log('Error in function call {$function}: ' . $e->getMessage());
+            echo "Caught error in function call {$function} :  {$e->getMessage()}";
+            error_log("Error in function call {$function}:  {$e->getMessage()}");
             error_log('Terminating process.');
             set_step_status($id, 'Error');  
             break;
