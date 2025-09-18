@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
  */
 function loopis_pages_insert() {
     error_log('Running function loopis_pages_insert...');
-
+    
     // Define the pages to create
     $pages_to_create = array(
         array(

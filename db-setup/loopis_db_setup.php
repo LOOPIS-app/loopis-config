@@ -20,6 +20,7 @@ require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_settings_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_pages_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_tags_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_wp_options_change.php';
+require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_plugins_delete.php';
 
 // Define the main function
 function loopis_db_setup() {
@@ -42,6 +43,9 @@ function loopis_db_setup() {
 
     // Change WordPress settings in 'wp_options'
     loopis_wp_options_change();
+
+    // Delete default plugins from wp-admin
+    loopis_plugins_delete();
 
     error_log('>>> Database Setup Complete!');
 }

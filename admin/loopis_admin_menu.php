@@ -71,7 +71,7 @@ function loopis_sp_handle_actions() {
             ['loopis_tags_insert','loopis_tags'],
             ['','loopis_users'],
             ['','wp_options'],
-            ['','remove_plugins'],
+            ['loopis_plugins_delete','remove_plugins'],
             ['','install_plugins'],
             ['','install_root_files']
         ];

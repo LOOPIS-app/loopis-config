@@ -30,9 +30,9 @@ require_once LOOPIS_CONFIG_DIR . 'db-cleanup/loopis_admintool_cleanup.php'; //Ne
 require_once LOOPIS_CONFIG_DIR . 'admin/loopis_admin_menu.php';
 
 // Call the main setup function upon plugin activation
-register_activation_hook(__FILE__, 'loopis_db_setup');
+//register_activation_hook(__FILE__, 'loopis_db_setup');
 
-// Admin menu hook, runs loopis_config_menu as an admin menu
+// Admin menu hook
 add_action('admin_menu', 'loopis_config_menu');
 
 // Setup admin menu
@@ -47,15 +47,17 @@ function loopis_config_menu() {
         LOOPIS_CONFIG_DIR . 'assets/images/loopis-icon-20x20.png'   // Loopis Icon 
     );
 }
+
 //Admin style hook
 add_action('admin_enqueue_scripts', 'loopis_config_admin_styles');
+
 //Enqueue admin menu style sheet 
 function loopis_config_admin_styles() {
     wp_enqueue_style(
-        'loopis-config-admin-style', 
-        LOOPIS_CONFIG_URL . 'admin/admin_menu_style.css', 
-        [],
-        '1.0' 
+        'loopis-config-admin-style', //Name
+        LOOPIS_CONFIG_URL . 'admin/loopis_admin_menu_style.css', //URL
+        [], //Dependencies
+        '1.0' //Version
     );
 }
 
