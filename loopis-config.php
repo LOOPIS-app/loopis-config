@@ -32,6 +32,9 @@ require_once LOOPIS_CONFIG_DIR . 'admin/loopis_admin_menu.php';
 // Admin menu hook
 add_action('admin_menu', 'loopis_config_menu');
 
+// Admin js hook
+add_action('admin_enqueue_scripts', 'loopis_enqueue_admin_scripts');
+
 // Admin style hook
 add_action('admin_enqueue_scripts', 'loopis_config_admin_styles');
 
@@ -56,6 +59,21 @@ function loopis_config_admin_styles() {
         [], //Dependencies
         '1.0' //Version
     );
+}
+// Enqueue admin js and AJAX
+function loopis_enqueue_admin_scripts() {
+    wp_enqueue_script(
+        'loopis_admin_buttons_js',
+        LOOPIS_CONFIG_URL . 'admin/loopis_admin_buttons.js',
+        ['jquery'], 
+        '1.0',
+        true 
+    );
+
+    wp_localize_script('loopis_admin_buttons_js', 'loopis_ajax', [
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce'    => wp_create_nonce('loopis_config_nonce')
+    ]);
 }
 
 // End of error log
