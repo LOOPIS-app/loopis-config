@@ -18,6 +18,7 @@ require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_lockers_create.php';
 require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_settings_create.php';
 require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_settings_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_pages_insert.php';
+require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_categories_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_tags_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_wp_options_change.php';
 require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_plugins_delete.php';
@@ -38,13 +39,16 @@ function loopis_db_setup() {
     // Insert LOOPIS default pages into 'wp_posts'
     loopis_pages_insert();
 
+     // Insert LOOPIS default categories into 'wp_terms'
+    loopis_categories_insert();
+
     // Insert LOOPIS default tags into 'wp_terms'
     loopis_tags_insert();
 
     // Change WordPress settings in 'wp_options'
     loopis_wp_options_change();
 
-    // Delete default plugins from wp-admin
+    // Delete default plugins
     loopis_plugins_delete();
 
     error_log('>>> Database Setup Complete!');

@@ -27,7 +27,7 @@ function loopis_config_setup_page() {
         <!-- Page content-->
         <h2>Konfigurera WordPress</h2>
         <p>  
-                <button id="run_loopis_config_installation" class="button button-primary" value="Start" />Starta</button>
+            <button id="run_loopis_config_installation" class="button button-primary" value="Start" />Starta</button>
         </p> 
         
         <table class="wp-list-table widefat fixed striped">
@@ -81,14 +81,12 @@ function loopis_config_setup_page() {
                 </tbody>
         </table>
         
-        <p>&nbsp;</p> 
-
-        <!-- Spacer -->
+        <p>&nbsp;</p><!-- Spacer -->
 
         <h2>Återställ WordPress</h2>
         <p class="description">⚠ Varning! Endast avsedd för test i utvecklingsmiljö.</p>
         <p>
-                <button id="run_loopis_db_cleanup" class="button button-primary" value="Återställ" />Återställ</button>
+            <button id="run_loopis_db_cleanup" class="button button-primary" value="Återställ" />Återställ</button>
         </p>
         <table class="wp-list-table widefat fixed striped">
                 <thead>
@@ -125,28 +123,7 @@ function loopis_config_setup_page() {
     <?php
 }
 
-// Run function-id list
-function loopis_sp_run_funcidlist($list){
-    // Calls functions in order, executes if possible, otherwise stops process
-    foreach($list as [$function,$id]){
-        // Checks if there exists a function call for the step, delete whenever pertinent
-        if (!$function){
-            loopis_sp_set_step_status($id, 'Nan');
-            continue;
-        }
-        // Attempts function call, breaks setup and logs/displays errormessage upon error, status set accordingly
-        try {
-            $function(); 
-            loopis_sp_set_step_status($id, 'Ok');
-        } catch (Throwable $e) {
-            error_log("Error in function call {$function}:  {$e->getMessage()}");
-            error_log('Terminating process.');
-            loopis_sp_set_step_status($id, 'Error');  
-            break;
-        }
-    }
-}
-
+// Ajax handler hook
 add_action('wp_ajax_loopis_sp_handle_actions', 'loopis_sp_handle_actions');
 
 // Button handler
@@ -161,10 +138,10 @@ function loopis_sp_handle_actions() {
         ['loopis_settings_insert','loopis_settings'],
         ['loopis_lockers_create','loopis_lockers'],
         ['loopis_pages_insert','loopis_pages'],
-        ['','loopis_categories'],
+        ['loopis_categories_insert','loopis_categories'],
         ['loopis_tags_insert','loopis_tags'],
         ['','loopis_users'],
-        ['','wp_options'],
+        ['loopis_wp_options_change','wp_options'],
         ['loopis_plugins_delete','remove_plugins'],
         ['','install_plugins'],
         ['','install_root_files']
@@ -172,7 +149,7 @@ function loopis_sp_handle_actions() {
     $cleanup_functions = [
         ['','users'],
         ['loopis_tags_delete','tags'],
-        ['','categories'],
+        ['loopis_categories_delete','categories'],
         ['loopis_pages_delete','pages'],
         ['loopis_admin_cleanup','databas'],
     ];
@@ -184,7 +161,7 @@ function loopis_sp_handle_actions() {
     foreach($cleanup_functions as [$function,$id]){
         loopis_sp_set_step_status($id, '');
     }
-    
+
     //Buttons
     switch ($button_id) {
         // Setup button
@@ -213,6 +190,27 @@ function loopis_sp_handle_actions() {
     wp_die();
 }
 
+// Run function-id list
+function loopis_sp_run_funcidlist($list){
+    // Calls functions in order, executes if possible, otherwise stops process
+    foreach($list as [$function,$id]){
+        // Checks if there exists a function call for the step, delete whenever pertinent
+        if (!$function){
+            loopis_sp_set_step_status($id, 'Nan');
+            continue;
+        }
+        // Attempts function call, breaks setup and logs/displays errormessage upon error, status set accordingly
+        try {
+            $function(); 
+            loopis_sp_set_step_status($id, 'Ok');
+        } catch (Throwable $e) {
+            error_log("Error in function call {$function}:  {$e->getMessage()}");
+            error_log('Terminating process.');
+            loopis_sp_set_step_status($id, 'Error');  
+            break;
+        }
+    }
+}
 
 // Get step status
 function loopis_sp_get_step_status($step) {
