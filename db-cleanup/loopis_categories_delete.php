@@ -64,10 +64,7 @@ function loopis_categories_delete() {
         ['%s', '%d', '%d'],
         ['%d']
     );
-
-    // Clear any term meta if necessary (optional)
-    delete_term_meta(1, 'your_custom_meta_key');
-
+    
     // Clear cache
     clean_term_cache(1, 'category');
 
