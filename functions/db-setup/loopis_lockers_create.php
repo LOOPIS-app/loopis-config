@@ -1,6 +1,6 @@
 <?php
 /**
- * Function to create (or update) the database table 'loopis_settings'.
+ * Function to create (or update) the database table 'loopis_lockers'.
  *
  * This function is called by main function 'loopis_db_setup'.
  * 
@@ -17,24 +17,34 @@ if (!defined('ABSPATH')) {
 } 
 
 /**
- * Create (or update) table 'loopis_settings'
+ * Create (or update) table 'loopis_lockers'
+ * 
+ * @return void
  */
-function loopis_settings_create() {
-    error_log('Running function loopis_settings_create...');
+function loopis_lockers_create() {
+    error_log('Running function loopis_lockers_create...');
 
+    // Access WordPress database object
     global $wpdb;
-    $table = $wpdb->prefix . 'loopis_settings';
+
+    // Define table name with WordPress prefix
+    $table = $wpdb->prefix . 'loopis_lockers';
     $charset_collate = $wpdb->get_charset_collate();
 
+    // Include WordPress database upgrade functions
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-
+    
     // Create the table (or update if columns are missing)
     $sql = "CREATE TABLE $table (
         id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-        setting_key varchar(64) NOT NULL,
-        setting_value longtext NOT NULL,
+        locker_id varchar(32) NOT NULL,
+        locker_name varchar(128) DEFAULT NULL,
+        postal_code varchar(16) NOT NULL,
+        code varchar(32) DEFAULT NULL,
+        fetch_warning tinyint(1) DEFAULT 0,
+        leave_warning tinyint(1) DEFAULT 0,
         PRIMARY KEY (id),
-        UNIQUE KEY setting_key (setting_key)
+        UNIQUE KEY locker_id (locker_id)
     ) $charset_collate;";
 
     dbDelta($sql);

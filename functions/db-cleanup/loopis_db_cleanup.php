@@ -16,11 +16,11 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 // Load WordPress environment
-require_once('../../../../wp-load.php'); // Adjust path as needed
+require_once('../../../../../wp-load.php'); // Adjust path as needed
 
 // Include the necessary files
-require_once __DIR__ . '/../db-cleanup/loopis_pages_delete.php';
-require_once __DIR__ . '/../db-cleanup/loopis_tags_delete.php';
+require_once __DIR__ . '/loopis_pages_delete.php';
+require_once __DIR__ . '/loopis_tags_delete.php';
 
 // Only run if you are logged in as admin
 if (!current_user_can('administrator')) {

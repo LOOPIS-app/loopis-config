@@ -17,9 +17,12 @@ if (!defined('ABSPATH')) {
 
 /**
  * Insert tags into 'wp_terms'
+ * 
+ * @return void
  */
 function loopis_tags_insert() {
     error_log('Running function loopis_tags_insert...');
+
     // Define the tags to insert
     $tags = [
         ['name' => 'Accessoarer',      'slug' => 'accessoarer'],
@@ -59,8 +62,11 @@ function loopis_tags_insert() {
         ['name' => 'Övrigt',           'slug' => 'ovrigt'],
     ];
 
+    // Access WordPress database object
     global $wpdb;
-    $loopis_term_group = 10; // Unique group ID for LOOPIS tags
+
+    // Set term_group ID for LOOPIS tags
+    $loopis_term_group = 2;
 
     // Insert each tag if it doesn't already exist
     foreach ($tags as $tag) {
