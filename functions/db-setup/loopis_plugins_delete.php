@@ -4,7 +4,6 @@
  *
  * This function is called by main function 'loopis_db_setup'.
  * 
- *
  * @package LOOPIS_Config
  * @subpackage Database
  */
@@ -13,18 +12,24 @@
 if (!defined('ABSPATH')) { 
     exit; 
 }
-//Possibly neccesary dependecies as wordpress does not always autoload the following functions
+
+/**
+ * Delete default plugins
+ * 
+ * @return void
+ */
+
+// Possibly necessary dependencies as WordPress does not always autoload the following functions
 include_once(ABSPATH . 'wp-admin/includes/plugin.php'); //is_plugin_active(), deactivate_plugins()
 include_once(ABSPATH . 'wp-admin/includes/file.php'); //delete_plugins()
 
-//Removes plugins
 function loopis_plugins_delete() {
     // Plugin main file in /wp-content/plugins
     $undesired_plugins = [
         'akismet/akismet.php',
         'hello.php'
     ];
-    //For each item in list deactivate and delete
+    // For each item in list deactivate and delete
     foreach ($undesired_plugins as $plugin) {
         // Deactivate if active
         if (is_plugin_active($plugin)) {

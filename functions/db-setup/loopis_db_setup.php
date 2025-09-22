@@ -14,14 +14,14 @@ if (!defined('ABSPATH')) {
 } 
 
 // Include necessary files
-require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_lockers_create.php';
-require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_settings_create.php';
-require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_settings_insert.php';
-require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_pages_insert.php';
-require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_categories_insert.php';
-require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_tags_insert.php';
-require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_wp_options_change.php';
-require_once LOOPIS_CONFIG_DIR . 'db-setup/loopis_plugins_delete.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_lockers_create.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_settings_create.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_settings_insert.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_pages_insert.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_categories_insert.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_tags_insert.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_wp_options_change.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_plugins_delete.php';
 
 // Define the main function
 function loopis_db_setup() {

@@ -18,11 +18,16 @@ if (!defined('ABSPATH')) {
 
 /**
  * Insert values into 'loopis_settings'
+ * 
+ * @return void
  */
 function loopis_settings_insert() {
     error_log('Running function loopis_settings_insert...');
 
+    // Access WordPress database object
     global $wpdb;
+
+    // Define table name with WordPress prefix
     $table = $wpdb->prefix . 'loopis_settings';
 
     // Add or remove records here:
@@ -37,6 +42,7 @@ function loopis_settings_insert() {
         'event_name_history' => serialize(['🌳 LOOPIS på torget', '🛸 LOOPIS HQ']),
     ];
 
+    // Insert or update each default setting
     foreach ($defaults as $key => $value) {
         // If the key exists, update it, otherwise insert it.
         $exists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table WHERE setting_key = %s", $key));

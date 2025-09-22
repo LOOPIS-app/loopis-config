@@ -1,11 +1,16 @@
 # ⚙ LOOPIS Config
-
-"LOOPIS Config" is a WordPress plugin that configures a clean WordPress installation for LOOPIS.app<br>
+"LOOPIS Config" is a WordPress plugin that configures a WordPress installation for LOOPIS.app<br>
 
 ## 💡 Status
-This is a new project in development by volunteers under the name "develoopers".<br>
+This project is currently being developed by volunteers under the name "develoopers".<br>
 
 ## 📋 Changelog
+**0.3 (2025-09-22)**<br>
+LOOPIS default categories inserted in `wp_terms`<br>
+WordPress default content deleted in `wp_posts`<br>
+WordPress default plugins deleted in `Plugins`<br>
+Ajax buttons in WP Admin Area<br>
+New folders for assets: css, js, root_files<br>
 
 **0.2 (2025-09-18)**<br>
 User interface in WP Admin Area<br>
@@ -23,11 +28,8 @@ Database cleanup tool for development purposes<br>
 init commit with empty plugin file<br>
 
 
-## 💾 Installation/Update of "LOOPIS Config"
-
-1. Download and zip the folder "loopis-config".
-2. Upload the zip using **WordPress admin dashboard > Plugins > Add New Plugin**.
-3. To trigger database changes: deactivate + reactivate the plugin.
+## 💾 Installation/Update
+Upload the zipped folder "loopis-config.zip" using **WP Admin > Plugins > Add Plugin > Upload Plugin**.
 
 ## 👤 Contributors
 Johan Linger, Hubert Hilborn, Johan Hagvil.<br>

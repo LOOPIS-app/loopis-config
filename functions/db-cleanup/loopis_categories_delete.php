@@ -17,14 +17,18 @@ if (!defined('ABSPATH')) {
 
 /**
  * Delete categories in 'wp_terms'
+ * 
+ * @return void
  */
 function loopis_categories_delete() {
     error_log('Running function loopis_categories_delete...');
 
+    // Access WordPress database object
     global $wpdb;
 
     // The specific term_group used for LOOPIS categories
-    $term_group = 20;
+    $term_group = 1;
+
     // Get all term_ids with this group
     $term_ids = $wpdb->get_col($wpdb->prepare(
         "SELECT term_id FROM {$wpdb->terms} WHERE term_group = {$term_group}"
@@ -34,7 +38,7 @@ function loopis_categories_delete() {
     if (empty($term_ids)) {
         return;
     }
-     // Delete categories.
+     // Delete categories
     foreach ( $term_ids as $term_id ) {
         wp_delete_term( (int) $term_id, 'category' );
     }

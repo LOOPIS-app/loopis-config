@@ -1,6 +1,6 @@
 <?php
 /**
- * Function to insert LOOPIS default caregories in the WordPress database.
+ * Function to insert LOOPIS default categories in the WordPress database.
  *
  * This function is called by main function 'loopis_db_setup'.
  * 
@@ -18,34 +18,18 @@ if (!defined('ABSPATH')) {
 
 /**
  * Insert categories into 'wp_terms'
+ * 
+ * @return void
  */
 function loopis_categories_insert() {
     error_log('Running function loopis_categories_insert...');
-
-    global $wpdb;
-
-    // Use WordPress table prefix
-    $terms_table = $wpdb->prefix . 'terms';
-    $taxonomy_table = $wpdb->prefix . 'term_taxonomy';
-    $relationships_table = $wpdb->prefix . 'term_relationships';
-
-    // Disable key checks so that we are allowed to clear db 
-    $wpdb->query('SET FOREIGN_KEY_CHECKS = 0');
-
-    // Truncate
-    $wpdb->query("TRUNCATE TABLE $terms_table");
-    $wpdb->query("TRUNCATE TABLE $taxonomy_table");
-    $wpdb->query("TRUNCATE TABLE $relationships_table");
-
-    // Re-enable key checks
-    $wpdb->query('SET FOREIGN_KEY_CHECKS = 1');
 
     // Define the categories to insert
     $categories = [
         ['name' =>'⏳ Lottning',            'slug' => 'new'],
         ['name' =>'🟢 Först till kvarn',    'slug' => 'old'],
         ['name' =>'❤ Paxad',               'slug' => 'booked'],
-        ['name' =>'❤ Paxad',               'slug' => 'booked_custom'],
+        ['name' =>'🤎 Paxad',               'slug' => 'booked_custom'],
         ['name' =>'⏹ Skåpet',               'slug' =>'locker'],
         ['name' =>'☑ Hämtad',              'slug' => 'fetched'],
         ['name' =>'❌ Borttagen',           'slug' => 'removed'],
@@ -59,13 +43,13 @@ function loopis_categories_insert() {
         ['name' =>'Reserved_3',             'slug' => 'reserved_3'],
         ['name' =>'Reserved_4',             'slug' => 'reserved_4'],
         ['name' =>'Reserved_5',             'slug' => 'reserved_5'],
-        ['name' =>'Reserved_6',             'slug' => 'reserved_6'],
-        ['name' =>'Reserved_7',             'slug' => 'reserved_7'],
-        ['name' =>'Reserved_8',             'slug' => 'reserved_8'],
     ];
 
-    // Group ID for LOOPIS categories
-    $loopis_term_group = 20;
+    // Access WordPress database object
+    global $wpdb;
+
+    // Set term_group ID for LOOPIS categories
+    $loopis_term_group = 1;
 
     // Insert each category if it doesn't already exist
     foreach ($categories as $category) {
@@ -77,9 +61,9 @@ function loopis_categories_insert() {
                 ['slug' => $category['slug']]
             );
             if (is_wp_error($result)) {
-                error_log('Error inserting tag: ' . $result->get_error_message());
+                error_log('Error inserting category: ' . $result->get_error_message());
             } else {
-                // Update the term_group to mark it as a LOOPIS tag
+                // Update the term_group to mark it as a LOOPIS category
                 $term_id = $result['term_id'];
                 $wpdb->update(
                     $wpdb->terms,
@@ -92,9 +76,16 @@ function loopis_categories_insert() {
         }
     }
     
-    //Update default
+    // Update default
     $term = get_term_by('slug', 'new', 'category');
     if ($term) {
         update_option('default_category', $term->term_id);
+    }
+
+     // Delete default category 'uncategorized' if it exists
+    $uncategorized = get_term_by('slug', 'uncategorized', 'category');
+    if ($uncategorized) {
+        wp_delete_term($uncategorized->term_id, 'category');
+        error_log('Deleted uncategorized category');
     }
 }
