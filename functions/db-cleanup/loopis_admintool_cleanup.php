@@ -17,10 +17,15 @@ require_once __DIR__ . '/../db-cleanup/loopis_users_delete.php';
 
 // Define the function
 function loopis_admin_cleanup() {
+
+    // Access WordPress database object
     global $wpdb;
+
+    // Define custom table names
     $lockers_table = $wpdb->prefix . 'loopis_lockers';
     $settings_table = $wpdb->prefix . 'loopis_settings';
 
+    // Drop LOOPIS custom tables
     $wpdb->query("DROP TABLE IF EXISTS $lockers_table");
     $wpdb->query("DROP TABLE IF EXISTS $settings_table");
 }

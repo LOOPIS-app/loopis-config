@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Function to render the page
-function loopis_config_setup_page() {
+function loopis_config_page() {
     ?>
     <div class="wrap">
         <!-- Page title and description-->
@@ -34,49 +34,60 @@ function loopis_config_setup_page() {
                 <thead>
                     <tr>
                         <th scope="col" class="manage-column">Komponent</th>
+                        <th scope="col" class="manage-column">Plats</th>
                         <th scope="col" class="manage-column">Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="column-component">LOOPIS DB (loopis_settings):</td>
+                        <td class="column-component">LOOPIS settings</td>
+                        <td class="column-place">wp_loopis_settings</td>
                         <td class="column-status" data-step="loopis_settings"><span class="status"><?php echo loopis_sp_get_step_status('loopis_settings'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">LOOPIS DB (loopis_lockers):</td>
+                        <td class="column-component">LOOPIS lockers</td>
+                        <td class="column-place">wp_loopis_lockers</td>
                         <td class="column-status" data-step="loopis_lockers"><span class="status"><?php echo loopis_sp_get_step_status('loopis_lockers'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">LOOPIS pages:</td>
+                        <td class="column-component">LOOPIS pages</td>
+                        <td class="column-place">wp_posts</td>
                         <td class="column-status" data-step="loopis_pages"><span class="status"><?php echo loopis_sp_get_step_status('loopis_pages'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">LOOPIS categories:</td>
+                        <td class="column-component">LOOPIS categories</td>
+                        <td class="column-place">wp_terms</td>
                         <td class="column-status" data-step="loopis_categories"><span class="status"><?php echo loopis_sp_get_step_status('loopis_categories'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">LOOPIS tags:</td>
+                        <td class="column-component">LOOPIS tags</td>
+                        <td class="column-place">wp_terms</td>
                         <td class="column-status" data-step="loopis_tags"><span class="status"><?php echo loopis_sp_get_step_status('loopis_tags'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">LOOPIS users:</td>
+                        <td class="column-component">LOOPIS users</td>
+                        <td class="column-place">wp_users</td>
                         <td class="column-status" data-step="loopis_users"><span class="status"><?php echo loopis_sp_get_step_status('loopis_users'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">WordPress options:</td>
+                        <td class="column-component">WordPress options</td>
+                        <td class="column-place">wp_options</td>
                         <td class="column-status" data-step="wp_options"><span class="status"><?php echo loopis_sp_get_step_status('wp_options'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">Delete default plugins:</td>
+                        <td class="column-component">WordPress root files</td>
+                        <td class="column-place">Server</td>
+                        <td class="column-status" data-step="install_root_files"><span class="status"><?php echo loopis_sp_get_step_status('install_root_files'); ?></span></td>
+                    </tr>
+                    <tr>
+                        <td class="column-component">Delete plugins</td>
+                        <td class="column-place">Plugins</td>
                         <td class="column-status" data-step="remove_plugins"><span class="status"><?php echo loopis_sp_get_step_status('remove_plugins'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">Install new plugins:</td>
+                        <td class="column-component">Install plugins</td>
+                        <td class="column-place">Plugins</td>
                         <td class="column-status" data-step="install_plugins"><span class="status"><?php echo loopis_sp_get_step_status('install_plugins'); ?></span></td>
-                    </tr>
-                    <tr>
-                        <td class="column-component">Install WordPress root files:</td>
-                        <td class="column-status" data-step="install_root_files"><span class="status"><?php echo loopis_sp_get_step_status('install_root_files'); ?></span></td>
                     </tr>
                 </tbody>
         </table>
@@ -92,28 +103,34 @@ function loopis_config_setup_page() {
                 <thead>
                     <tr>
                         <th scope="col" class="manage-column">Komponent</th>
+                        <th scope="col" class="manage-column">Plats</th>
                         <th scope="col" class="manage-column">Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="column-component">LOOPIS DB:</td>
+                        <td class="column-component">LOOPIS tables</td>
+                        <td class="column-place">wp_loopis_lockers/settings</td>
                         <td class="column-status" data-step="databas"><span class="status"><?php echo loopis_sp_get_step_status('databas'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">LOOPIS pages:</td>
+                        <td class="column-component">LOOPIS pages</td>
+                        <td class="column-place">wp_posts</td>
                         <td class="column-status" data-step="pages"><span class="status"><?php echo loopis_sp_get_step_status('pages'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">LOOPIS categories:</td>
+                        <td class="column-component">LOOPIS categories</td>
+                        <td class="column-place">wp_terms</td>
                         <td class="column-status" data-step="categories"><span class="status"><?php echo loopis_sp_get_step_status('categories'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">LOOPIS tags:</td>
+                        <td class="column-component">LOOPIS tags</td>
+                        <td class="column-place">wp_terms</td>
                         <td class="column-status" data-step="tags"><span class="status"><?php echo loopis_sp_get_step_status('tags'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">LOOPIS users:</td>
+                        <td class="column-component">LOOPIS users</td>
+                        <td class="column-place">wp_users</td>
                         <td class="column-status" data-step="users"><span class="status"><?php echo loopis_sp_get_step_status('users'); ?></span></td>
                     </tr>
                 </tbody>

@@ -17,14 +17,17 @@ if (!defined('ABSPATH')) {
 
 /**
  * Delete tags in 'wp_terms'
+ * 
+ * @return void
  */
 function loopis_tags_delete() {
     error_log('Running function loopis_tags_delete...');
 
+    // Access WordPress database object
     global $wpdb;
 
     // The specific term_group used for LOOPIS tags
-    $term_group = 10;
+    $term_group = 2;
 
     // Get all term_ids with this group
     $term_ids = $wpdb->get_col($wpdb->prepare(

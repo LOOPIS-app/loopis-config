@@ -15,10 +15,13 @@ if (!defined('ABSPATH')) {
 
 /**
  * Change settings in 'wp_options'
+ * 
+ * @return void
  */
 function loopis_wp_options_change() {
     error_log('Running function loopis_wp_options_change...');
     
+    // Define the options to set
     $options_to_set = array(
         'blogname'              => 'LOOPIS',
         'blogdescription'       => '–',

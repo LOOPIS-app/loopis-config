@@ -23,66 +23,57 @@ if (!defined('ABSPATH')) {
 function loopis_pages_insert() {
     error_log('Running function loopis_pages_insert...');
     
+    // Delete default WordPress default pages and posts
+    loopis_delete_default_content();
+    
     // Define the pages to create
     $pages_to_create = array(
         array(
-            'post_title' => 'Frågor & svar',
-            'post_name'  => 'faq',
+            'post_title' => '🌈 Startsida',
+            'post_name'  => 'start',
         ),
         array(
-            'post_title' => 'Logga in',
-            'post_name'  => 'logga-in',
+            'post_title' => '🎁 Saker att få',
+            'post_name'  => 'gifts',
         ),
         array(
-            'post_title' => 'Byt lösenord',
-            'post_name'  => 'password-reset',
+            'post_title' => '🔍 Sök',
+            'post_name'  => 'search',
         ),
         array(
-            'post_title' => 'Bli medlem',
-            'post_name'  => 'bli-medlem',
+            'post_title' => '♻ Upptäck',
+            'post_name'  => 'discover',
         ),
         array(
-            'post_title' => 'Inställningar',
-            'post_name'  => 'profile-settings',
-        ),
-        array(
-            'post_title' => 'Min profil',
-            'post_name'  => 'profile',
-        ),
-        array(
-            'post_title' => 'Kategorier',
-            'post_name'  => 'kategorier',
-        ),
-        array(
-            'post_title' => 'Ge bort',
+            'post_title' => '💚 Ge bort',
             'post_name'  => 'submit',
         ),
         array(
-            'post_title' => 'Integritetspolicy',
-            'post_name'  => 'integritetspolicy',
+            'post_title' => '🗄 Integritetspolicy',
+            'post_name'  => 'privacy',
         ),
         array(
-            'post_title' => 'Favoriter',
-            'post_name'  => 'favoriter',
+            'post_title' => '💡 Frågor & svar',
+            'post_name'  => 'faq',
         ),
         array(
-            'post_title' => 'Mina gåvor',
-            'post_name'  => 'mina-gavor',
+            'post_title' => '👤 Logga in',
+            'post_name'  => 'log-in',
         ),
         array(
-            'post_title' => 'Bli ambassadör',
-            'post_name'  => 'ambassador',
+            'post_title' => '📋 Bli medlem',
+            'post_name'  => 'sign-up',
         ),
         array(
-            'post_title' => 'Blogg',
-            'post_name'  => 'blog',
+            'post_title' => '🔑 Byt lösenord',
+            'post_name'  => 'password-reset',
         ),
         array(
-            'post_title' => 'Om oss',
-            'post_name'  => 'om-oss',
+            'post_title' => '👤 Min profil',
+            'post_name'  => 'profile',
         ),
         array(
-            'post_title' => 'Admin',
+            'post_title' => '🐙 Admin',
             'post_name'  => 'admin',
         ),
     );
@@ -115,7 +106,41 @@ function loopis_pages_insert() {
             if (!is_wp_error($new_page_id)) {
                 // Add the unique meta tag to the newly created page.
                 add_post_meta($new_page_id, $meta_key_to_add, $meta_value_to_add, true);
+                error_log('Created page: ' . $page_data['post_title']);
             }
         }
     }
 }
+
+/**
+ * Delete default WordPress pages and posts
+ *
+ * @return void
+ */
+function loopis_delete_default_content() {
+    error_log('Deleting default WordPress content...');
+    
+    // Default pages to delete
+    $default_pages = array('privacy-policy', 'sample-page');
+    
+    // Default posts to delete  
+    $default_posts = array('hello-world');
+    
+    // Delete default pages
+    foreach ($default_pages as $page_slug) {
+        $page = get_page_by_path($page_slug, OBJECT, 'page');
+        if ($page) {
+            wp_delete_post($page->ID, true); // true = force delete (bypass trash)
+            error_log('Deleted default page: ' . $page_slug);
+        }
+    }
+    
+    // Delete default posts
+    foreach ($default_posts as $post_slug) {
+        $post = get_page_by_path($post_slug, OBJECT, 'post');
+        if ($post) {
+            wp_delete_post($post->ID, true); // true = force delete (bypass trash)
+            error_log('Deleted default post: ' . $post_slug);
+        }
+    }
+} 
