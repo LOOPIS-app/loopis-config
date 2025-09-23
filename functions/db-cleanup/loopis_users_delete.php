@@ -18,24 +18,12 @@ if (!defined('ABSPATH')) {
 
 function loopis_users_delete() {
     global $wpdb;
-    // Get all users except me
+    // Get all users except user 1(LOOPIS)
     $users = get_users(['exclude' => [1]]);
     foreach ($users as $user) {
         // Delete each user
         wp_delete_user($user->ID);
     }
+    // Resets user count
     $wpdb->query("ALTER TABLE {$wpdb->users} AUTO_INCREMENT = 1");
-
-    // I was just kidding dont use this actually
-    $wpdb->query("
-        DELETE FROM wp_usermeta 
-        WHERE meta_key NOT IN (
-            'wp_capabilities',
-            'wp_user_level',
-            'wp_user-settings',
-            'wp_user-settings-time',
-            'session_tokens'
-        )
-    ");
-    $wpdb->query("ALTER TABLE {$wpdb->usermeta} AUTO_INCREMENT = 1" );
 }
