@@ -140,14 +140,14 @@ function loopis_sp_handle_actions() {
         ['loopis_pages_insert','loopis_pages'],
         ['loopis_categories_insert','loopis_categories'],
         ['loopis_tags_insert','loopis_tags'],
-        ['','loopis_users'],
+        ['loopis_users_insert','loopis_users'],
         ['loopis_wp_options_change','wp_options'],
         ['loopis_plugins_delete','remove_plugins'],
         ['','install_plugins'],
         ['','install_root_files']
     ];
     $cleanup_functions = [
-        ['','users'],
+        ['loopis_users_delete','users'],
         ['loopis_tags_delete','tags'],
         ['loopis_categories_delete','categories'],
         ['loopis_pages_delete','pages'],
@@ -184,7 +184,7 @@ function loopis_sp_handle_actions() {
     foreach ($all_ids as $id) {
         $statuses[$id] = loopis_sp_get_step_status($id);
     }
-    //Send json with the statuses to loopis
+    //Send json with the statuses to loopis admin buttons
     echo json_encode(['statuses' => $statuses]);
 
     wp_die();

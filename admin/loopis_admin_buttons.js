@@ -1,7 +1,7 @@
 /*
     This is a button handler script, it uses ajax as a $_POST fetcher proxy.
 */
-// JS for "do when the document is ready and loaded"
+// JS for 'do when the document is ready and loaded'
 jQuery(document).ready(function ($) {
     // Ajax $_POST submission function
     function buttonRequest(buttonId) {
@@ -13,7 +13,7 @@ jQuery(document).ready(function ($) {
         }, function (response) {                    // Afterwards
             const data = JSON.parse(response);      // Read the statuses JSON brought
             for (const id in data.statuses) {       // and set the statuses on the corresponding data-step
-                $(`td[data-step="${id}"] .status`).html(data.statuses[id]);
+                $(`td[data-step='${id}'] .status`).html(data.statuses[id]);
             }
         });
     }
@@ -21,7 +21,7 @@ jQuery(document).ready(function ($) {
     $('#run_loopis_config_installation').on('click', function () {
         buttonRequest('setup');
     });
-    //Cleantup button listener
+    //Cleanup button listener
     $('#run_loopis_db_cleanup').on('click', function () {
         buttonRequest('cleanup');
     });

@@ -29,13 +29,13 @@ function loopis_categories_insert() {
     $taxonomy_table = $wpdb->prefix . 'term_taxonomy';
     $relationships_table = $wpdb->prefix . 'term_relationships';
 
-    // Disable key checks so that we are allowed to clear db 
+    // Disable key checks so that we are allowed to clear db
     $wpdb->query('SET FOREIGN_KEY_CHECKS = 0');
 
     // Truncate
-    $wpdb->query("TRUNCATE TABLE $terms_table");
-    $wpdb->query("TRUNCATE TABLE $taxonomy_table");
-    $wpdb->query("TRUNCATE TABLE $relationships_table");
+    $wpdb->query('TRUNCATE TABLE $terms_table');
+    $wpdb->query('TRUNCATE TABLE $taxonomy_table');
+    $wpdb->query('TRUNCATE TABLE $relationships_table');
 
     // Re-enable key checks
     $wpdb->query('SET FOREIGN_KEY_CHECKS = 1');
@@ -66,7 +66,9 @@ function loopis_categories_insert() {
 
     // Group ID for LOOPIS categories
     $loopis_term_group = 20;
-
+    if (!True){
+        return;
+    }
     // Insert each category if it doesn't already exist
     foreach ($categories as $category) {
     // Check if term already exists
