@@ -48,22 +48,29 @@ jQuery(document).ready(function ($) {
 
         // Do post with loopis ajax
         $.post(loopis_ajax.ajax_url, {
-            action: 'loopis_sp_handle_actions',               // Do php function loopis_sp_handle_actions
-            nonce: loopis_ajax.nonce,                         // With our nonce
-            func_step: func_step,                             // our function
-            id: id                                            // and function id
-        }, function (response) {                              // Afterwards
-            const data = response.data;                       // Read the status JSON brought
-            $(`td[data-step='${data.id}'] .status`).html(data.status);   // and set the status 
-            // Check if JSON says success
-            if (response.success) {
-                // Continue to next step
-                stepFunction(key, index + 1);
-            } else {
-                // Stop on error
-                logToPhp(`=== End: Database ${key}! ===`);
+            action: 'loopis_sp_handle_actions',     // Do php function loopis_sp_handle_actions
+            nonce: loopis_ajax.nonce,               // With our nonce
+            button_id: buttonId                     // and our button ID(from the listener)
+        }, function (response) {                    // Afterwards
+            const data = JSON.parse(response);      // Read the statuses JSON brought
+            for (const id in data.statuses) {       // and set the statuses on the corresponding data-step
+                $(`td[data-step="${id}"] .status`).html(data.statuses[id]);
             }
         });
+    }
+    
+    // Function to refresh user roles display data
+    function refreshRolesDisplay() {
+        const rolesContainer = $('#debug_roles_container');
+        if (rolesContainer.is(':visible')) {
+            // Reload the roles display data via AJAX
+            $.post(loopis_ajax.ajax_url, {
+                action: 'loopis_refresh_roles_display',
+                nonce: loopis_ajax.nonce
+            }, function (response) {
+                rolesContainer.html(response);
+            });
+        }
     }
 
     // PHP Error logger

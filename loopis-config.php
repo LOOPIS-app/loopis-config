@@ -27,7 +27,10 @@ define('LOOPIS_CONFIG_URL', plugin_dir_url(__FILE__)); // Client-side path to ht
 // Include neccessary files
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_db_setup.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_admintool_cleanup.php'; // Neccesary only while the cleanup button exists
+require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_user_roles_delete.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_user_roles.php';
 require_once LOOPIS_CONFIG_DIR . 'pages/loopis_config_page.php';
+require_once LOOPIS_CONFIG_DIR . 'pages/loopis_roles_display.php'; // User roles display functionality
 
 // Admin menu hook
 add_action('admin_menu', 'loopis_config_menu');
