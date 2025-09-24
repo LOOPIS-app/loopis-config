@@ -20,6 +20,7 @@ require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_settings_insert.php'
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_pages_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_categories_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_tags_insert.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_user_roles.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_users_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_wp_options_change.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_plugins_delete.php';

@@ -22,7 +22,7 @@ require_once ABSPATH . 'wp-admin/includes/misc.php';
 
 function loopis_plugins_install(){
     error_log('Running function loopis_plugins_install...');
-
+    // Plugin list
     $plugins = [
         [
             'slug' => 'post-smtp',
@@ -53,6 +53,8 @@ function loopis_plugins_install(){
             public function after() {}
         }
     }
+    //Get upgrader
+    $upgrader = new Plugin_Upgrader( new Loopis_Skin() );
 
     foreach ( $plugins as $plugin ) {
         
@@ -77,8 +79,7 @@ function loopis_plugins_install(){
 
                 // Could we get the wordpress download link?
                 if ( ! is_wp_error( $api ) && isset( $api->download_link ) ) {
-                    // Get upgrader tool
-                    $upgrader = new Plugin_Upgrader( new Loopis_Skin() );
+                    // Install
                     $result = $upgrader->install( $api->download_link );
                 
                 }

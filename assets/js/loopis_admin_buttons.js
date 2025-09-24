@@ -12,6 +12,7 @@ jQuery(document).ready(function ($) {
         ['loopis_pages_insert','loopis_pages'],
         ['loopis_categories_insert','loopis_categories'],
         ['loopis_tags_insert','loopis_tags'],
+        ['loopis_user_roles_change','loopis_user_roles'],
         ['loopis_users_insert','loopis_users'],
         ['loopis_wp_options_change','wp_options'],
         ['','install_root_files'],
@@ -25,6 +26,7 @@ jQuery(document).ready(function ($) {
         ['loopis_categories_delete','categories'],
         ['loopis_pages_delete','pages'],
         ['loopis_admin_cleanup','databas'],
+        ['loopis_user_roles_delete','user_roles'],
     ]};
     
 
@@ -34,6 +36,7 @@ jQuery(document).ready(function ($) {
         // Check if list ended
         if (index >= All_functions[key].length) {
             logToPhp(`=== End: Database ${key}! ===`);
+            refreshRolesDisplay();
             return
         } else if(index==0){
             logToPhp(`=== Start: Database ${key}! ===`);
@@ -47,14 +50,21 @@ jQuery(document).ready(function ($) {
         $(`td[data-step='${All_functions[key][index][1]}'] .status`).html('🔄 Running!');
 
         // Do post with loopis ajax
-        $.post(loopis_ajax.ajax_url, {
-            action: 'loopis_sp_handle_actions',     // Do php function loopis_sp_handle_actions
-            nonce: loopis_ajax.nonce,               // With our nonce
-            button_id: buttonId                     // and our button ID(from the listener)
-        }, function (response) {                    // Afterwards
-            const data = JSON.parse(response);      // Read the statuses JSON brought
-            for (const id in data.statuses) {       // and set the statuses on the corresponding data-step
-                $(`td[data-step="${id}"] .status`).html(data.statuses[id]);
+        $.post(loopis_ajax.ajax_url, { 
+            action: 'loopis_sp_handle_actions',               // Do php function loopis_sp_handle_actions
+            nonce: loopis_ajax.nonce,                         // With our nonce
+            func_step: func_step,                             // our function
+            id: id                                            // and function id
+        }, function (response) {                              // Afterwards
+            const data = response.data;                       // Read the status JSON brought
+            $(`td[data-step='${data.id}'] .status`).html(data.status);   // and set the status 
+            // Check if JSON says success
+            if (response.success) {
+                // Continue to next step
+                stepFunction(key, index + 1);
+            } else {
+                // Stop on error
+                logToPhp(`=== End: Database ${key}! ===`);
             }
         });
     }
