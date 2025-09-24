@@ -14,6 +14,7 @@ require_once __DIR__ . '/../db-cleanup/loopis_pages_delete.php';
 require_once __DIR__ . '/../db-cleanup/loopis_categories_delete.php';
 require_once __DIR__ . '/../db-cleanup/loopis_tags_delete.php';
 require_once __DIR__ . '/../db-cleanup/loopis_users_delete.php';
+require_once __DIR__ . '/../db-cleanup/loopis_plugins_cleanup.php';
 
 // Define the function
 function loopis_admin_cleanup() {

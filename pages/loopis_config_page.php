@@ -133,6 +133,11 @@ function loopis_config_page() {
                         <td class="column-place">wp_users</td>
                         <td class="column-status" data-step="users"><span class="status"><?php echo loopis_sp_get_step_status('users'); ?></span></td>
                     </tr>
+                    <tr>
+                        <td class="column-component">LOOPIS users</td>
+                        <td class="column-place">wp_plugins</td>
+                        <td class="column-status" data-step="plugins"><span class="status"><?php echo loopis_sp_get_step_status('plugins'); ?></span></td>
+                    </tr>
                 </tbody>
         </table>
 
@@ -140,93 +145,88 @@ function loopis_config_page() {
     <?php
 }
 
-// Ajax handler hook
 add_action('wp_ajax_loopis_sp_handle_actions', 'loopis_sp_handle_actions');
+add_action('wp_ajax_loopis_log_message', 'loopis_log_message');
+add_action('wp_ajax_loopis_sp_clear_step_status', 'loopis_sp_clear_step_status');
 
-// Button handler
+// Step handler
 function loopis_sp_handle_actions() {
     //Nonce-filter
     check_ajax_referer('loopis_config_nonce', 'nonce');
-    //Get button_id
-    $button_id = isset($_POST['button_id']) ? sanitize_text_field($_POST['button_id']) : '';
-    // Function-status_id pairs in order, add function calls as they are finshed
-    $setup_functions = [
-        ['loopis_settings_create','loopis_settings'],
-        ['loopis_settings_insert','loopis_settings'],
-        ['loopis_lockers_create','loopis_lockers'],
-        ['loopis_pages_insert','loopis_pages'],
-        ['loopis_categories_insert','loopis_categories'],
-        ['loopis_tags_insert','loopis_tags'],
-        ['loopis_users_insert','loopis_users'],
-        ['loopis_wp_options_change','wp_options'],
-        ['loopis_plugins_delete','remove_plugins'],
-        ['','install_plugins'],
-        ['','install_root_files']
-    ];
-    $cleanup_functions = [
-        ['loopis_users_delete','users'],
-        ['loopis_tags_delete','tags'],
-        ['loopis_categories_delete','categories'],
-        ['loopis_pages_delete','pages'],
-        ['loopis_admin_cleanup','databas'],
-    ];
+    //Get function
+    $function = isset($_POST['func_step']) ? sanitize_text_field($_POST['func_step']) : '';
+    $id = isset($_POST['id']) ? sanitize_text_field($_POST['id']) : '';
+    
+    if (!$function){
+        loopis_sp_set_step_status($id, 'Nan');
+        wp_send_json_success([
+            'id' => $id,
+            'status' =>  '⬜ Funktion saknas.'
+        ]);
+    }else{
+        try {
+            ob_start();
+            $function();
+            ob_get_clean();
+            loopis_sp_set_step_status($id, 'Ok');
+            wp_send_json_success([
+                'id' => $id,
+                'status' => '✅ OK!',
+            ]);
+        } catch (Throwable $e) {
+            loopis_sp_set_step_status($id, 'Error');
+            wp_send_json_error([
+                'id' => $id,
+                'status' =>  '⚠️ Fel! Kunde inte köras.'
+            ]);
+            error_log("Error in function call {$function}:  {$e->getMessage()}");
+            error_log('Terminating process.');
+        }
+    }
+    wp_die();
+}
 
-    // Clear all statuses on each button press
-    foreach($setup_functions as [$function,$id]){
-        loopis_sp_set_step_status($id, '');
-    }
-    foreach($cleanup_functions as [$function,$id]){
-        loopis_sp_set_step_status($id, '');
-    }
+function loopis_log_message() {
+    check_ajax_referer('loopis_config_nonce', 'nonce');
 
-    //Buttons
-    switch ($button_id) {
-        // Setup button
-        case 'setup':
-            error_log('=== Start: Database Setup! ===');
-            loopis_sp_run_funcidlist($setup_functions);
-            error_log('=== End: Database Setup! ===');
-            break;
-        // Cleanup button
-        case 'cleanup':
-            error_log('=== Start: Database Cleanup! ===');
-            loopis_sp_run_funcidlist($cleanup_functions);
-            error_log('=== End: Database Cleanup! ===');
-            break;
+    $error_log = sanitize_text_field($_POST['error_log'] ?? '');
+    if ($error_log) {
+        error_log($error_log);
     }
-
-    //Get all statuses
-    $all_ids = array_merge(array_column($setup_functions, 1), array_column($cleanup_functions, 1));
-    $statuses = [];
-    foreach ($all_ids as $id) {
-        $statuses[$id] = loopis_sp_get_step_status($id);
-    }
-    //Send json with the statuses to loopis admin buttons
-    echo json_encode(['statuses' => $statuses]);
 
     wp_die();
 }
 
-// Run function-id list
-function loopis_sp_run_funcidlist($list){
-    // Calls functions in order, executes if possible, otherwise stops process
-    foreach($list as [$function,$id]){
-        // Checks if there exists a function call for the step, delete whenever pertinent
-        if (!$function){
-            loopis_sp_set_step_status($id, 'Nan');
-            continue;
-        }
-        // Attempts function call, breaks setup and logs/displays errormessage upon error, status set accordingly
-        try {
-            $function(); 
-            loopis_sp_set_step_status($id, 'Ok');
-        } catch (Throwable $e) {
-            error_log("Error in function call {$function}:  {$e->getMessage()}");
-            error_log('Terminating process.');
-            loopis_sp_set_step_status($id, 'Error');  
-            break;
-        }
+// Clear all statuses
+function loopis_sp_clear_step_status(){
+
+    // All steps
+    $steps = [
+        'loopis_settings',
+        'loopis_settings',
+        'loopis_lockers',
+        'loopis_pages',
+        'loopis_categories',
+        'loopis_tags',
+        'loopis_users',
+        'wp_options',
+        'remove_plugins',
+        'install_plugins',
+        'install_root_files',
+        'users',
+        'tags',
+        'categories',
+        'pages',
+        'databas',
+        'plugins',
+    ];
+
+    // Set status to null
+    foreach($steps as $id){
+        loopis_sp_set_step_status($id, '');
     }
+    
+    wp_die();
 }
 
 // Get step status

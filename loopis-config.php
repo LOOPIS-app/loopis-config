@@ -21,8 +21,8 @@ define('LOOPIS_CONFIG_DIR', plugin_dir_path(__FILE__)); // Server-side path to /
 define('LOOPIS_CONFIG_URL', plugin_dir_url(__FILE__)); // Client-side path to https://site.com/wp-content/plugins/loopis-config/
 
 // Start of error log
-error_log("===== Start: LOOPIS Config =====");
-error_log("Plugin version: " . LOOPIS_CONFIG_VERSION);
+// error_log("===== Start: LOOPIS Config =====");
+// error_log("Plugin version: " . LOOPIS_CONFIG_VERSION);
 
 // Include neccessary files
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_db_setup.php';
@@ -77,4 +77,4 @@ function loopis_enqueue_admin_scripts() {
 }
 
 // End of error log
-error_log("===== End: LOOPIS Config =====");
+// error_log("===== End: LOOPIS Config =====");

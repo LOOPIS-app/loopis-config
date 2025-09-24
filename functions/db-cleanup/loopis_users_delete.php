@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
 
 function loopis_users_delete() {
     global $wpdb;
-    // Get all users except user 1(LOOPIS)
+    // Get all users except user 1(admin)
     $users = get_users(['exclude' => [1]]);
     foreach ($users as $user) {
         // Delete each user

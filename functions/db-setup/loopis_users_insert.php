@@ -1,16 +1,16 @@
 <?php
 /**
- * Function to delete unused default plugins.
+ * Function to create LOOPIS users in the WordPress database.
  *
  * This function is called by main function 'loopis_db_setup'.
  * 
- * WARNING: if you are not the user with ID 1 then you will be locked out when deletion happens
+ * WARNING: if you are the user with ID 1 and it is not admin then you will be kicked
  *
  * @package LOOPIS_Config
  * @subpackage Database
  */
 
-
+// This could be made much faster with batching or ajaxing...
 // Prevent direct access
 if (!defined('ABSPATH')) {
     exit;
@@ -22,37 +22,207 @@ function loopis_users_insert() {
     // Access WordPress database object
     global $wpdb;
 
-    // Base users not LOOPIS
+    // Base users
     $base_users = [
-        ['user_login'=>'develooper-1',	'user_nicename'=>'develooper-1',    'email'=>'develooper-1@loopis.app', 'display_name'=>'develooper-1'],
-        ['user_login'=>'develooper-2',  'user_nicename'=>'develooper-2',	'email'=>'develooper-2@loopis.app',	'display_name'=>'develooper-2'],
-        ['user_login'=>'develooper-3',	'user_nicename'=>'develooper-3',	'email'=>'develooper-3@loopis.app',	'display_name'=>'develooper-3'],
-        ['user_login'=>'develooper-4',	'user_nicename'=>'develooper-4',	'email'=>'develooper-4@loopis.app',	'display_name'=>'develooper-4'],
-        ['user_login'=>'develooper-5',	'user_nicename'=>'develooper-5',	'email'=>'develooper-5@loopis.app',	'display_name'=>'develooper-5'],
-        ['user_login'=>'develooper-6',	'user_nicename'=>'develooper-6',	'email'=>'develooper-6@loopis.app',	'display_name'=>'develooper-6'],
-        ['user_login'=>'develooper-7',	'user_nicename'=>'develooper-7',	'email'=>'develooper-7@loopis.app',	'display_name'=>'develooper-7'],
-        ['user_login'=>'develooper-8',	'user_nicename'=>'develooper-8',	'email'=>'develooper-8@loopis.app',	'display_name'=>'develooper-8'],
-        ['user_login'=>'develooper-9',	'user_nicename'=>'develooper-9',	'email'=>'develooper-9@loopis.app',	'display_name'=>'develooper-9'],
-        ['user_login'=>'LOTTEN',	    'user_nicename'=>'LOTTEN',	        'email'=>'lotten@loopis.app',	    'display_name'=>'LOTTEN']
+        [
+            'user_login'    => 'LOOPIS',
+            'user_nicename' => 'LOOPIS',
+            'user_email'    => 'info@loopis.app',
+            'user_pass'     => 'adm1n!',
+            'role'          => 'administrator',
+            'display_name'  => 'LOOPIS',
+            'first_name'    => 'LOOPIS',
+            'last_name'     => 'admin',
+        ],
+        [
+            'user_login'    => 'LOTTEN',
+            'user_nicename' => 'LOTTEN',
+            'user_email'    => 'lotten@loopis.app',
+            'user_pass'     => 'adm1n!',
+            'role'          => 'administrator',
+            'display_name'  => 'LOTTEN',
+            'first_name'    => 'LOTTEN',
+            'last_name'     => 'admin',
+        ],
+        [
+            'user_login'    => 'gabby-giver',
+            'user_nicename' => 'gabby-giver',
+            'user_email'    => 'gabby-giver@loopis.app',
+            'user_pass'     => 'memb3r',
+            'role'          => 'member',
+            'display_name'  => 'Gabby-Giver',
+            'first_name'    => 'Gabby',
+            'last_name'     => 'Giver',
+        ],
+        [
+            'user_login'    => 'fred-fetcher',
+            'user_nicename' => 'fred-fetcher',
+            'user_email'    => 'fred-fetcher@gmail.com',
+            'user_pass'     => 'memb3r',
+            'role'          => 'member',
+            'display_name'  => 'Fred-Fetcher',
+            'first_name'    => 'Fred',
+            'last_name'     => 'Fetcher',
+        ],
+        [
+            'user_login'    => 'johan-hagvil',
+            'user_nicename' => 'johan-hagvil',
+            'user_email'    => 'johan.hagvil@gmail.com',
+            'user_pass'     => 'develoop3r',
+            'role'          => 'member + develooper',
+            'display_name'  => 'Johan-Hagvil',
+            'first_name'    => 'Johan',
+            'last_name'     => 'Hagvil',
+        ],
+        [
+            'user_login'    => 'johan-linger',
+            'user_nicename' => 'johan-linger',
+            'user_email'    => 'linger.konsult@gmail.com',
+            'user_pass'     => 'develoop3r',
+            'role'          => 'member + develooper',
+            'display_name'  => 'Johan-Linger',
+            'first_name'    => 'Johan',
+            'last_name'     => 'Linger',
+        ],
+        [
+            'user_login'    => 'hubert-hilborn',
+            'user_nicename' => 'hubert-hilborn',
+            'user_email'    => 'hubert.hilborn@hotmail.com',
+            'user_pass'     => 'develoop3r',
+            'role'          => 'member + develooper',
+            'display_name'  => 'Hubert-Hilborn',
+            'first_name'    => 'Hubert',
+            'last_name'     => 'Hilborn',
+        ],
+        [
+            'user_login'    => 'hanna-mustonen',
+            'user_nicename' => 'hanna-mustonen',
+            'user_email'    => 'mustonenhanna@icloud.com',
+            'user_pass'     => 'develoop3r',
+            'role'          => 'member + develooper',
+            'display_name'  => 'Hanna-Mustonen',
+            'first_name'    => 'Hanna',
+            'last_name'     => 'Mustonen',
+        ],
+        [
+            'user_login'    => 'develooper-5',
+            'user_nicename' => 'develooper-5',
+            'user_email'    => 'develooper-5@loopis.app',
+            'user_pass'     => 'develoop3r',
+            'role'          => 'develooper',
+            'display_name'  => 'develooper-5',
+            'first_name'    => '',
+            'last_name'     => '',
+        ],
+        [
+            'user_login'    => 'develooper-6',
+            'user_nicename' => 'develooper-6',
+            'user_email'    => 'develooper-6@loopis.app',
+            'user_pass'     => 'develoop3r',
+            'role'          => 'develooper',
+            'display_name'  => 'develooper-6',
+            'first_name'    => '',
+            'last_name'     => '',
+        ],
+        [
+            'user_login'    => 'develooper-7',
+            'user_nicename' => 'develooper-7',
+            'user_email'    => 'develooper-7@loopis.app',
+            'user_pass'     => 'develoop3r',
+            'role'          => 'develooper',
+            'display_name'  => 'develooper-7',
+            'first_name'    => '',
+            'last_name'     => '',
+        ],
+        [
+            'user_login'    => 'develooper-8',
+            'user_nicename' => 'develooper-8',
+            'user_email'    => 'develooper-8@loopis.app',
+            'user_pass'     => 'develoop3r',
+            'role'          => 'develooper',
+            'display_name'  => 'develooper-8',
+            'first_name'    => '',
+            'last_name'     => '',
+        ],
+        [
+            'user_login'    => 'develooper-9',
+            'user_nicename' => 'develooper-9',
+            'user_email'    => 'develooper-9@loopis.app',
+            'user_pass'     => 'develoop3r',
+            'role'          => 'develooper',
+            'display_name'  => 'develooper-9',
+            'first_name'    => '',
+            'last_name'     => '',
+        ],
+        [
+            'user_login'    => 'develooper-10',
+            'user_nicename' => 'develooper-10',
+            'user_email'    => 'develooper-10@loopis.app',
+            'user_pass'     => 'develoop3r',
+            'role'          => 'develooper',
+            'display_name'  => 'develooper-10',
+            'first_name'    => '',
+            'last_name'     => '',
+        ],
+        [
+            'user_login'    => 'develooper-11',
+            'user_nicename' => 'develooper-11',
+            'user_email'    => 'develooper-11@loopis.app',
+            'user_pass'     => 'develoop3r',
+            'role'          => 'develooper',
+            'display_name'  => 'develooper-11',
+            'first_name'    => '',
+            'last_name'     => '',
+        ],
+        [
+            'user_login'    => 'develooper-12',
+            'user_nicename' => 'develooper-12',
+            'user_email'    => 'develooper-12@loopis.app',
+            'user_pass'     => 'develoop3r',
+            'role'          => 'develooper',
+            'display_name'  => 'develooper-12',
+            'first_name'    => '',
+            'last_name'     => '',
+        ],
+        [
+            'user_login'    => 'develooper-13',
+            'user_nicename' => 'develooper-13',
+            'user_email'    => 'develooper-13@loopis.app',
+            'user_pass'     => 'develoop3r',
+            'role'          => 'develooper',
+            'display_name'  => 'develooper-13',
+            'first_name'    => '',
+            'last_name'     => '',
+        ],
+        [
+            'user_login'    => 'develooper-14',
+            'user_nicename' => 'develooper-14',
+            'user_email'    => 'develooper-14@loopis.app',
+            'user_pass'     => 'develoop3r',
+            'role'          => 'develooper',
+            'display_name'  => 'develooper-14',
+            'first_name'    => '',
+            'last_name'     => '',
+        ],
     ];
-
     // Get user by id 1
     $user_1 = get_user_by('ID', 1);
 
     // if they exist do:
     if ($user_1){
 
-        // If user 1 isnt LOOPIS and there is no LOOPIS do:
-        if ($user_1->user_login !=='LOOPIS' && !(username_exists('LOOPIS'))) {
+        // If user 1 isnt admin do:
+        if ($user_1->user_login !=='admin' && $user_1->user_login !=='admin@loopis.app') {
 
-            // Make user 1 LOOPIS
+            // Make user 1 admin
             $wpdb->update(
                 $wpdb->users,
                 array(
-                    'user_login' => 'LOOPIS',
-                    'display_name' => 'LOOPIS',
-                    'user_nicename' => 'LOOPIS',
-                    'user_email'=>'info@loopis.app',
+                    'user_login' => 'admin',
+                    'display_name' => 'admin',
+                    'user_nicename' => 'admin',
+                    'user_email'=>'admin@loopis.app',
+                    'user_pass'     => wp_hash_password('adm1n!')
                 ),
                 array('ID' => 1),           
                 array('%s'),                      
@@ -61,37 +231,31 @@ function loopis_users_insert() {
 
         }
     } 
-
     // Loop through and create users if they do not exist
     foreach ($base_users as $user){
 
         // Check if the user already exists
         if (username_exists($user['user_login'])) {
-            return;
+            continue;
         }
+        // Insert user
+        $user_id = wp_insert_user([
+            'user_login'    => $user['user_login'],
+            'user_pass'     => $user['user_pass'],
+            'user_email'    => $user['user_email'],
+            'display_name'  => $user['display_name'],
+            'user_nicename' => $user['user_nicename'],
+            'first_name'    => $user['first_name'],
+            'last_name'     => $user['last_name']
+        ]);
 
-        // Generate safe password 
-        $password = wp_generate_password(12, FALSE);
-
-        // Create the user
-        $user_id = wp_create_user($user['user_login'], $password, $user['email']);
         if (is_wp_error($user_id)) {
             error_log('Failed to create user ' . $user['user_login'] . ': ' . $user_id->get_error_message());
-            return;
+            continue;
         }
-
-        // For testing purposes in case you want to log in as develooper or others:
-        //error_log('User ' . $user['user_login'] . ' has password: ' . $password);
-
-        // Set alternative userlist
-        wp_update_user(array(
-            'ID' => $user_id,
-            'display_name' => $user['display_name'],
-            'user_nicename' => $user['user_login']
-        ));
-
-        // Add admin capabilities(Should this be done here or in a set admin script in menu?)
-        $user = new WP_User($user_id);
-        $user->set_role('administrator'); // Make this user an administrator
+        // Add admin capabilities
+        $user_id = new WP_User($user_id);
+        $user_id->set_role('administrator'); // Make this user an administrator
+        //$user->set_role($user=>role)  //uncomment when roles exist
     }
 }   
