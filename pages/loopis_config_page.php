@@ -138,6 +138,11 @@ function loopis_config_page() {
                         <td class="column-place">wp_users</td>
                         <td class="column-status" data-step="users"><span class="status"><?php echo loopis_sp_get_step_status('users'); ?></span></td>
                     </tr>
+                    <tr>
+                        <td class="column-component">LOOPIS user roles</td>
+                        <td class="column-place">wp_user_roles</td>
+                        <td class="column-status" data-step="user_roles"><span class="status"><?php echo loopis_sp_get_step_status('user_roles'); ?></span></td>
+                    </tr>
                 </tbody>
         </table>
 
@@ -171,6 +176,7 @@ function loopis_sp_handle_actions() {
     ];
     $cleanup_functions = [
         ['','users'],
+        ['loopis_user_roles_delete','user_roles'],
         ['loopis_tags_delete','tags'],
         ['loopis_categories_delete','categories'],
         ['loopis_pages_delete','pages'],

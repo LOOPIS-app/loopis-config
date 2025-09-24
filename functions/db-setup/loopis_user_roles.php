@@ -31,16 +31,17 @@ function loopis_user_roles_change() {
     loopis_create_new_role('developer', 'Developer', 'developer'); // New role without copying
     
     // 2. Add LOOPIS capabilities per role
+    loopis_add_capabilities('administrator', array('loopis_admin', 'loopis_support', 'loopis_economy'));
     loopis_add_capabilities('board', array('loopis_admin', 'loopis_support', 'loopis_economy'));
     loopis_add_capabilities('manager', array('loopis_admin', 'loopis_support', 'loopis_economy'));
-    loopis_add_capabilities('developer', array('loopis_admin', 'loopis_support', 'loopis_economy'));
+    loopis_add_capabilities('developer', array('loopis_admin'));
     // member and member_pending get no extra capabilities
     
-    // 3. Delete old roles (after users have been moved)
-    loopis_delete_role('editor');
-    loopis_delete_role('author');
-    loopis_delete_role('contributor');
-    loopis_delete_role('subscriber');
+    // 3. Skip this to be able to roolback: Delete old roles (after users have been moved)
+    // loopis_delete_role('editor');
+    // loopis_delete_role('author');
+    // loopis_delete_role('contributor');
+    // loopis_delete_role('subscriber');
     
     // ===== END CONFIGURATION =====
     
@@ -164,30 +165,6 @@ function loopis_add_capabilities($role_name, $capabilities) {
     }
     
     error_log("Added " . count($capabilities) . " capabilities to role '$role_name'");
-    return true;
-}
-
-/**
- * Delete an existing role
- * 
- * @param string $role_name Name of the role to delete
- */
-function loopis_delete_role($role_name) {
-    // Skip if role doesn't exist
-    if (!get_role($role_name)) {
-        error_log("Role '$role_name' does not exist, skipping deletion");
-        return true;
-    }
-    
-    // Don't delete administrator role for safety
-    if ($role_name === 'administrator') {
-        error_log("Skipping deletion of administrator role for safety");
-        return true;
-    }
-    
-    // Remove the role
-    remove_role($role_name);
-    error_log("Deleted role: $role_name");
     return true;
 }
 
