@@ -30,6 +30,7 @@ require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_admintool_cleanup.
 require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_user_roles_delete.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_user_roles.php';
 require_once LOOPIS_CONFIG_DIR . 'pages/loopis_config_page.php';
+require_once LOOPIS_CONFIG_DIR . 'pages/loopis_roles_display.php'; // User roles display functionality
 
 // Admin menu hook
 add_action('admin_menu', 'loopis_config_menu');

@@ -146,12 +146,57 @@ function loopis_config_page() {
                 </tbody>
         </table>
 
+        <p>&nbsp;</p><!-- Spacer -->
+        
+        <!-- Installation Information Section -->
+        <h2>� Installation information</h2>
+        <p class="description">Use below buttons to show specific information about the installation right now.</p>
+        <p>
+            <button id="toggle_debug_roles" class="button" type="button">🔐 View All User Roles & Capabilities</button>
+            <button id="refresh_debug_roles" class="button" type="button" style="display: none;">🔄 Refresh Data</button>
+        </p>
+        
+        <div id="debug_roles_container" style="display: none; margin-top: 20px;">
+            <?php loopis_display_user_roles_inline(); ?>
+        </div>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('toggle_debug_roles').addEventListener('click', function() {
+                var container = document.getElementById('debug_roles_container');
+                var refreshBtn = document.getElementById('refresh_debug_roles');
+                if (container.style.display === 'none') {
+                    container.style.display = 'block';
+                    refreshBtn.style.display = 'inline-block';
+                    this.textContent = '🔐 Hide User Roles & Capabilities';
+                } else {
+                    container.style.display = 'none';
+                    refreshBtn.style.display = 'none';
+                    this.textContent = '🔐 View All User Roles & Capabilities';
+                }
+            });
+            
+            document.getElementById('refresh_debug_roles').addEventListener('click', function() {
+                // Manual refresh of user roles display data
+                if (typeof jQuery !== 'undefined') {
+                    jQuery.post(loopis_ajax.ajax_url, {
+                        action: 'loopis_refresh_roles_display',
+                        nonce: loopis_ajax.nonce
+                    }, function (response) {
+                        document.getElementById('debug_roles_container').innerHTML = response;
+                    });
+                }
+            });
+        });
+        </script>
+
     </div>
     <?php
 }
 
-// Ajax handler hook
+// Ajax handler hooks
 add_action('wp_ajax_loopis_sp_handle_actions', 'loopis_sp_handle_actions');
+add_action('wp_ajax_loopis_refresh_roles_display', 'loopis_refresh_roles_display_ajax');
 
 // Button handler
 function loopis_sp_handle_actions() {
@@ -258,4 +303,23 @@ function loopis_sp_get_step_status($step) {
 // Set step status
 function loopis_sp_set_step_status($step, $status) {
     update_option('loopis_step_status_' . $step, $status);
+}
+
+// AJAX handler for refreshing user roles display
+function loopis_refresh_roles_display_ajax() {
+    // Verify nonce
+    check_ajax_referer('loopis_config_nonce', 'nonce');
+    
+    // Check user permissions
+    if (!current_user_can('manage_options')) {
+        wp_die('Insufficient permissions');
+    }
+    
+    // Output the refreshed user roles display
+    ob_start();
+    loopis_display_user_roles_inline();
+    $output = ob_get_clean();
+    
+    echo $output;
+    wp_die();
 }

@@ -15,7 +15,24 @@ jQuery(document).ready(function ($) {
             for (const id in data.statuses) {       // and set the statuses on the corresponding data-step
                 $(`td[data-step="${id}"] .status`).html(data.statuses[id]);
             }
+            
+            // Refresh user roles display if it's currently visible
+            refreshRolesDisplay();
         });
+    }
+    
+    // Function to refresh user roles display data
+    function refreshRolesDisplay() {
+        const rolesContainer = $('#debug_roles_container');
+        if (rolesContainer.is(':visible')) {
+            // Reload the roles display data via AJAX
+            $.post(loopis_ajax.ajax_url, {
+                action: 'loopis_refresh_roles_display',
+                nonce: loopis_ajax.nonce
+            }, function (response) {
+                rolesContainer.html(response);
+            });
+        }
     }
     //Setup button listener
     $('#run_loopis_config_installation').on('click', function () {

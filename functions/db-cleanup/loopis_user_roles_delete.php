@@ -28,7 +28,10 @@ function loopis_user_roles_delete() {
     
     // ===== CONFIGURATION - EASY TO MODIFY =====
     
-    // Delete each LOOPIS role (one liner per role)
+    // 1. Remove LOOPIS capabilities from administrator role
+    loopis_remove_capabilities_from_role('administrator', array('loopis_admin', 'loopis_support', 'loopis_economy'));
+    
+    // 2. Delete each LOOPIS role (one liner per role)
     loopis_delete_role('board');
     loopis_delete_role('member');
     loopis_delete_role('manager');
@@ -38,6 +41,34 @@ function loopis_user_roles_delete() {
     // ===== END CONFIGURATION =====
     
     error_log("LOOPIS user roles deletion completed successfully!");
+    return true;
+}
+
+/**
+ * Remove one or more capabilities from an existing role
+ * 
+ * @param string $role_name Name of the role to remove capabilities from
+ * @param array $capabilities Array of capabilities to remove
+ * @return bool True on success
+ */
+function loopis_remove_capabilities_from_role($role_name, $capabilities) {
+    $role = get_role($role_name);
+    
+    if (!$role) {
+        error_log("Role '$role_name' not found, cannot remove capabilities");
+        return false;
+    }
+    
+    foreach ($capabilities as $cap) {
+        if ($role->has_cap($cap)) {
+            $role->remove_cap($cap);
+            error_log("Removed capability '$cap' from role '$role_name'");
+        } else {
+            error_log("Capability '$cap' not found in role '$role_name', skipping");
+        }
+    }
+    
+    error_log("Processed " . count($capabilities) . " capabilities for role '$role_name'");
     return true;
 }
 
