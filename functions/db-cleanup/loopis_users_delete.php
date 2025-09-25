@@ -15,7 +15,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-
+/**
+ * Delete all LOOPIS users but admin from wp_users
+ * 
+ * @return void
+ */
 function loopis_users_delete() {
     global $wpdb;
     // Get all users except user 1(admin)

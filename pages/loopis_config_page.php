@@ -22,7 +22,11 @@ add_action('wp_ajax_loopis_log_message', 'loopis_log_message');
 add_action('wp_ajax_loopis_sp_clear_step_status', 'loopis_sp_clear_step_status');
 add_action('wp_ajax_loopis_refresh_roles_display', 'loopis_refresh_roles_display_ajax');
 
-// Function to render the page
+/**
+ * Renders loopis config page.
+ * 
+ * @return void
+ */
 function loopis_config_page() {
     ?>
     <div class="wrap">

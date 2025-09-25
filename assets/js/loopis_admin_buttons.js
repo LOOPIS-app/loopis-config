@@ -27,9 +27,9 @@ jQuery(document).ready(function ($) {
         ['loopis_plugins_install','install_plugins'],
         ],
         'Cleanup': [
-        ['loopis_user_roles_delete','user_roles'],
         ['loopis_plugins_cleanup','plugins'],
         ['loopis_users_delete','users'],
+        ['loopis_user_roles_delete','user_roles'],
         ['loopis_tags_delete','tags'],
         ['loopis_categories_delete','categories'],
         ['loopis_pages_delete','pages'],
@@ -44,7 +44,7 @@ jQuery(document).ready(function ($) {
 
         // Check if list ended
         if (index >= All_functions[key].length) {
-            refreshRolesDisplay()
+            refreshRolesDisplay() // done at the end of all steps
             logToPhp(`=== End: Database ${key}! ===`);
             return
         } else if(index==0){
@@ -56,7 +56,7 @@ jQuery(document).ready(function ($) {
         const id = All_functions[key][index][1];
 
         // Set current step to 🔄 Running!
-        $(`td[data-step='${All_functions[key][index][1]}'] .status`).html('🔄 Running!');
+        $(`td[data-step='${id}'] .status`).html('🔄 Running!');
 
         // Do post with loopis ajax
         $.post(loopis_ajax.ajax_url, { 

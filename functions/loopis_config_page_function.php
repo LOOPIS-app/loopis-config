@@ -1,11 +1,6 @@
 <?php
 /**
- * WP Admin page for configuring a new WordPress installation before installing LOOPIS.
- * 
- * Migrate if admin menu diversifies w/ submenus.
- * 
- * WARNING! The cleanup tool is intended for development purposes only.
- * Use with caution and only in a safe development environment!
+ * WP Admin page backend-functions, read from loopis-config, used in loopis config page.
  * 
  * @package LOOPIS_Config
  * @subpackage Admin-page
@@ -16,7 +11,17 @@ if (!defined('ABSPATH')) {
     exit; 
 }
 
-// Step handler
+/**
+ * AJAX handler for backend step processing via stepFunction.
+ *
+ * Process:
+ *  - Retrieves the function handle and associated LOOPIS step ID from the request.
+ *  - Executes the specified function if it exists and is callable.
+ *  - Updates the LOOPIS step status accordingly.
+ *  - Returns a JSON response for dynamic UI updates.
+ *
+ * @return void
+ */
 function loopis_sp_handle_actions() {
     // Check nonce
     check_ajax_referer('loopis_config_nonce', 'nonce');
@@ -61,7 +66,10 @@ function loopis_sp_handle_actions() {
     wp_die();
 }
 
-// Send error log from JS
+/**
+ *  Send error log from JS.
+ *  @return void
+ */
 function loopis_log_message() {
 
     // Check nonce
@@ -76,7 +84,10 @@ function loopis_log_message() {
     wp_die();
 }
 
-// Clear all statuses
+/**
+ *  Clear all statuses.
+ *  @return void
+ */ 
 function loopis_sp_clear_step_status(){
 
     // All steps
@@ -110,7 +121,12 @@ function loopis_sp_clear_step_status(){
     wp_die();
 }
 
-// Loads status from option whenever loopis config page html runs
+/**
+ * Loads status from wp_option whenever loopis config page runs.
+ * 
+ * Returns status-texts to render on html at data-step $step.
+ * @return void
+ */
 function loopis_sp_get_step_status($step) {
     // For specific status respond with message
     $status = get_option('loopis_step_status_' . $step, 'not_finished');
@@ -125,13 +141,19 @@ function loopis_sp_get_step_status($step) {
     }
 }
 
-// Set step status
+/**
+ * Sets 'loopis_step_status'es in wp_options.
+ * @return void
+ */
 function loopis_sp_set_step_status($step, $status) {
     // Sets option of step to status
     update_option('loopis_step_status_' . $step, $status);
 }
 
-// AJAX handler for refreshing user roles display
+/**
+ * AJAX handler for refreshing user roles display.
+ * @return void
+ */
 function loopis_refresh_roles_display_ajax() {
     // Verify nonce
     check_ajax_referer('loopis_config_nonce', 'nonce');

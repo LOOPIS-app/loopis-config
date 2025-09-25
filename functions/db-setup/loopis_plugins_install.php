@@ -1,8 +1,9 @@
 <?php
 /**
- * Function to delete unused default plugins.
+ * Function to install loopis plugin dependencies.
  *
  * This function is called by main function 'loopis_db_setup'.
+ * 
  * 
  * @package LOOPIS_Config
  * @subpackage Database
@@ -19,7 +20,11 @@ require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 require_once ABSPATH . 'wp-admin/includes/file.php';
 require_once ABSPATH . 'wp-admin/includes/misc.php';
 
-
+/**
+ * Installs plugins in wp-content/plugins/
+ * 
+ * @return void
+ */
 function loopis_plugins_install(){
     error_log('Running function loopis_plugins_install...');
     // Plugin list

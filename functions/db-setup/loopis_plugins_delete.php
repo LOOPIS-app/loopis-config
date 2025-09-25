@@ -13,16 +13,15 @@ if (!defined('ABSPATH')) {
     exit; 
 }
 
+// Possibly necessary dependencies as WordPress does not always autoload the following functions
+include_once(ABSPATH . 'wp-admin/includes/plugin.php'); //is_plugin_active(), deactivate_plugins()
+include_once(ABSPATH . 'wp-admin/includes/file.php'); //delete_plugins()
+
 /**
  * Delete default plugins
  * 
  * @return void
  */
-
-// Possibly necessary dependencies as WordPress does not always autoload the following functions
-include_once(ABSPATH . 'wp-admin/includes/plugin.php'); //is_plugin_active(), deactivate_plugins()
-include_once(ABSPATH . 'wp-admin/includes/file.php'); //delete_plugins()
-
 function loopis_plugins_delete() {
     error_log('Running function loopis_plugins_delete...');
 

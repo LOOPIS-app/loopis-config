@@ -15,7 +15,11 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-
+/**
+ * Inserts users into wp_users
+ * 
+ * @return void
+ */
 function loopis_users_insert() {
     error_log('Running function loopis_users_insert...');
 
@@ -29,7 +33,7 @@ function loopis_users_insert() {
             'user_nicename' => 'LOOPIS',
             'user_email'    => 'info@loopis.app',
             'user_pass'     => 'adm1n!',
-            'role'          => 'administrator',
+            'role'          => ['administrator'],
             'display_name'  => 'LOOPIS',
             'first_name'    => 'LOOPIS',
             'last_name'     => 'admin',
@@ -39,7 +43,7 @@ function loopis_users_insert() {
             'user_nicename' => 'LOTTEN',
             'user_email'    => 'lotten@loopis.app',
             'user_pass'     => 'adm1n!',
-            'role'          => 'administrator',
+            'role'          => ['administrator'],
             'display_name'  => 'LOTTEN',
             'first_name'    => 'LOTTEN',
             'last_name'     => 'admin',
@@ -49,7 +53,7 @@ function loopis_users_insert() {
             'user_nicename' => 'gabby-giver',
             'user_email'    => 'gabby-giver@loopis.app',
             'user_pass'     => 'memb3r',
-            'role'          => 'member',
+            'role'          => ['member'],
             'display_name'  => 'Gabby-Giver',
             'first_name'    => 'Gabby',
             'last_name'     => 'Giver',
@@ -59,7 +63,7 @@ function loopis_users_insert() {
             'user_nicename' => 'fred-fetcher',
             'user_email'    => 'fred-fetcher@gmail.com',
             'user_pass'     => 'memb3r',
-            'role'          => 'member',
+            'role'          => ['member'],
             'display_name'  => 'Fred-Fetcher',
             'first_name'    => 'Fred',
             'last_name'     => 'Fetcher',
@@ -69,7 +73,7 @@ function loopis_users_insert() {
             'user_nicename' => 'johan-hagvil',
             'user_email'    => 'johan.hagvil@gmail.com',
             'user_pass'     => 'develoop3r',
-            'role'          => 'member + develooper',
+            'role'          => ['member','developer'],
             'display_name'  => 'Johan-Hagvil',
             'first_name'    => 'Johan',
             'last_name'     => 'Hagvil',
@@ -79,7 +83,7 @@ function loopis_users_insert() {
             'user_nicename' => 'johan-linger',
             'user_email'    => 'linger.konsult@gmail.com',
             'user_pass'     => 'develoop3r',
-            'role'          => 'member + develooper',
+            'role'          => ['member','developer'],
             'display_name'  => 'Johan-Linger',
             'first_name'    => 'Johan',
             'last_name'     => 'Linger',
@@ -89,7 +93,7 @@ function loopis_users_insert() {
             'user_nicename' => 'hubert-hilborn',
             'user_email'    => 'hubert.hilborn@hotmail.com',
             'user_pass'     => 'develoop3r',
-            'role'          => 'member + develooper',
+            'role'          => ['member','developer'],
             'display_name'  => 'Hubert-Hilborn',
             'first_name'    => 'Hubert',
             'last_name'     => 'Hilborn',
@@ -99,7 +103,7 @@ function loopis_users_insert() {
             'user_nicename' => 'hanna-mustonen',
             'user_email'    => 'mustonenhanna@icloud.com',
             'user_pass'     => 'develoop3r',
-            'role'          => 'member + develooper',
+            'role'          => ['member','developer'],
             'display_name'  => 'Hanna-Mustonen',
             'first_name'    => 'Hanna',
             'last_name'     => 'Mustonen',
@@ -109,7 +113,7 @@ function loopis_users_insert() {
             'user_nicename' => 'develooper-5',
             'user_email'    => 'develooper-5@loopis.app',
             'user_pass'     => 'develoop3r',
-            'role'          => 'develooper',
+            'role'          => 'developer',
             'display_name'  => 'develooper-5',
             'first_name'    => '',
             'last_name'     => '',
@@ -119,7 +123,7 @@ function loopis_users_insert() {
             'user_nicename' => 'develooper-6',
             'user_email'    => 'develooper-6@loopis.app',
             'user_pass'     => 'develoop3r',
-            'role'          => 'develooper',
+            'role'          => ['developer'],
             'display_name'  => 'develooper-6',
             'first_name'    => '',
             'last_name'     => '',
@@ -129,7 +133,7 @@ function loopis_users_insert() {
             'user_nicename' => 'develooper-7',
             'user_email'    => 'develooper-7@loopis.app',
             'user_pass'     => 'develoop3r',
-            'role'          => 'develooper',
+            'role'          => ['developer'],
             'display_name'  => 'develooper-7',
             'first_name'    => '',
             'last_name'     => '',
@@ -139,7 +143,7 @@ function loopis_users_insert() {
             'user_nicename' => 'develooper-8',
             'user_email'    => 'develooper-8@loopis.app',
             'user_pass'     => 'develoop3r',
-            'role'          => 'develooper',
+            'role'          => ['developer'],
             'display_name'  => 'develooper-8',
             'first_name'    => '',
             'last_name'     => '',
@@ -149,7 +153,7 @@ function loopis_users_insert() {
             'user_nicename' => 'develooper-9',
             'user_email'    => 'develooper-9@loopis.app',
             'user_pass'     => 'develoop3r',
-            'role'          => 'develooper',
+            'role'          => ['developer'],
             'display_name'  => 'develooper-9',
             'first_name'    => '',
             'last_name'     => '',
@@ -159,7 +163,7 @@ function loopis_users_insert() {
             'user_nicename' => 'develooper-10',
             'user_email'    => 'develooper-10@loopis.app',
             'user_pass'     => 'develoop3r',
-            'role'          => 'develooper',
+            'role'          => ['developer'],
             'display_name'  => 'develooper-10',
             'first_name'    => '',
             'last_name'     => '',
@@ -169,7 +173,7 @@ function loopis_users_insert() {
             'user_nicename' => 'develooper-11',
             'user_email'    => 'develooper-11@loopis.app',
             'user_pass'     => 'develoop3r',
-            'role'          => 'develooper',
+            'role'          => ['developer'],
             'display_name'  => 'develooper-11',
             'first_name'    => '',
             'last_name'     => '',
@@ -179,7 +183,7 @@ function loopis_users_insert() {
             'user_nicename' => 'develooper-12',
             'user_email'    => 'develooper-12@loopis.app',
             'user_pass'     => 'develoop3r',
-            'role'          => 'develooper',
+            'role'          => ['developer'],
             'display_name'  => 'develooper-12',
             'first_name'    => '',
             'last_name'     => '',
@@ -189,7 +193,7 @@ function loopis_users_insert() {
             'user_nicename' => 'develooper-13',
             'user_email'    => 'develooper-13@loopis.app',
             'user_pass'     => 'develoop3r',
-            'role'          => 'develooper',
+            'role'          => ['developer'],
             'display_name'  => 'develooper-13',
             'first_name'    => '',
             'last_name'     => '',
@@ -199,7 +203,7 @@ function loopis_users_insert() {
             'user_nicename' => 'develooper-14',
             'user_email'    => 'develooper-14@loopis.app',
             'user_pass'     => 'develoop3r',
-            'role'          => 'develooper',
+            'role'          => ['developer'],
             'display_name'  => 'develooper-14',
             'first_name'    => '',
             'last_name'     => '',
@@ -255,7 +259,8 @@ function loopis_users_insert() {
         }
         // Add admin capabilities
         $user_id = new WP_User($user_id);
-        $user_id->set_role('administrator'); // Make this user an administrator
-        //$user->set_role($user=>role)  //uncomment when roles exist
+        foreach($user['role'] as $role){
+            $user_id->set_role($role);
+        }
     }
 }   

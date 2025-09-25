@@ -13,6 +13,11 @@ if (!defined('ABSPATH')) {
     exit; 
 }
 
+/**
+ * Delete all loopis installed plugins from wp-content/plugins/
+ * 
+ * @return void
+ */
 function loopis_plugins_cleanup() {
     
     error_log('Running function loopis_plugins_cleanup...');
