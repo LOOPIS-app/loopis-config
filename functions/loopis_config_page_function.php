@@ -27,16 +27,15 @@ function loopis_sp_handle_actions() {
 
     // if function call does not exist
     if (!$function){
-
+        // No function
         loopis_sp_set_step_status($id, 'N/a'); // Set status to not applicable
         wp_send_json_success([                 // Send back JSON with success and id, and statustext
             'id' => $id,
             'status' =>  '⬜ Funktion saknas.'
         ]);
-
     }else{
         try {
-
+            // Attempts to run function
             ob_start();                             // Output buffer
             $function();                            // Function call
             ob_get_clean();
@@ -45,16 +44,15 @@ function loopis_sp_handle_actions() {
                 'id' => $id,
                 'status' => '✅ OK!',
             ]);
-
         } catch (Throwable $e) {
-
+            // Function failed
             loopis_sp_set_step_status($id, 'Error'); // Set status to Ok
             wp_send_json_error([                     // Send back JSON with error and id, and statustext
                 'id' => $id,    
                 'status' =>  '⚠️ Fel! Kunde inte köras.'
             ]);
-
-            error_log("Error in function call {$function}:  {$e->getMessage()}"); //log error
+            //log error
+            error_log("Error in function call {$function}:  {$e->getMessage()}");
             error_log('Terminating process.');
 
         }
@@ -96,7 +94,7 @@ function loopis_sp_clear_step_status(){
         'install_plugins',
         'install_root_files',
         'users',
-        'users_roles',
+        'user_roles',
         'tags',
         'categories',
         'pages',

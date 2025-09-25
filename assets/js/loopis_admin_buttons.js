@@ -3,7 +3,7 @@
 */
 
 
-// JS for 'do when the document is ready and loaded'
+// Jquery for 'do when the document is ready and loaded'
 jQuery(document).ready(function ($) {
 
     // =========================
@@ -36,9 +36,12 @@ jQuery(document).ready(function ($) {
         ['loopis_admin_cleanup','databas'],
         ]
     };
-    
+
+    //====== stepFunction: main cleanup & setup function ======
+
     // Regressive ajax $_POST submission function 
     function stepFunction(key,index) {
+
         // Check if list ended
         if (index >= All_functions[key].length) {
             refreshRolesDisplay()
@@ -64,11 +67,14 @@ jQuery(document).ready(function ($) {
         }, function (response) {                              // Afterwards
             const data = response.data;                       // Read the status JSON brought
             $(`td[data-step='${data.id}'] .status`).html(data.status);   // and set the status 
+
             // Check if JSON says success
             if (response.success) {
+
                 // Continue to next step
                 stepFunction(key, index + 1);
             } else {
+
                 // Stop on error
                 logToPhp(`=== End: Database ${key}! ===`);
             }
@@ -132,16 +138,15 @@ jQuery(document).ready(function ($) {
     const $toggleBtn = $('#toggle_debug_roles');
     const $refreshBtn = $('#refresh_debug_roles');
     const $container = $('#debug_roles_container');
-    
-    if ($toggleBtn.length && $refreshBtn.length && $container.length) {
 
-        $toggleBtn.on('click', function () {
-            const isHidden = $container.is(':hidden');
-            $container.toggle(isHidden);
-            $refreshBtn.toggle(isHidden);
-            $toggleBtn.text(isHidden ? '🔐 Hide User Roles & Capabilities' : '🔐 View All User Roles & Capabilities');
-        });
+    // Hides refresh and container on click using JQuery
+    $toggleBtn.on('click', function () {
+        const isHidden = $container.is(':hidden'); 
+        $container.toggle(isHidden);
+        $refreshBtn.toggle(isHidden);
+        $toggleBtn.text(isHidden ? '🔐 Hide User Roles & Capabilities' : '🔐 View All User Roles & Capabilities');
+    });
 
-        $refreshBtn.on('click', refreshRolesDisplay);
-    }
+    // Runs refreshRolesDisplay on click
+    $refreshBtn.on('click', refreshRolesDisplay);
 });
