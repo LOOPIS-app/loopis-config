@@ -5,6 +5,12 @@
 This project is currently being developed by volunteers under the name "develoopers".<br>
 
 ## 📋 Changelog
+**0.4 (2025-09-25)**<br>
+LOOPIS default users inserted in `wp_users`<br>
+LOOPIS default user roles changed in `wp_options`<br>
+LOOPIS default plugins installed in `Plugins`<br>
+New section in WP Admin Area for viewing user roles capabilities<br>
+
 **0.3 (2025-09-22)**<br>
 LOOPIS default categories inserted in `wp_terms`<br>
 WordPress default content deleted in `wp_posts`<br>

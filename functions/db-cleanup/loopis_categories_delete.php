@@ -68,9 +68,8 @@ function loopis_categories_delete() {
         ['%s', '%d', '%d'],
         ['%d']
     );
-    
+
     // Clear cache
     clean_term_cache(1, 'category');
-
 }
     
