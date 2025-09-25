@@ -29,6 +29,7 @@ require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_db_setup.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_admintool_cleanup.php'; // Neccesary only while the cleanup button exists
 require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_user_roles_delete.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_user_roles.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config_page_function.php';
 require_once LOOPIS_CONFIG_DIR . 'pages/loopis_config_page.php';
 require_once LOOPIS_CONFIG_DIR . 'pages/loopis_roles_display.php'; // User roles display functionality
 
@@ -64,7 +65,12 @@ function loopis_enqueue_admin_styles() {
     );
 }
 // Enqueue admin js and AJAX
-function loopis_enqueue_admin_scripts() {
+function loopis_enqueue_admin_scripts($hook) {
+    // Optimisation if you are not on the loopis config page this wont load
+    if ($hook !== 'toplevel_page_loopis_config') {
+        return;
+    }
+    // Enqueue JS file
     wp_enqueue_script(
         'loopis_admin_buttons_js',
         LOOPIS_CONFIG_URL . 'assets/js/loopis_admin_buttons.js',
@@ -72,7 +78,7 @@ function loopis_enqueue_admin_scripts() {
         '1.0',
         true 
     );
-
+    // Ajax localisation
     wp_localize_script('loopis_admin_buttons_js', 'loopis_ajax', [
         'ajax_url' => admin_url('admin-ajax.php'),
         'nonce'    => wp_create_nonce('loopis_config_nonce')

@@ -2,10 +2,17 @@
     This is a button handler script, it uses ajax as a $_POST fetcher proxy.
 */
 
+
 // JS for 'do when the document is ready and loaded'
 jQuery(document).ready(function ($) {
 
-    const All_functions = { 'Setup': [
+    // =========================
+    // LOOPIS Setup / Cleanup
+    // =========================
+
+    // All function calls and category ids, ordered by key
+    const All_functions = { 
+        'Setup': [
         ['loopis_settings_create','loopis_settings'],
         ['loopis_settings_insert','loopis_settings'],
         ['loopis_lockers_create','loopis_lockers'],
@@ -18,35 +25,34 @@ jQuery(document).ready(function ($) {
         ['','install_root_files'],
         ['loopis_plugins_delete','remove_plugins'],
         ['loopis_plugins_install','install_plugins'],
-    ],
-    'Cleanup': [
+        ],
+        'Cleanup': [
+        ['loopis_user_roles_delete','user_roles'],
         ['loopis_plugins_cleanup','plugins'],
         ['loopis_users_delete','users'],
         ['loopis_tags_delete','tags'],
         ['loopis_categories_delete','categories'],
         ['loopis_pages_delete','pages'],
         ['loopis_admin_cleanup','databas'],
-        ['loopis_user_roles_delete','user_roles'],
-    ]};
-    
-
+        ]
+    };
     
     // Regressive ajax $_POST submission function 
     function stepFunction(key,index) {
         // Check if list ended
         if (index >= All_functions[key].length) {
+            refreshRolesDisplay()
             logToPhp(`=== End: Database ${key}! ===`);
-            refreshRolesDisplay();
             return
         } else if(index==0){
             logToPhp(`=== Start: Database ${key}! ===`);
         }
 
-        //Define id and func_step
+        // Define id and func_step
         const func_step = All_functions[key][index][0];
         const id = All_functions[key][index][1];
 
-
+        // Set current step to 🔄 Running!
         $(`td[data-step='${All_functions[key][index][1]}'] .status`).html('🔄 Running!');
 
         // Do post with loopis ajax
@@ -68,6 +74,8 @@ jQuery(document).ready(function ($) {
             }
         });
     }
+
+    //====== stepFunction subfunctions ======
     
     // Function to refresh user roles display data
     function refreshRolesDisplay() {
@@ -100,6 +108,7 @@ jQuery(document).ready(function ($) {
         });
     }
 
+    //====== Button Listeners ======
     
     // Setup button listener
     $('#run_loopis_config_installation').on('click', function () {
@@ -114,4 +123,25 @@ jQuery(document).ready(function ($) {
         clearStatus()
         stepFunction('Cleanup',0);
     });
+
+    // =========================
+    // LOOPIS roles page
+    // =========================
+
+    // Safe binding for roles toggle
+    const $toggleBtn = $('#toggle_debug_roles');
+    const $refreshBtn = $('#refresh_debug_roles');
+    const $container = $('#debug_roles_container');
+    
+    if ($toggleBtn.length && $refreshBtn.length && $container.length) {
+
+        $toggleBtn.on('click', function () {
+            const isHidden = $container.is(':hidden');
+            $container.toggle(isHidden);
+            $refreshBtn.toggle(isHidden);
+            $toggleBtn.text(isHidden ? '🔐 Hide User Roles & Capabilities' : '🔐 View All User Roles & Capabilities');
+        });
+
+        $refreshBtn.on('click', refreshRolesDisplay);
+    }
 });
