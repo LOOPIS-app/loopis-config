@@ -1,6 +1,6 @@
 <?php
 /**
- * WP Admin page backend-functions, read from loopis-config, used in loopis config page.
+ * Functions included in loopis_config_page.php
  * 
  * @package LOOPIS_Config
  * @subpackage Admin-page
@@ -56,7 +56,7 @@ function loopis_sp_handle_actions() {
                 'id' => $id,    
                 'status' =>  '⚠️ Fel! Kunde inte köras.'
             ]);
-            //log error
+            // Log error
             error_log("Error in function call {$function}:  {$e->getMessage()}");
             error_log('Terminating process.');
 

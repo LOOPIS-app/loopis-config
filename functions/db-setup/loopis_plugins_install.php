@@ -1,13 +1,11 @@
 <?php
 /**
- * Function to install loopis plugin dependencies.
+ * Function to install LOOPIS plugin dependencies.
  *
  * This function is called by main function 'loopis_db_setup'.
  * 
- * 
  * @package LOOPIS_Config
- * @subpackage Database
- * 
+ * @subpackage Plugins
  */
 
 
@@ -47,7 +45,7 @@ function loopis_plugins_install(){
         ],
     ];
 
-    // Helps avoid interal installer wp_die
+    // Helps avoid internal installer wp_die
     if (!class_exists('Loopis_Silent_Skin')) {
         class Loopis_Skin extends WP_Upgrader_Skin {
             public function header() {}

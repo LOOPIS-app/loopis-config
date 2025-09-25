@@ -2,10 +2,12 @@
 /**
  * User roles display script to show all WordPress user roles and their capabilities
  * 
+ * Will be moved to a separate page in plugin "LOOPIS Develoopers" 
+ * 
  * This file provides functionality to display current user roles and capabilities
  * in a formatted, easy-to-read table format for administrative purposes.
  * 
- * @package LOOPIS_Config
+ * @package LOOPIS_Develoopers
  * @subpackage Pages
  */
 

@@ -1,11 +1,11 @@
 <?php
 /**
- * Function to delete unused default plugins.
+ * Function to delete default plugins not used by LOOPIS.
  *
  * This function is called by main function 'loopis_db_setup'.
  * 
  * @package LOOPIS_Config
- * @subpackage Database
+ * @subpackage Plugins
  */
 
 

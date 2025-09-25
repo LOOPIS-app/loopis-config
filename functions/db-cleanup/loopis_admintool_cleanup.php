@@ -2,10 +2,15 @@
 /** 
  * Tool for cleaning up tables and data created by plugin 'LOOPIS Config' via the admin menu. 
  * 
- * Mimic of loopis_db_cleanup, to be deleted when obsolete.
+ * This function is called in 'loopis-config_page.php' but will be moved to plugin "LOOPIS Develoopers".
+ * 
+ * Mimic of loopis_db_cleanup
  *
  * WARNING! This tool is intended for development purposes only.
  * Use with caution and only in a safe development environment!
+ * 
+ * @package LOOPIS_Develoopers
+ * @subpackage Dev-tools
  */
 
 

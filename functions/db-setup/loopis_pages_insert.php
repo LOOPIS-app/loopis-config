@@ -36,6 +36,10 @@ function loopis_pages_insert() {
             'post_title' => '🎁 Saker att få',
             'post_name'  => 'gifts',
         ),
+            array(
+            'post_title' => '🗄 Integritetspolicy',
+            'post_name'  => 'privacy',
+        ),
         array(
             'post_title' => '🔍 Sök',
             'post_name'  => 'search',
@@ -47,10 +51,6 @@ function loopis_pages_insert() {
         array(
             'post_title' => '💚 Ge bort',
             'post_name'  => 'submit',
-        ),
-        array(
-            'post_title' => '🗄 Integritetspolicy',
-            'post_name'  => 'privacy',
         ),
         array(
             'post_title' => '💡 Frågor & svar',

@@ -1,8 +1,10 @@
 <?php
 /**
- * LOOPIS User Roles Management
+ * Function to configure LOOPIS default user roles.
  * 
- * This file handles the creation and management of LOOPIS user roles
+ * This function is called by main function 'loopis_db_setup'.
+ * 
+ * Handles the creation and management of LOOPIS user roles
  * including copying capabilities from existing roles and adding LOOPIS-specific capabilities.
  * 
  * @package LOOPIS_Config

@@ -76,7 +76,7 @@ function loopis_config_page() {
                     </tr>
                     <tr>
                         <td class="column-component">LOOPIS user roles</td>
-                        <td class="column-place">wp_user_roles</td>
+                        <td class="column-place">wp_options</td>
                         <td class="column-status" data-step="loopis_user_roles"><span class="status"><?php echo loopis_sp_get_step_status('loopis_user_roles'); ?></span></td>
                     </tr>
                     <tr>

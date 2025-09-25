@@ -1,6 +1,6 @@
 <?php
 /**
- * Function to create LOOPIS users in the WordPress database.
+ * Function to create LOOPIS default users in the WordPress database.
  *
  * This function is called by main function 'loopis_db_setup'.
  * 

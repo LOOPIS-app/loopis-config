@@ -3,7 +3,7 @@
 Plugin Name: LOOPIS Config
 Plugin URI: https://github.com/LOOPIS-app/loopis-config
 Description: Plugin for configuring a clean WP installation for LOOPIS.app
-Version: 0.3
+Version: 0.4
 Author: develoopers
 Author URI: https://loopis.org
 */
@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin version
-define('LOOPIS_CONFIG_VERSION', '0.3');
+define('LOOPIS_CONFIG_VERSION', '0.4');
 
 // Define plugin folder path constants
 define('LOOPIS_CONFIG_DIR', plugin_dir_path(__FILE__)); // Server-side path to /wp-content/plugins/loopis-config/
@@ -26,12 +26,10 @@ define('LOOPIS_CONFIG_URL', plugin_dir_url(__FILE__)); // Client-side path to ht
 
 // Include neccessary files
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_db_setup.php';
-require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_admintool_cleanup.php'; // Neccesary only while the cleanup button exists
-require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_user_roles_delete.php';
-require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_user_roles.php';
-require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config_page_function.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_admintool_cleanup.php'; // Will be moved to plugin "LOOPIS Develoopers"
+require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config_page_functions.php';
 require_once LOOPIS_CONFIG_DIR . 'pages/loopis_config_page.php';
-require_once LOOPIS_CONFIG_DIR . 'pages/loopis_roles_display.php'; // User roles display functionality
+require_once LOOPIS_CONFIG_DIR . 'pages/loopis_roles_display.php'; // Will be moved to plugin "LOOPIS Develoopers"
 
 // Admin menu hook
 add_action('admin_menu', 'loopis_config_menu');
