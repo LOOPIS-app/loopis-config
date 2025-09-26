@@ -25,7 +25,7 @@ require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_users_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_plugins_delete.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_plugins_install.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_wp_options_set.php';
-require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_screen_options_set.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_wp_screen_options_set.php';
 
 // Define the main function
 function loopis_db_setup() {
@@ -40,8 +40,7 @@ function loopis_db_setup() {
     // Insert LOOPIS default values into custom table 'loopis_settings'
     loopis_settings_insert();
 
-    // Insert LOOPIS default pages into 'wp_posts'
-    // + delete default WP pages and posts
+    // Insert LOOPIS default pages into 'wp_posts' (+ delete default WP pages and posts)
     loopis_pages_insert();
 
      // Insert LOOPIS default categories into 'wp_terms'
@@ -50,8 +49,7 @@ function loopis_db_setup() {
     // Insert LOOPIS default tags into 'wp_terms'
     loopis_tags_insert();
 
-    // Set LOOPIS default user roles in 'wp_options'
-    // Has to run before 'loopis_users_insert'!
+    // Set LOOPIS default user roles in 'wp_options' (before 'loopis_users_insert')
     loopis_user_roles_set();
 
     // Insert LOOPIS default tags into 'wp_terms'
@@ -63,12 +61,11 @@ function loopis_db_setup() {
     // Install necessary plugins
     loopis_plugins_install();
 
-    // Set WordPress settings in 'wp_options'
-    // Has to run after 'loopis_users_insert' and 'loopis_pages_insert'!
+    // Set WordPress settings in 'wp_options' (after 'loopis_users_insert' and 'loopis_pages_insert')
     loopis_wp_options_set();
 
-    // Set default screen options for admin dashboard
-    loopis_screen_options_set();
+    // Set WordPress admin screen options in 'wp_usermeta'
+    loopis_wp_screen_options_set();
 
     error_log('>>> LOOPIS db setup complete!');
 }

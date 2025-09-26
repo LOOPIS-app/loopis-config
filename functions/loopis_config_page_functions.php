@@ -106,7 +106,7 @@ function loopis_sp_clear_step_status(){
         'install_plugins',
         'install_root_files',
         'wp_options',
-        'screen_options',
+        'wp_screen_options',
         'users',
         'user_roles',
         'tags',

@@ -20,8 +20,8 @@ if (!defined('ABSPATH')) {
  * Main function to change user roles for LOOPIS
  * Creates new roles with LOOPIS capabilities and removes old ones
  */
-function loopis_user_roles_change() {
-    error_log("Starting LOOPIS user roles change...");
+function loopis_user_roles_set() {
+    error_log("Starting function: loopis_user_roles_set()...");
     
     // ===== CONFIGURATION - EASY TO MODIFY =====
     

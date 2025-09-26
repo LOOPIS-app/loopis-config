@@ -23,7 +23,7 @@ include_once(ABSPATH . 'wp-admin/includes/file.php'); //delete_plugins()
  * @return void
  */
 function loopis_plugins_delete() {
-    error_log('Running function loopis_plugins_delete...');
+    error_log('Starting function: loopis_plugins_delete()...');
 
     // Plugin main file in /wp-content/plugins
     $undesired_plugins = [

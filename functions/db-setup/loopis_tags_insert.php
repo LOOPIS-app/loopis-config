@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_tags_insert() {
-    error_log('Running function loopis_tags_insert...');
+    error_log('Starting function: loopis_tags_insert()...');
 
     // Define the tags to insert
     $tags = [

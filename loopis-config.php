@@ -3,7 +3,7 @@
 Plugin Name: LOOPIS Config
 Plugin URI: https://github.com/LOOPIS-app/loopis-config
 Description: Plugin for configuring a clean WP installation for LOOPIS.app
-Version: 0.4
+Version: 0.5
 Author: develoopers
 Author URI: https://loopis.org
 */
@@ -14,19 +14,17 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin version
-define('LOOPIS_CONFIG_VERSION', '0.4');
+define('LOOPIS_CONFIG_VERSION', '0.5');
 
 // Define plugin folder path constants
 define('LOOPIS_CONFIG_DIR', plugin_dir_path(__FILE__)); // Server-side path to /wp-content/plugins/loopis-config/
 define('LOOPIS_CONFIG_URL', plugin_dir_url(__FILE__)); // Client-side path to https://site.com/wp-content/plugins/loopis-config/
 
 // Start of error log
-error_log(" ");
-error_log("⮟⮟⮟⮟⮟ START! → LOOPIS Config ⮟⮟⮟⮟⮟");
-error_log("Plugin version: " . LOOPIS_CONFIG_VERSION);
+// error_log("\n⮟⮟⮟⮟⮟ LOOPIS Config ⮟⮟⮟⮟⮟");
+// error_log("Plugin version: " . LOOPIS_CONFIG_VERSION);
 
 // Include functions
-require_once LOOPIS_CONFIG_DIR . 'functions/loopis_db_setup.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config_page_functions.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_admintool_cleanup.php'; // Will be moved to plugin "LOOPIS Develoopers"
 
@@ -52,7 +50,7 @@ function loopis_config_menu() {
         'manage_options',             // Capability
         'loopis_config',              // Menu Slug
         'loopis_config_page',         // Function to display the page (change if submenus included)
-        LOOPIS_CONFIG_URL . 'assets/img/loopis-dashboard-icon.png'   // LOOPIS Icon 
+        LOOPIS_CONFIG_URL . 'assets/img/loopis-dashboard-icon.png'   // Dashboard icon 
     );
 }
 
@@ -61,8 +59,8 @@ function loopis_enqueue_admin_styles() {
     wp_enqueue_style(
         'loopis-config-admin-style', //Name
         LOOPIS_CONFIG_URL . 'assets/css/loopis_admin_menu_style.css', //URL
-        [], //Dependencies
-        '1.0' //Version
+        [], // Dependencies
+        '1.0' // Version
     );
 }
 // Enqueue admin js and AJAX
@@ -87,5 +85,4 @@ function loopis_enqueue_admin_scripts($hook) {
 }
 
 // End of error log
-error_log("⮝⮝⮝⮝⮝ END! → LOOPIS Config ⮝⮝⮝⮝⮝");
-error_log(" ");
+// error_log("⮝⮝⮝⮝⮝ LOOPIS Config ⮝⮝⮝⮝⮝\n");

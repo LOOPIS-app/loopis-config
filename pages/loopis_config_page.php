@@ -16,6 +16,9 @@ if (!defined('ABSPATH')) {
     exit; 
 }
 
+// Include functions
+require_once LOOPIS_CONFIG_DIR . 'functions/loopis_db_setup.php';
+
 // Ajax handler hooks
 add_action('wp_ajax_loopis_sp_handle_actions', 'loopis_sp_handle_actions');
 add_action('wp_ajax_loopis_log_message', 'loopis_log_message');
@@ -105,9 +108,9 @@ function loopis_config_page() {
                         <td class="column-status" data-step="wp_options"><span class="status"><?php echo loopis_sp_get_step_status('wp_options'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">Admin screen options</td>
+                        <td class="column-component">WordPress admin screen options</td>
                         <td class="column-place">wp_usermeta</td>
-                        <td class="column-status" data-step="screen_options"><span class="status"><?php echo loopis_sp_get_step_status('screen_options'); ?></span></td>
+                        <td class="column-status" data-step="wp_screen_options"><span class="status"><?php echo loopis_sp_get_step_status('wp_screen_options'); ?></span></td>
                     </tr>
                     
                 </tbody>

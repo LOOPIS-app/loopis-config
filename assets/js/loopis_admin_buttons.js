@@ -25,7 +25,7 @@ jQuery(document).ready(function ($) {
         ['loopis_plugins_install','install_plugins'],
         ['','install_root_files'],
         ['loopis_wp_options_set','wp_options'],
-        ['loopis_screen_options_set','screen_options'],
+        ['loopis_wp_screen_options_set','wp_screen_options'],
         ],
         'Cleanup': [
         ['loopis_plugins_cleanup','plugins'],

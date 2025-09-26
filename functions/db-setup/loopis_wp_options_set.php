@@ -18,8 +18,8 @@ if (!defined('ABSPATH')) {
  * 
  * @return void
  */
-function loopis_wp_options_change() {
-    error_log('Running function loopis_wp_options_change...');
+function loopis_wp_options_set() {
+    error_log('Starting function: loopis_wp_options_set...');
     
     // Define the options to set
     $options_to_set = array(

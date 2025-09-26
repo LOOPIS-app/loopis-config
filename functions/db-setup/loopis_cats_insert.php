@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_cats_insert() {
-    error_log('Running function loopis_cats_insert...');
+    error_log('Starting function: loopis_cats_insert()...');
 
     // Delete default category 'uncategorized' first
     $uncategorized = get_term_by('slug', 'uncategorized', 'category');

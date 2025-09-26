@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_pages_insert() {
-    error_log('Running function loopis_pages_insert...');
+    error_log('Starting function: loopis_pages_insert()...');
     
     // Delete default WordPress default pages and posts
     loopis_delete_default_content();
@@ -61,13 +61,15 @@ function loopis_pages_insert() {
             'post_name'  => 'faq',
             'page_template' => 'faq.php'
         ),
+        // These will be created by WPUM Plugin, but should be renamed like below.
+        /*
         array(
             'post_title' => '👤 Logga in',
             'post_name'  => 'log-in',
         ),
         array(
             'post_title' => '📋 Bli medlem',
-            'post_name'  => 'sign-up',
+            'post_name'  => 'register',
         ),
         array(
             'post_title' => '🔑 Byt lösenord',
@@ -77,6 +79,11 @@ function loopis_pages_insert() {
             'post_title' => '👤 Min profil',
             'post_name'  => 'profile',
         ),
+        array(
+            'post_title' => '⚙ Inställningar',
+            'post_name'  => 'account',
+        ),
+        */
         array(
             'post_title' => '🐙 Admin',
             'post_name'  => 'admin',
@@ -138,6 +145,13 @@ function loopis_pages_insert() {
                     // Set this page as posts page
                     update_option('page_for_posts', $new_page_id);
                     error_log('Set gifts page as posts page: ' . $new_page_id);
+                }
+
+                // Set privacy policy page in wp_options
+                if ($page_data['post_name'] === 'privacy' && !is_wp_error($new_page_id)) {
+                    // Set this page as privacy policy page
+                    update_option('wp_page_for_privacy_policy', $new_page_id);
+                    error_log('Set privacy page as privacy policy page: ' . $new_page_id);
                 }
             }
         }

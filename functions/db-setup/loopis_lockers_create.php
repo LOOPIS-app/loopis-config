@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_lockers_create() {
-    error_log('Running function loopis_lockers_create...');
+    error_log('Starting function: loopis_lockers_create()...');
 
     // Access WordPress database object
     global $wpdb;
