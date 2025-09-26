@@ -21,13 +21,16 @@ define('LOOPIS_CONFIG_DIR', plugin_dir_path(__FILE__)); // Server-side path to /
 define('LOOPIS_CONFIG_URL', plugin_dir_url(__FILE__)); // Client-side path to https://site.com/wp-content/plugins/loopis-config/
 
 // Start of error log
-// error_log("===== Start: LOOPIS Config =====");
-// error_log("Plugin version: " . LOOPIS_CONFIG_VERSION);
+error_log(" ");
+error_log("⮟⮟⮟⮟⮟ START! → LOOPIS Config ⮟⮟⮟⮟⮟");
+error_log("Plugin version: " . LOOPIS_CONFIG_VERSION);
 
-// Include neccessary files
-require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_db_setup.php';
-require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_admintool_cleanup.php'; // Will be moved to plugin "LOOPIS Develoopers"
+// Include functions
+require_once LOOPIS_CONFIG_DIR . 'functions/loopis_db_setup.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config_page_functions.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_admintool_cleanup.php'; // Will be moved to plugin "LOOPIS Develoopers"
+
+// Include pages
 require_once LOOPIS_CONFIG_DIR . 'pages/loopis_config_page.php';
 require_once LOOPIS_CONFIG_DIR . 'pages/loopis_roles_display.php'; // Will be moved to plugin "LOOPIS Develoopers"
 
@@ -84,4 +87,5 @@ function loopis_enqueue_admin_scripts($hook) {
 }
 
 // End of error log
-// error_log("===== End: LOOPIS Config =====");
+error_log("⮝⮝⮝⮝⮝ END! → LOOPIS Config ⮝⮝⮝⮝⮝");
+error_log(" ");

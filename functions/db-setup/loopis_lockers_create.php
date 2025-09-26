@@ -1,6 +1,6 @@
 <?php
 /**
- * Function to create (or update) the database table 'loopis_lockers'.
+ * Function to create (or update) the custom database table 'loopis_lockers'.
  *
  * This function is called by main function 'loopis_db_setup'.
  * 

@@ -18,17 +18,18 @@ require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_lockers_create.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_settings_create.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_settings_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_pages_insert.php';
-require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_categories_insert.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_cats_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_tags_insert.php';
-require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_user_roles_change.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_user_roles_set.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_users_insert.php';
-require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_wp_options_change.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_plugins_delete.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_plugins_install.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_wp_options_set.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_screen_options_set.php';
 
 // Define the main function
 function loopis_db_setup() {
-    error_log('>>> Database Setup Starting!');
+    error_log('>>> LOOPIS db setup starting!');
 
     // Create (or update) LOOPIS custom table 'loopis_lockers'
     loopis_lockers_create();
@@ -36,26 +37,25 @@ function loopis_db_setup() {
     // Create (or update) LOOPIS custom table 'loopis_settings'
     loopis_settings_create();
 
-    // Insert LOOPIS default values into 'loopis_settings'
+    // Insert LOOPIS default values into custom table 'loopis_settings'
     loopis_settings_insert();
 
     // Insert LOOPIS default pages into 'wp_posts'
+    // + delete default WP pages and posts
     loopis_pages_insert();
 
      // Insert LOOPIS default categories into 'wp_terms'
-    loopis_categories_insert();
+    loopis_cats_insert();
 
     // Insert LOOPIS default tags into 'wp_terms'
     loopis_tags_insert();
 
-    // Change WordPress user roles in 'wp_options'
-    loopis_user_roles_change();
+    // Set LOOPIS default user roles in 'wp_options'
+    // Has to run before 'loopis_users_insert'!
+    loopis_user_roles_set();
 
-    // Insert LOOPIS default tags into 'wp_users'
+    // Insert LOOPIS default tags into 'wp_terms'
     loopis_users_insert();
-
-    // Change WordPress settings in 'wp_options'
-    loopis_wp_options_change();
 
     // Delete default plugins
     loopis_plugins_delete();
@@ -63,6 +63,12 @@ function loopis_db_setup() {
     // Install necessary plugins
     loopis_plugins_install();
 
+    // Set WordPress settings in 'wp_options'
+    // Has to run after 'loopis_users_insert' and 'loopis_pages_insert'!
+    loopis_wp_options_set();
 
-    error_log('>>> Database Setup Complete!');
+    // Set default screen options for admin dashboard
+    loopis_screen_options_set();
+
+    error_log('>>> LOOPIS db setup complete!');
 }

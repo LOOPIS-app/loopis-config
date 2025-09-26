@@ -8,7 +8,7 @@
  * including copying capabilities from existing roles and adding LOOPIS-specific capabilities.
  * 
  * @package LOOPIS_Config
- * @subpackage User_Roles
+ * @subpackage Database
  */
 
 // Prevent direct access

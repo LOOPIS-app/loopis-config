@@ -3,8 +3,6 @@
  * Function to insert LOOPIS default tags in the WordPress database.
  *
  * This function is called by main function 'loopis_db_setup'.
- * 
- * Corresponding function to remove the tags is called by 'loopis_db_cleanup'.
  *
  * @package LOOPIS_Config
  * @subpackage Database

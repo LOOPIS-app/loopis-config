@@ -1,10 +1,8 @@
 <?php
 /**
- * Functions to create LOOPIS pages in the WordPress database.
+ * Functions to create LOOPIS pages (with page templates) in the WordPress database.
  *
  * This function is called by main function 'loopis_db_setup'.
- * 
- * Corresponding function to remove the pages is called by 'loopis_db_cleanup'.
  *
  * @package LOOPIS_Config
  * @subpackage Database
@@ -125,6 +123,21 @@ function loopis_pages_insert() {
                     error_log('Created page: ' . $page_data['post_title'] . ' with template: ' . $page_template);
                 } else {
                     error_log('Created page: ' . $page_data['post_title']);
+                }
+
+                // Set front page in wp_options
+                if ($page_data['post_name'] === 'start' && !is_wp_error($new_page_id)) {
+                    // Set this page as front page
+                    update_option('show_on_front', 'page');
+                    update_option('page_on_front', $new_page_id);
+                    error_log('Set start page as front page: ' . $new_page_id);
+                }
+
+                // Set posts page in wp_options
+                if ($page_data['post_name'] === 'gifts' && !is_wp_error($new_page_id)) {
+                    // Set this page as posts page
+                    update_option('page_for_posts', $new_page_id);
+                    error_log('Set gifts page as posts page: ' . $new_page_id);
                 }
             }
         }

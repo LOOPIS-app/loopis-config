@@ -7,6 +7,8 @@ This project is currently being developed by volunteers under the name "develoop
 ## 📋 Changelog
 **0.5 (WIP)**<br>
 LOOPIS default page templates inserted in `wp_postmeta`<br>
+LOOPIS default screen options inserted in `wp_usermeta`<br>
+LOOPIS 'page_on_front' and 'page_for_posts' set in `wp_options`<br>
 
 **0.4 (2025-09-25)**<br>
 LOOPIS default users inserted in `wp_users`<br>
