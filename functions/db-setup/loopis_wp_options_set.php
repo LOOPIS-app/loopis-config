@@ -18,8 +18,8 @@ if (!defined('ABSPATH')) {
  * 
  * @return void
  */
-function loopis_wp_options_change() {
-    error_log('Running function loopis_wp_options_change...');
+function loopis_wp_options_set() {
+    error_log('Starting function: loopis_wp_options_set...');
     
     // Define the options to set
     $options_to_set = array(
@@ -31,7 +31,7 @@ function loopis_wp_options_change() {
         'time_format'           => 'H:i',
         'permalink_structure'   => '/%postname%/',
         'comment_registration'  => '1',
-        'show_on_front'         => 'page',
+        'default_role'          => 'member_pending',
         'thumbnail_size_w'      => '240',
         'thumbnail_size_h'      => '240',
         'large_size_w'          => '1920',

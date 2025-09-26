@@ -24,7 +24,7 @@ require_once ABSPATH . 'wp-admin/includes/misc.php';
  * @return void
  */
 function loopis_plugins_install(){
-    error_log('Running function loopis_plugins_install...');
+    error_log('Starting function: loopis_plugins_install()...');
     // Plugin list
     $plugins = [
         [

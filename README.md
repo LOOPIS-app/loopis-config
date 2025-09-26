@@ -5,12 +5,14 @@
 This project is currently being developed by volunteers under the name "develoopers".<br>
 
 ## 📋 Changelog
-**0.5 (WIP)**<br>
+**0.5 (2025-09-26)**<br>
 LOOPIS default page templates inserted in `wp_postmeta`<br>
+LOOPIS pages for 'front', 'posts' and 'privacy-policy' set in `wp_options`<br>
+WordPress admin default screen options set in `wp_usermeta`<br>
 
 **0.4 (2025-09-25)**<br>
 LOOPIS default users inserted in `wp_users`<br>
-LOOPIS default user roles changed in `wp_options`<br>
+LOOPIS default user roles set in `wp_options`<br>
 LOOPIS default plugins installed in `Plugins`<br>
 New section in WP Admin Area for viewing user roles capabilities<br>
 
@@ -18,7 +20,7 @@ New section in WP Admin Area for viewing user roles capabilities<br>
 LOOPIS default categories inserted in `wp_terms`<br>
 WordPress default content deleted in `wp_posts`<br>
 WordPress default plugins deleted in `Plugins`<br>
-Ajax buttons in WP Admin Area<br>
+New ajax buttons in WP Admin Area<br>
 New folders for assets: css, js, root_files<br>
 
 **0.2 (2025-09-18)**<br>
@@ -30,7 +32,7 @@ LOOPIS custom table created: `loopis_settings`<br>
 LOOPIS default settings inserted in `loopis_settings`<br>
 LOOPIS default pages inserted in `wp_posts`<br>
 LOOPIS default tags inserted in `wp_terms`<br>
-WordPress settings changes in `wp_options`<br>
+WordPress default settings set in `wp_options`<br>
 Database cleanup tool for development purposes<br>
 
 **0.0 (2025-08-26)**<br>

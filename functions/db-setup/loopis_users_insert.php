@@ -3,8 +3,6 @@
  * Function to create LOOPIS default users in the WordPress database.
  *
  * This function is called by main function 'loopis_db_setup'.
- * 
- * WARNING: if you are the user with ID 1 and it is not admin then you will be kicked
  *
  * @package LOOPIS_Config
  * @subpackage Database
@@ -21,7 +19,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_users_insert() {
-    error_log('Running function loopis_users_insert...');
+    error_log('Starting function: loopis_users_insert()...');
 
     // Access WordPress database object
     global $wpdb;
@@ -209,7 +207,8 @@ function loopis_users_insert() {
             'last_name'     => '',
         ],
     ];
-    // Get user by id 1
+    
+    // Get user by id 1 (admin by default)
     $user_1 = get_user_by('ID', 1);
 
     // if they exist do:

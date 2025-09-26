@@ -1,6 +1,6 @@
 <?php
 /**
- * Function to insert default settings into the 'loopis_settings' table.
+ * Function to insert default settings into the custom table 'loopis_settings'.
  *
  * This function is called by main function 'loopis_db_setup'.
  * 
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_settings_insert() {
-    error_log('Running function loopis_settings_insert...');
+    error_log('Starting function: loopis_settings_insert()...');
 
     // Access WordPress database object
     global $wpdb;

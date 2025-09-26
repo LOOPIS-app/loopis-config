@@ -1,6 +1,6 @@
 <?php
 /**
- * Function to create (or update) the database table 'loopis_settings'.
+ * Function to create (or update) the custom database table 'loopis_settings'.
  *
  * This function is called by main function 'loopis_db_setup'.
  * 
@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_settings_create() {
-    error_log('Running function loopis_settings_create...');
+    error_log('Starting function: loopis_settings_create()...');
 
     // Access WordPress database object
     global $wpdb;
