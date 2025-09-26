@@ -5,6 +5,9 @@
 This project is currently being developed by volunteers under the name "develoopers".<br>
 
 ## 📋 Changelog
+**0.5 (WIP)**<br>
+LOOPIS default page templates inserted in `wp_postmeta`<br>
+
 **0.4 (2025-09-25)**<br>
 LOOPIS default users inserted in `wp_users`<br>
 LOOPIS default user roles changed in `wp_options`<br>

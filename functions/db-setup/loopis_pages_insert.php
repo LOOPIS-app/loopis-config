@@ -31,30 +31,37 @@ function loopis_pages_insert() {
         array(
             'post_title' => '🌈 Startsida',
             'post_name'  => 'start',
+            'page_template' => 'start.php'
         ),
         array(
             'post_title' => '🎁 Saker att få',
             'post_name'  => 'gifts',
+            'page_template' => 'gifts.php'
         ),
-            array(
+        array(
             'post_title' => '🗄 Integritetspolicy',
             'post_name'  => 'privacy',
+            'page_template' => 'privacy.php'
         ),
         array(
             'post_title' => '🔍 Sök',
             'post_name'  => 'search',
+            'page_template' => 'search.php'
         ),
         array(
             'post_title' => '♻ Upptäck',
             'post_name'  => 'discover',
+            'page_template' => 'discover.php'
         ),
         array(
             'post_title' => '💚 Ge bort',
             'post_name'  => 'submit',
+            'page_template' => 'submit.php'
         ),
         array(
             'post_title' => '💡 Frågor & svar',
             'post_name'  => 'faq',
+            'page_template' => 'faq.php'
         ),
         array(
             'post_title' => '👤 Logga in',
@@ -75,12 +82,13 @@ function loopis_pages_insert() {
         array(
             'post_title' => '🐙 Admin',
             'post_name'  => 'admin',
+            'page_template' => 'admin.php'
         ),
     );
 
     // Common values for all pages
     $common_values = array(
-        'post_author'    => 1, // OBS: This need to be an existing user ID in your WP installation.
+        'post_author'    => 1,
         'post_status'    => 'publish',
         'post_type'      => 'page',
         'ping_status'    => 'closed',
@@ -93,6 +101,10 @@ function loopis_pages_insert() {
     $meta_value_to_add = '1';
 
     foreach ($pages_to_create as $page) {
+        // Extract page template before merging
+        $page_template = isset($page['page_template']) ? $page['page_template'] : '';
+        unset($page['page_template']); // Remove from page data as it's not a wp_insert_post parameter
+        
         // Combine common values with page-specific values.
         $page_data = array_merge($page, $common_values);
 
@@ -106,7 +118,14 @@ function loopis_pages_insert() {
             if (!is_wp_error($new_page_id)) {
                 // Add the unique meta tag to the newly created page.
                 add_post_meta($new_page_id, $meta_key_to_add, $meta_value_to_add, true);
-                error_log('Created page: ' . $page_data['post_title']);
+                
+                // Add page template if specified
+                if (!empty($page_template)) {
+                    add_post_meta($new_page_id, '_wp_page_template', $page_template, true);
+                    error_log('Created page: ' . $page_data['post_title'] . ' with template: ' . $page_template);
+                } else {
+                    error_log('Created page: ' . $page_data['post_title']);
+                }
             }
         }
     }
@@ -143,4 +162,4 @@ function loopis_delete_default_content() {
             error_log('Deleted default post: ' . $post_slug);
         }
     }
-} 
+}
