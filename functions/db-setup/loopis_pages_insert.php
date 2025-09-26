@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_pages_insert() {
-    error_log('Running function loopis_pages_insert...');
+    loopis_elog_function_start('loopis_pages_insert');
     
     // Delete default WordPress default pages and posts
     loopis_delete_default_content();
@@ -106,10 +106,12 @@ function loopis_pages_insert() {
             if (!is_wp_error($new_page_id)) {
                 // Add the unique meta tag to the newly created page.
                 add_post_meta($new_page_id, $meta_key_to_add, $meta_value_to_add, true);
-                error_log('Created page: ' . $page_data['post_title']);
+                loopis_elog_first_level(' Created page: ' . $page_data['post_title']);
             }
         }
     }
+    loopis_elog_function_end_success('loopis_pages_insert');
+
 }
 
 /**
@@ -118,7 +120,7 @@ function loopis_pages_insert() {
  * @return void
  */
 function loopis_delete_default_content() {
-    error_log('Deleting default WordPress content...');
+    loopis_elog_first_level(' Deleting default WordPress content...');
     
     // Default pages to delete
     $default_pages = array('privacy-policy', 'sample-page');
@@ -131,7 +133,7 @@ function loopis_delete_default_content() {
         $page = get_page_by_path($page_slug, OBJECT, 'page');
         if ($page) {
             wp_delete_post($page->ID, true); // true = force delete (bypass trash)
-            error_log('Deleted default page: ' . $page_slug);
+            loopis_elog_first_level(' Deleted default page: ' . $page_slug);
         }
     }
     
@@ -140,7 +142,7 @@ function loopis_delete_default_content() {
         $post = get_page_by_path($post_slug, OBJECT, 'post');
         if ($post) {
             wp_delete_post($post->ID, true); // true = force delete (bypass trash)
-            error_log('Deleted default post: ' . $post_slug);
+            loopis_elog_first_level(' Deleted default post: ' . $post_slug);
         }
     }
 } 

@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_lockers_create() {
-    error_log('Running function loopis_lockers_create...');
+    loopis_elog_function_start('loopis_lockers_create');
 
     // Access WordPress database object
     global $wpdb;
@@ -48,4 +48,5 @@ function loopis_lockers_create() {
     ) $charset_collate;";
 
     dbDelta($sql);
+    loopis_elog_function_end_success('loopis_lockers_create');
 }

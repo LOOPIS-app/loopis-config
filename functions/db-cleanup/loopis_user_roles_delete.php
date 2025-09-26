@@ -24,7 +24,7 @@ if (!defined('ABSPATH')) {
  * @return bool True on success
  */
 function loopis_user_roles_delete() {
-    error_log("Starting LOOPIS user roles deletion...");
+    loopis_elog_function_start('loopis_user_roles_delete');
     
     // ===== CONFIGURATION - EASY TO MODIFY =====
     
@@ -39,8 +39,7 @@ function loopis_user_roles_delete() {
     loopis_delete_role('developer');
     
     // ===== END CONFIGURATION =====
-    
-    error_log("LOOPIS user roles deletion completed successfully!");
+    loopis_elog_function_end_success('loopis_user_roles_delete');
     return true;
 }
 
@@ -55,20 +54,20 @@ function loopis_remove_capabilities_from_role($role_name, $capabilities) {
     $role = get_role($role_name);
     
     if (!$role) {
-        error_log("Role '$role_name' not found, cannot remove capabilities");
+        loopis_elog_first_level(" Role '$role_name' not found, cannot remove capabilities");
         return false;
     }
     
     foreach ($capabilities as $cap) {
         if ($role->has_cap($cap)) {
             $role->remove_cap($cap);
-            error_log("Removed capability '$cap' from role '$role_name'");
+            loopis_elog_first_level(" Removed capability '$cap' from role '$role_name'");
         } else {
-            error_log("Capability '$cap' not found in role '$role_name', skipping");
+            loopis_elog_first_level(" Capability '$cap' not found in role '$role_name', skipping");
         }
     }
     
-    error_log("Processed " . count($capabilities) . " capabilities for role '$role_name'");
+    loopis_elog_first_level(" Processed " . count($capabilities) . " capabilities for role '$role_name'");
     return true;
 }
 
@@ -81,18 +80,18 @@ function loopis_remove_capabilities_from_role($role_name, $capabilities) {
 function loopis_delete_role($role_name) {
     // Skip if role doesn't exist
     if (!get_role($role_name)) {
-        error_log("Role '$role_name' does not exist, skipping deletion");
+        loopis_elog_first_level(" Role '$role_name' does not exist, skipping deletion");
         return true;
     }
     
     // Don't delete administrator role for safety
     if ($role_name === 'administrator') {
-        error_log("Skipping deletion of administrator role for safety");
+        loopis_elog_first_level(" Skipping deletion of administrator role for safety");
         return true;
     }
     
     // Remove the role
     remove_role($role_name);
-    error_log("Deleted role: $role_name");
+    loopis_elog_first_level(" Deleted role: $role_name");
     return true;
 }

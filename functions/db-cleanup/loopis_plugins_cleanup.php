@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
  */
 function loopis_plugins_cleanup() {
     
-    error_log('Running function loopis_plugins_cleanup...');
+    loopis_elog_function_start('loopis_plugins_cleanup');
 
     // Plugin main file in /wp-content/plugins
     $installed_plugins = [
@@ -45,10 +45,11 @@ function loopis_plugins_cleanup() {
             $result = @delete_plugins([$plugin]);
             // Handle Error
             if (is_wp_error($result)) {
-                error_log("Failed to uninstall $plugin: " . $result->get_error_message());
+                loopis_elog_first_level(" Failed to uninstall $plugin: " . $result->get_error_message());
             } else {
-                error_log("Successfully uninstalled $plugin");
+                loopis_elog_first_level(" Successfully uninstalled $plugin");
             }
         }
     }
+    loopis_elog_function_end_success('loopis_plugins_cleanup');
 }

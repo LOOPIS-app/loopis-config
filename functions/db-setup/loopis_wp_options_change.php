@@ -19,8 +19,8 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_wp_options_change() {
-    error_log('Running function loopis_wp_options_change...');
-    
+    loopis_elog_function_start('loopis_wp_options_change');
+
     // Define the options to set
     $options_to_set = array(
         'blogname'              => 'LOOPIS',
@@ -46,4 +46,6 @@ function loopis_wp_options_change() {
     foreach ($options_to_set as $option_name => $option_value) {
         update_option($option_name, $option_value);
     }
+
+    loopis_elog_function_end_success('loopis_wp_options_change');
 }

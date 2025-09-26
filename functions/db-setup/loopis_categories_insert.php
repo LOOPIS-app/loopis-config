@@ -22,7 +22,8 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_categories_insert() {
-    error_log('Running function loopis_categories_insert...');
+    loopis_elog_function_start('loopis_categories_insert');
+
 
     // Define the categories to insert
     $categories = [
@@ -61,7 +62,7 @@ function loopis_categories_insert() {
                 ['slug' => $category['slug']]
             );
             if (is_wp_error($result)) {
-                error_log('Error inserting category: ' . $result->get_error_message());
+                loopis_elog_first_level(' Error inserting category: ' . $result->get_error_message());
             } else {
                 // Update the term_group to mark it as a LOOPIS category
                 $term_id = $result['term_id'];
@@ -86,6 +87,7 @@ function loopis_categories_insert() {
     $uncategorized = get_term_by('slug', 'uncategorized', 'category');
     if ($uncategorized) {
         wp_delete_term($uncategorized->term_id, 'category');
-        error_log('Deleted uncategorized category');
+        loopis_elog_first_level(' Deleted uncategorized category');
     }
+    loopis_elog_function_end_success('loopis_categories_insert');
 }

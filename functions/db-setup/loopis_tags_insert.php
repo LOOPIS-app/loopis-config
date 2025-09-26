@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_tags_insert() {
-    error_log('Running function loopis_tags_insert...');
+    loopis_elog_function_start('loopis_tags_insert');
 
     // Define the tags to insert
     $tags = [
@@ -83,7 +83,7 @@ function loopis_tags_insert() {
             );
             
             if (is_wp_error($result)) {
-                error_log('Error inserting tag: ' . $result->get_error_message());
+                loopis_elog_first_level('Error inserting tag: ' . $result->get_error_message());
             } else {
                 // Update the term_group to mark it as a LOOPIS tag
                 $term_id = $result['term_id'];
@@ -97,4 +97,5 @@ function loopis_tags_insert() {
             }
         }
     }
+    loopis_elog_function_end_success('loopis_tags_insert');
 }

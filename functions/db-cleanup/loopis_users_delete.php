@@ -21,6 +21,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_users_delete() {
+    loopis_elog_function_start('loopis_users_delete');
     global $wpdb;
     // Get all users except user 1(admin)
     $users = get_users(['exclude' => [1]]);
@@ -30,4 +31,5 @@ function loopis_users_delete() {
     }
     // Resets user count
     $wpdb->query("ALTER TABLE {$wpdb->users} AUTO_INCREMENT = 1");
+    loopis_elog_function_end_success('loopis_users_delete');
 }

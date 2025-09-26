@@ -45,10 +45,14 @@ jQuery(document).ready(function ($) {
         // Check if list ended
         if (index >= All_functions[key].length) {
             refreshRolesDisplay() // done at the end of all steps
-            logToPhp(`=== End: Database ${key}! ===`);
+            logToPhp(" ");
+            logToPhp(`=========================== End: Database ${key}! ===========================`);
+            logToPhp(" ");
             return
         } else if(index==0){
-            logToPhp(`=== Start: Database ${key}! ===`);
+            logToPhp(" ");
+            logToPhp(`=========================== Start: Database ${key}! ===========================`);
+            logToPhp(" ");
         }
 
         // Define id and func_step
@@ -76,7 +80,9 @@ jQuery(document).ready(function ($) {
             } else {
 
                 // Stop on error
-                logToPhp(`=== End: Database ${key}! ===`);
+                logToPhp(" ");
+                logToPhp(`=========================== Start: Database ${key}! ===========================`);
+                logToPhp(" ");
             }
         });
     }

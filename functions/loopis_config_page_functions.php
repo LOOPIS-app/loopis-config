@@ -76,7 +76,8 @@ function loopis_log_message() {
     check_ajax_referer('loopis_config_nonce', 'nonce');
 
     // Get text and log it if it exists
-    $error_log = sanitize_text_field($_POST['error_log'] ?? '');
+    // $error_log = sanitize_text_field($_POST['error_log'] ?? '');
+    $error_log = $_POST['error_log'];
     if ($error_log) {
         error_log($error_log);
     }
