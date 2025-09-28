@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_wp_screen_options_set() {
-    error_log('Starting function: loopis_wp_screen_options_set...');
+    loopis_elog_function_start('loopis_wp_screen_options_set');
     
     // Get all users
     $users = get_users();
@@ -47,8 +47,9 @@ function loopis_wp_screen_options_set() {
         update_user_meta($user->ID, 'users_per_page', 100);
         update_user_meta($user->ID, 'edit_comments_per_page', 100);
         
-        error_log('Set screen options for user: ' . $user->user_login);
+        loopis_elog_first_level('Set screen options for user: ' . $user->user_login);
     }
     
-    error_log('Dashboard widget screen options updated for all users');
+    loopis_elog_first_level('Dashboard widget screen options updated for all users');
+    loopis_elog_function_end_success('loopis_wp_screen_options_set');
 }

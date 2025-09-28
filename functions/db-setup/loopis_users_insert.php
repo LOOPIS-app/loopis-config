@@ -253,7 +253,7 @@ function loopis_users_insert() {
         ]);
 
         if (is_wp_error($user_id)) {
-            error_log('     Failed to create user ' . $user['user_login'] . ': ' . $user_id->get_error_message());
+            loopis_elog_first_level('Failed to create user ' . $user['user_login'] . ': ' . $user_id->get_error_message());
             continue;
         }
         // Add admin capabilities

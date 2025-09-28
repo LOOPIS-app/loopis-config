@@ -45,7 +45,6 @@ register_activation_hook(__FILE__, 'loopis_log_on_activation');
 // Log admin load
 add_action('admin_init', 'loopis_log_admin_load');
 
-
 // Setup admin menu
 function loopis_config_menu() {
     //Render top level menu item
@@ -99,12 +98,18 @@ function loopis_log_on_activation() {
 }
 
 function loopis_log_admin_load() {
+
+    if (defined('DOING_AJAX') && DOING_AJAX) return;
+    if (defined('DOING_CRON') && DOING_CRON) return;
+
     if (!get_transient('loopis_logger_flag')) {
+
         error_log(" ");
         error_log("===== ADMIN SESSION ! =====");
         error_log("Plugin version: " . LOOPIS_CONFIG_VERSION);
         error_log("===== ADMIN SESSION ! =====");
         error_log(" ");
-        set_transient('loopis_logger_flag', true,  10 * MINUTE_IN_SECONDS);
+
+        set_transient('loopis_logger_flag', true,  1 * MINUTE_IN_SECONDS);
     }
 }

@@ -82,7 +82,7 @@ jQuery(document).ready(function ($) {
 
                 // Stop on error
                 logToPhp(" ");
-                logToPhp(`=========================== Start: Database ${key}! ===========================`);
+                logToPhp(`=========================== End: Database ${key}! ===========================`);
                 logToPhp(" ");
             }
         });

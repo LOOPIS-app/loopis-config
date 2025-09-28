@@ -18,9 +18,8 @@ if (!defined('ABSPATH')) {
  * 
  * @return void
  */
-function loopis_wp_options_change() {
+function loopis_wp_options_set() {
     loopis_elog_function_start('loopis_wp_options_change');
-    
     // Define the options to set
     $options_to_set = array(
         'blogname'              => 'LOOPIS',

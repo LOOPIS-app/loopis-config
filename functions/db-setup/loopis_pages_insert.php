@@ -113,6 +113,9 @@ function loopis_pages_insert() {
         // Combine common values with page-specific values.
         $page_data = array_merge($page, $common_values);
 
+        // Logging page creation
+        loopis_elog_first_level('Creating page: ' . $page_data['post_title']);
+
         // Verify if the page already exists by its slug (post_name).
         $existing_page = get_page_by_path($page_data['post_name'], OBJECT, 'page');
 
@@ -127,9 +130,9 @@ function loopis_pages_insert() {
                 // Add page template if specified
                 if (!empty($page_template)) {
                     add_post_meta($new_page_id, '_wp_page_template', $page_template, true);
-                    error_log('Created page: ' . $page_data['post_title'] . ' with template: ' . $page_template);
+                    loopis_elog_first_level('Created page: ' . $page_data['post_title'] . ' with template: ' . $page_template);
                 } else {
-                    error_log('Created page: ' . $page_data['post_title']);
+                    loopis_elog_first_level('Created page: ' . $page_data['post_title']);
                 }
 
                 // Set front page in wp_options
@@ -137,21 +140,21 @@ function loopis_pages_insert() {
                     // Set this page as front page
                     update_option('show_on_front', 'page');
                     update_option('page_on_front', $new_page_id);
-                    error_log('Set start page as front page: ' . $new_page_id);
+                    loopis_elog_first_level('Set start page as front page: ' . $new_page_id);
                 }
 
                 // Set posts page in wp_options
                 if ($page_data['post_name'] === 'gifts' && !is_wp_error($new_page_id)) {
                     // Set this page as posts page
                     update_option('page_for_posts', $new_page_id);
-                    error_log('Set gifts page as posts page: ' . $new_page_id);
+                    loopis_elog_first_level('Set gifts page as posts page: ' . $new_page_id);
                 }
 
                 // Set privacy policy page in wp_options
                 if ($page_data['post_name'] === 'privacy' && !is_wp_error($new_page_id)) {
                     // Set this page as privacy policy page
                     update_option('wp_page_for_privacy_policy', $new_page_id);
-                    error_log('Set privacy page as privacy policy page: ' . $new_page_id);
+                    loopis_elog_first_level('Set privacy page as privacy policy page: ' . $new_page_id);
                 }
             }
         }
@@ -166,20 +169,20 @@ function loopis_pages_insert() {
  * @return void
  */
 function loopis_delete_default_content() {
-    loopis_elog_first_level(' Deleting default WordPress content...');
+    loopis_elog_first_level('Deleting default WordPress content...');
     
     // Default pages to delete
     $default_pages = array('privacy-policy', 'sample-page');
     
     // Default posts to delete  
     $default_posts = array('hello-world');
-    
+
     // Delete default pages
     foreach ($default_pages as $page_slug) {
         $page = get_page_by_path($page_slug, OBJECT, 'page');
         if ($page) {
             wp_delete_post($page->ID, true); // true = force delete (bypass trash)
-            loopis_elog_first_level(' Deleted default page: ' . $page_slug);
+            loopis_elog_second_level('Deleted default page: ' . $page_slug);
         }
     }
     
@@ -188,7 +191,7 @@ function loopis_delete_default_content() {
         $post = get_page_by_path($post_slug, OBJECT, 'post');
         if ($post) {
             wp_delete_post($post->ID, true); // true = force delete (bypass trash)
-            loopis_elog_first_level(' Deleted default post: ' . $post_slug);
+            loopis_elog_second_level('Deleted default post: ' . $post_slug);
         }
     }
 }
