@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
  * Creates new roles with LOOPIS capabilities and removes old ones
  */
 function loopis_user_roles_change() {
-    loopis_elog_function_start('loopis_user_roles_change');
+    loopis_elog_function_start('loopis_user_roles_set');
     
     // ===== CONFIGURATION - EASY TO MODIFY =====
     
@@ -47,7 +47,7 @@ function loopis_user_roles_change() {
     
     // ===== END CONFIGURATION =====
     
-    loopis_elog_function_end_success('loopis_user_roles_change');
+    loopis_elog_function_end_success('loopis_user_roles_set');
     return true;
 }
 
@@ -71,11 +71,11 @@ function loopis_copy_role($old_role_name, $new_role_name, $display_name, $slug_n
     if ($old_role_name) {
         $old_role = get_role($old_role_name);
         if (!$old_role) {
-            loopis_elog_first_level("Role '$old_role_name' not found, creating empty role instead...");
+            error_log("Role '$old_role_name' not found, creating empty role instead...");
             $capabilities = array('read' => true); // Basic capability
         } else {
             $capabilities = $old_role->capabilities;
-            loopis_elog_first_level("Copying capabilities from '$old_role_name' to '$new_role_name'");
+            error_log("Copying capabilities from '$old_role_name' to '$new_role_name'");
         }
     } else {
         $capabilities = array('read' => true); // Basic capability for new roles
@@ -84,14 +84,14 @@ function loopis_copy_role($old_role_name, $new_role_name, $display_name, $slug_n
     // Remove the new role if it already exists
     if (get_role($new_role_name)) {
         remove_role($new_role_name);
-        loopis_elog_first_level("Removed existing role: $new_role_name");
+        error_log("Removed existing role: $new_role_name");
     }
     
     // Create the new role
     $result = add_role($new_role_name, $display_name, $capabilities);
     
     if ($result) {
-        loopis_elog_first_level("Created new role: $new_role_name ($display_name)");
+        error_log("Created new role: $new_role_name ($display_name)");
         
         // Move users from old role to new role if old role exists
         if ($old_role_name && get_role($old_role_name)) {
@@ -100,7 +100,7 @@ function loopis_copy_role($old_role_name, $new_role_name, $display_name, $slug_n
         
         return true;
     } else {
-        loopis_elog_first_level("Failed to create role: $new_role_name");
+        error_log("Failed to create role: $new_role_name");
         return false;
     }
 }
@@ -132,17 +132,17 @@ function loopis_create_new_role($role_name, $display_name, $slug_name) {
     // Remove the role if it already exists
     if (get_role($role_name)) {
         remove_role($role_name);
-        loopis_elog_first_level("Removed existing role: $role_name");
+        error_log("Removed existing role: $role_name");
     }
     
     // Create the new role
     $result = add_role($role_name, $display_name, $base_capabilities);
     
     if ($result) {
-        loopis_elog_first_level("Created new role: $role_name ($display_name)");
+        error_log("Created new role: $role_name ($display_name)");
         return true;
     } else {
-        loopis_elog_first_level("Failed to create new role: $role_name");
+        error_log("Failed to create new role: $role_name");
         return false;
     }
 }
@@ -157,16 +157,16 @@ function loopis_add_capabilities($role_name, $capabilities) {
     $role = get_role($role_name);
     
     if (!$role) {
-        loopis_elog_first_level("Role '$role_name' not found, cannot add capabilities");
+        error_log("Role '$role_name' not found, cannot add capabilities");
         return false;
     }
     
     foreach ($capabilities as $cap) {
         $role->add_cap($cap);
-        loopis_elog_first_level("Added capability '$cap' to role '$role_name'");
+        error_log("Added capability '$cap' to role '$role_name'");
     }
     
-    loopis_elog_first_level("Added " . count($capabilities) . " capabilities to role '$role_name'");
+    error_log("Added " . count($capabilities) . " capabilities to role '$role_name'");
     return true;
 }
 
@@ -183,10 +183,10 @@ function loopis_move_users_to_new_role($old_role_name, $new_role_name) {
         $user_obj = new WP_User($user->ID);
         $user_obj->remove_role($old_role_name);
         $user_obj->add_role($new_role_name);
-        loopis_elog_first_level("Moved user {$user->user_login} from $old_role_name to $new_role_name");
+        error_log("Moved user {$user->user_login} from $old_role_name to $new_role_name");
     }
     
-    loopis_elog_first_level("Moved " . count($users) . " users from $old_role_name to $new_role_name");
+    error_log("Moved " . count($users) . " users from $old_role_name to $new_role_name");
 }
 
 /**
@@ -207,9 +207,9 @@ function loopis_handle_user_roles_change() {
         $result = loopis_user_roles_change();
         
         if ($result) {
-            wp_send_json_success('     User roles updated successfully!');
+            wp_send_json_success('User roles updated successfully!');
         } else {
-            wp_send_json_error('     Failed to update user roles');
+            wp_send_json_error('Failed to update user roles');
         }
     } catch (Exception $e) {
         error_log('LOOPIS user roles change error: ' . $e->getMessage());

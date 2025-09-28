@@ -1,10 +1,8 @@
 <?php
 /**
- * Functions to create LOOPIS pages in the WordPress database.
+ * Functions to create LOOPIS pages (with page templates) in the WordPress database.
  *
  * This function is called by main function 'loopis_db_setup'.
- * 
- * Corresponding function to remove the pages is called by 'loopis_db_cleanup'.
  *
  * @package LOOPIS_Config
  * @subpackage Database
@@ -31,38 +29,47 @@ function loopis_pages_insert() {
         array(
             'post_title' => '🌈 Startsida',
             'post_name'  => 'start',
+            'page_template' => 'start.php'
         ),
         array(
             'post_title' => '🎁 Saker att få',
             'post_name'  => 'gifts',
+            'page_template' => 'gifts.php'
         ),
-            array(
+        array(
             'post_title' => '🗄 Integritetspolicy',
             'post_name'  => 'privacy',
+            'page_template' => 'privacy.php'
         ),
         array(
             'post_title' => '🔍 Sök',
             'post_name'  => 'search',
+            'page_template' => 'search.php'
         ),
         array(
             'post_title' => '♻ Upptäck',
             'post_name'  => 'discover',
+            'page_template' => 'discover.php'
         ),
         array(
             'post_title' => '💚 Ge bort',
             'post_name'  => 'submit',
+            'page_template' => 'submit.php'
         ),
         array(
             'post_title' => '💡 Frågor & svar',
             'post_name'  => 'faq',
+            'page_template' => 'faq.php'
         ),
+        // These will be created by WPUM Plugin, but should be renamed like below.
+        /*
         array(
             'post_title' => '👤 Logga in',
             'post_name'  => 'log-in',
         ),
         array(
             'post_title' => '📋 Bli medlem',
-            'post_name'  => 'sign-up',
+            'post_name'  => 'register',
         ),
         array(
             'post_title' => '🔑 Byt lösenord',
@@ -73,14 +80,20 @@ function loopis_pages_insert() {
             'post_name'  => 'profile',
         ),
         array(
+            'post_title' => '⚙ Inställningar',
+            'post_name'  => 'account',
+        ),
+        */
+        array(
             'post_title' => '🐙 Admin',
             'post_name'  => 'admin',
+            'page_template' => 'admin.php'
         ),
     );
 
     // Common values for all pages
     $common_values = array(
-        'post_author'    => 1, // OBS: This need to be an existing user ID in your WP installation.
+        'post_author'    => 1,
         'post_status'    => 'publish',
         'post_type'      => 'page',
         'ping_status'    => 'closed',
@@ -93,6 +106,10 @@ function loopis_pages_insert() {
     $meta_value_to_add = '1';
 
     foreach ($pages_to_create as $page) {
+        // Extract page template before merging
+        $page_template = isset($page['page_template']) ? $page['page_template'] : '';
+        unset($page['page_template']); // Remove from page data as it's not a wp_insert_post parameter
+        
         // Combine common values with page-specific values.
         $page_data = array_merge($page, $common_values);
 
@@ -106,7 +123,36 @@ function loopis_pages_insert() {
             if (!is_wp_error($new_page_id)) {
                 // Add the unique meta tag to the newly created page.
                 add_post_meta($new_page_id, $meta_key_to_add, $meta_value_to_add, true);
-                loopis_elog_first_level(' Created page: ' . $page_data['post_title']);
+                
+                // Add page template if specified
+                if (!empty($page_template)) {
+                    add_post_meta($new_page_id, '_wp_page_template', $page_template, true);
+                    error_log('Created page: ' . $page_data['post_title'] . ' with template: ' . $page_template);
+                } else {
+                    error_log('Created page: ' . $page_data['post_title']);
+                }
+
+                // Set front page in wp_options
+                if ($page_data['post_name'] === 'start' && !is_wp_error($new_page_id)) {
+                    // Set this page as front page
+                    update_option('show_on_front', 'page');
+                    update_option('page_on_front', $new_page_id);
+                    error_log('Set start page as front page: ' . $new_page_id);
+                }
+
+                // Set posts page in wp_options
+                if ($page_data['post_name'] === 'gifts' && !is_wp_error($new_page_id)) {
+                    // Set this page as posts page
+                    update_option('page_for_posts', $new_page_id);
+                    error_log('Set gifts page as posts page: ' . $new_page_id);
+                }
+
+                // Set privacy policy page in wp_options
+                if ($page_data['post_name'] === 'privacy' && !is_wp_error($new_page_id)) {
+                    // Set this page as privacy policy page
+                    update_option('wp_page_for_privacy_policy', $new_page_id);
+                    error_log('Set privacy page as privacy policy page: ' . $new_page_id);
+                }
             }
         }
     }
@@ -145,4 +191,4 @@ function loopis_delete_default_content() {
             loopis_elog_first_level(' Deleted default post: ' . $post_slug);
         }
     }
-} 
+}

@@ -3,8 +3,6 @@
  * Function to insert LOOPIS default categories in the WordPress database.
  *
  * This function is called by main function 'loopis_db_setup'.
- * 
- * Corresponding function to remove the categories is called by 'loopis_db_cleanup'.
  *
  * @package LOOPIS_Config
  * @subpackage Database
@@ -21,9 +19,16 @@ if (!defined('ABSPATH')) {
  * 
  * @return void
  */
-function loopis_categories_insert() {
-    loopis_elog_function_start('loopis_categories_insert');
 
+function loopis_cats_insert() {
+    loopis_elog_function_start('loopis_cats_insert');
+
+    // Delete default category 'uncategorized' first
+    $uncategorized = get_term_by('slug', 'uncategorized', 'category');
+    if ($uncategorized) {
+        wp_delete_term($uncategorized->term_id, 'category');
+        error_log('Deleted uncategorized category');
+    }
 
     // Define the categories to insert
     $categories = [
@@ -54,7 +59,7 @@ function loopis_categories_insert() {
 
     // Insert each category if it doesn't already exist
     foreach ($categories as $category) {
-    // Check if term already exists
+        // Check if term already exists
         if (!term_exists($category['slug'], 'category')) {
             $result = wp_insert_term(
                 $category['name'],
@@ -64,6 +69,8 @@ function loopis_categories_insert() {
             if (is_wp_error($result)) {
                 loopis_elog_first_level(' Error inserting category: ' . $result->get_error_message());
             } else {
+                error_log('Successfully inserted category: ' . $category['name']);
+                
                 // Update the term_group to mark it as a LOOPIS category
                 $term_id = $result['term_id'];
                 $wpdb->update(
@@ -77,17 +84,11 @@ function loopis_categories_insert() {
         }
     }
     
-    // Update default
+    // Update default category to 'new' - do this last
     $term = get_term_by('slug', 'new', 'category');
     if ($term) {
         update_option('default_category', $term->term_id);
+        error_log('Set default category to: new');
     }
-
-     // Delete default category 'uncategorized' if it exists
-    $uncategorized = get_term_by('slug', 'uncategorized', 'category');
-    if ($uncategorized) {
-        wp_delete_term($uncategorized->term_id, 'category');
-        loopis_elog_first_level(' Deleted uncategorized category');
-    }
-    loopis_elog_function_end_success('loopis_categories_insert');
+    loopis_elog_function_end_success('loopis_cats_insert');
 }

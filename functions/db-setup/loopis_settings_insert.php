@@ -1,6 +1,6 @@
 <?php
 /**
- * Function to insert default settings into the 'loopis_settings' table.
+ * Function to insert default settings into the custom table 'loopis_settings'.
  *
  * This function is called by main function 'loopis_db_setup'.
  * 
