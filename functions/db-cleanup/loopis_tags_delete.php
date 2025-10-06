@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_tags_delete() {
-    error_log('Running function loopis_tags_delete...');
+    loopis_elog_function_start('loopis_tags_delete');
 
     // Access WordPress database object
     global $wpdb;
@@ -42,4 +42,5 @@ function loopis_tags_delete() {
         // Remove from terms table
         $wpdb->query("DELETE FROM {$wpdb->terms} WHERE term_id IN ($in)");
     }
+    loopis_elog_function_end_success('loopis_tags_delete');
 }

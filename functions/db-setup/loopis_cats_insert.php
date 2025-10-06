@@ -19,14 +19,15 @@ if (!defined('ABSPATH')) {
  * 
  * @return void
  */
+
 function loopis_cats_insert() {
-    error_log('Starting function: loopis_cats_insert()...');
+    loopis_elog_function_start('loopis_cats_insert');
 
     // Delete default category 'uncategorized' first
     $uncategorized = get_term_by('slug', 'uncategorized', 'category');
     if ($uncategorized) {
         wp_delete_term($uncategorized->term_id, 'category');
-        error_log('Deleted uncategorized category');
+        loopis_elog_first_level('Deleted uncategorized category');
     }
 
     // Define the categories to insert
@@ -66,9 +67,9 @@ function loopis_cats_insert() {
                 ['slug' => $category['slug']]
             );
             if (is_wp_error($result)) {
-                error_log('Error inserting category: ' . $result->get_error_message());
+                loopis_elog_first_level('Error inserting category: ' . $result->get_error_message());
             } else {
-                error_log('Successfully inserted category: ' . $category['name']);
+                loopis_elog_first_level('Successfully inserted category: ' . $category['name']);
                 
                 // Update the term_group to mark it as a LOOPIS category
                 $term_id = $result['term_id'];
@@ -87,6 +88,7 @@ function loopis_cats_insert() {
     $term = get_term_by('slug', 'new', 'category');
     if ($term) {
         update_option('default_category', $term->term_id);
-        error_log('Set default category to: new');
+        loopis_elog_first_level('Set default category to: new');
     }
+    loopis_elog_function_end_success('loopis_cats_insert');
 }

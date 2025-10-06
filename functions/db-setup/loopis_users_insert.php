@@ -18,8 +18,8 @@ if (!defined('ABSPATH')) {
  * 
  * @return void
  */
-function loopis_users_insert() {
-    error_log('Starting function: loopis_users_insert()...');
+function loopis_users_insert() {    
+    loopis_elog_function_start('loopis_users_insert');
 
     // Access WordPress database object
     global $wpdb;
@@ -111,7 +111,7 @@ function loopis_users_insert() {
             'user_nicename' => 'develooper-5',
             'user_email'    => 'develooper-5@loopis.app',
             'user_pass'     => 'develoop3r',
-            'role'          => 'developer',
+            'role'          => ['developer'],
             'display_name'  => 'develooper-5',
             'first_name'    => '',
             'last_name'     => '',
@@ -253,7 +253,7 @@ function loopis_users_insert() {
         ]);
 
         if (is_wp_error($user_id)) {
-            error_log('Failed to create user ' . $user['user_login'] . ': ' . $user_id->get_error_message());
+            loopis_elog_first_level('Failed to create user ' . $user['user_login'] . ': ' . $user_id->get_error_message());
             continue;
         }
         // Add admin capabilities
@@ -262,4 +262,5 @@ function loopis_users_insert() {
             $user_id->set_role($role);
         }
     }
+    loopis_elog_function_end_success('loopis_users_insert');
 }   

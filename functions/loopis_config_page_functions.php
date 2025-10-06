@@ -53,15 +53,13 @@ function loopis_sp_handle_actions() {
             ]);
         } catch (Throwable $e) {
             // Function failed
+            error_log("End: Error in function call {$function}:  {$e->getMessage()}");
+            error_log('Terminating process.');
             loopis_sp_set_step_status($id, 'Error'); // Set status to Ok
             wp_send_json_error([                     // Send back JSON with error and id, and statustext
                 'id' => $id,    
                 'status' =>  '⚠️ Fel! Kunde inte köras.'
             ]);
-            // Log error
-            error_log("Error in function call {$function}:  {$e->getMessage()}");
-            error_log('Terminating process.');
-
         }
     }
 
@@ -78,7 +76,8 @@ function loopis_log_message() {
     check_ajax_referer('loopis_config_nonce', 'nonce');
 
     // Get text and log it if it exists
-    $error_log = sanitize_text_field($_POST['error_log'] ?? '');
+    // $error_log = sanitize_text_field($_POST['error_log'] ?? '');
+    $error_log = $_POST['error_log'];
     if ($error_log) {
         error_log($error_log);
     }

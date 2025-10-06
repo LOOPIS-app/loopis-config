@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_settings_create() {
-    error_log('Starting function: loopis_settings_create()...');
+    loopis_elog_function_start('loopis_settings_create');
 
     // Access WordPress database object
     global $wpdb;
@@ -44,4 +44,5 @@ function loopis_settings_create() {
     ) $charset_collate;";
 
     dbDelta($sql);
+    loopis_elog_function_end_success('loopis_settings_create');
 }

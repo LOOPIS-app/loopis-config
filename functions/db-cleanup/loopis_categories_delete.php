@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_categories_delete() {
-    error_log('Running function loopis_categories_delete...');
+    loopis_elog_function_start('loopis_categories_delete');
 
     // Access WordPress database object
     global $wpdb;
@@ -36,7 +36,7 @@ function loopis_categories_delete() {
 
     // If no categories are found: return.
     if (empty($term_ids)) {
-        return;
+        loopis_elog_function_end_success('loopis_categories_delete');
     }
      // Delete categories
     foreach ( $term_ids as $term_id ) {
@@ -68,8 +68,8 @@ function loopis_categories_delete() {
         ['%s', '%d', '%d'],
         ['%d']
     );
-
     // Clear cache
     clean_term_cache(1, 'category');
+    loopis_elog_function_end_success('loopis_categories_delete');
 }
     

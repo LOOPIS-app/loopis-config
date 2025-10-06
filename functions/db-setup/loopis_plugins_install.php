@@ -24,7 +24,7 @@ require_once ABSPATH . 'wp-admin/includes/misc.php';
  * @return void
  */
 function loopis_plugins_install(){
-    error_log('Starting function: loopis_plugins_install()...');
+    loopis_elog_function_start('loopis_plugins_install');
     // Plugin list
     $plugins = [
         [
@@ -66,7 +66,7 @@ function loopis_plugins_install(){
         $main     = $plugin['main'];
         $plugin_dir = WP_PLUGIN_DIR . '/' . $slug;
 
-        error_log("INSTALLING: {$slug}...");
+        loopis_elog_first_level("INSTALLING: {$slug}...");
 
         // Is it running already?
         if ( ! is_plugin_active( $main ) ) {
@@ -89,7 +89,7 @@ function loopis_plugins_install(){
             }
         }
     }
-
+    loopis_elog_function_end_success('loopis_plugins_install');
 }
 
 

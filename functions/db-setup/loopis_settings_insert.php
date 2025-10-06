@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_settings_insert() {
-    error_log('Starting function: loopis_settings_insert()...');
+    loopis_elog_function_start('loopis_settings_insert');
 
     // Access WordPress database object
     global $wpdb;
@@ -52,4 +52,5 @@ function loopis_settings_insert() {
             $wpdb->insert($table, ['setting_key' => $key, 'setting_value' => $value]);
         }
     }
+    loopis_elog_function_end_success('loopis_settings_insert');
 }

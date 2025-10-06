@@ -19,8 +19,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_wp_options_set() {
-    error_log('Starting function: loopis_wp_options_set...');
-    
+    loopis_elog_function_start('loopis_wp_options_change');
     // Define the options to set
     $options_to_set = array(
         'blogname'              => 'LOOPIS',
@@ -31,7 +30,7 @@ function loopis_wp_options_set() {
         'time_format'           => 'H:i',
         'permalink_structure'   => '/%postname%/',
         'comment_registration'  => '1',
-        'default_role'          => 'member_pending',
+        'show_on_front'         => 'page',
         'thumbnail_size_w'      => '240',
         'thumbnail_size_h'      => '240',
         'large_size_w'          => '1920',
@@ -46,4 +45,5 @@ function loopis_wp_options_set() {
     foreach ($options_to_set as $option_name => $option_value) {
         update_option($option_name, $option_value);
     }
+    loopis_elog_function_end_success('loopis_wp_options_change');
 }

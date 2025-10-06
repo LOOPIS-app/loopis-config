@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_pages_delete() {
-    error_log('Running function loopis_pages_delete...');
+    loopis_elog_function_start('loopis_pages_delete');
 
     // Define the same unique meta key that was used during creation.
     $meta_key_to_delete = '_loopis_config_page';
@@ -43,9 +43,10 @@ function loopis_pages_delete() {
     if ($pages_to_delete->have_posts()) {
         foreach ($pages_to_delete->posts as $post_id) {
             // Force delete the page (bypass trash).
-            // error_log("loopis_delete_pages: Deleting page ID $post_id");
+            loopis_elog_first_level(" loopis_delete_pages: Deleting page ID $post_id");
 
             wp_delete_post($post_id, true);
         }
     }
+    loopis_elog_function_end_success('loopis_pages_delete');
 }
