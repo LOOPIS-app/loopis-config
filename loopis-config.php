@@ -3,8 +3,8 @@
 Plugin Name: LOOPIS Config
 Plugin URI: https://github.com/LOOPIS-app/loopis-config
 Description: Plugin for configuring a clean WP installation for LOOPIS.app
-Version: 0.5
-Author: develoopers
+Version: 0.6
+Author: LOOPIS Develoopers
 Author URI: https://loopis.org
 */
 
@@ -14,21 +14,18 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin version
-define('LOOPIS_CONFIG_VERSION', '0.5');
+define('LOOPIS_CONFIG_VERSION', '0.6');
 
 // Define plugin folder path constants
 define('LOOPIS_CONFIG_DIR', plugin_dir_path(__FILE__)); // Server-side path to /wp-content/plugins/loopis-config/
 define('LOOPIS_CONFIG_URL', plugin_dir_url(__FILE__)); // Client-side path to https://site.com/wp-content/plugins/loopis-config/
 
-
-// Include functions
-require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config_page_functions.php';
-require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_admintool_cleanup.php'; // Will be moved to plugin "LOOPIS Develoopers"
+// Include custom error logging
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_logger.php';
 
 // Include pages
-require_once LOOPIS_CONFIG_DIR . 'pages/loopis_config_page.php';
-require_once LOOPIS_CONFIG_DIR . 'pages/loopis_roles_display.php'; // Will be moved to plugin "LOOPIS Develoopers"
+require_once LOOPIS_CONFIG_DIR . 'pages/loopis_plugins.php';
+require_once LOOPIS_CONFIG_DIR . 'pages/loopis_config.php';
 
 // Admin menu hook
 add_action('admin_menu', 'loopis_config_menu');
@@ -47,31 +44,53 @@ add_action('admin_init', 'loopis_log_admin_load');
 
 // Setup admin menu
 function loopis_config_menu() {
-    //Render top level menu item
+    // Render top level menu item
     add_menu_page(
         'LOOPIS Config',              // Page Title
         'LOOPIS Config',              // Menu Title
         'manage_options',             // Capability
-        'loopis_config',              // Menu Slug
-        'loopis_config_page',         // Function to display the page (change if submenus included)
+        'loopis_config_main',         // Menu Slug
+        'loopis_config_page',         // Function to display the page
         LOOPIS_CONFIG_URL . 'assets/img/loopis-dashboard-icon.png'   // Dashboard icon 
     );
+    
+    // Add submenus
+    add_submenu_page(
+        'loopis_config_main',         // Parent slug
+        'Configuration',              // Page title
+        'Configuration',              // Menu title
+        'manage_options',             // Capability
+        'loopis_config',              // Menu slug (now loopis_config as you wanted)
+        'loopis_config_page'          // Function
+    );
+
+    add_submenu_page(
+        'loopis_config_main',         // Parent slug
+        'Plugins',                    // Page title
+        'Plugins',                    // Menu title
+        'manage_options',             // Capability
+        'loopis_plugins',             // Menu slug
+        'loopis_plugins_page'         // Function
+    );
+
+    // Hide the main menu page (but keep the icon and submenus)
+    remove_submenu_page('loopis_config_main', 'loopis_config_main');
 }
 
-// Enqueue admin menu style sheet(currently dead)
+// Enqueue admin menu style sheet (currently empty)
 function loopis_enqueue_admin_styles() {
     wp_enqueue_style(
-        'loopis-config-admin-style', //Name
-        LOOPIS_CONFIG_URL . 'assets/css/loopis_admin_menu_style.css', //URL
-        [], // Dependencies
-        '1.0' // Version
+        'loopis-config-admin-style', // Name
+        LOOPIS_CONFIG_URL . 'assets/css/loopis_admin_menu_style.css', // URL
+        [],     // Dependencies
+        '1.0'   // Version
     );
 }
 
 // Enqueue admin js and AJAX
 function loopis_enqueue_admin_scripts($hook) {
-    // Optimisation if you are not on the loopis config page this wont load
-    if ($hook !== 'toplevel_page_loopis_config') {
+    // Optimisation – if you are not on the loopis config page this wont load
+    if (strpos($hook, 'loopis_config') === false) {
         return;
     }
     // Enqueue JS file

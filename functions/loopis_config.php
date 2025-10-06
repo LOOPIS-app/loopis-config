@@ -5,7 +5,7 @@
  * This file is included by main function 'loopis_db_setup'.
  * 
  * @package LOOPIS_Config
- * @subpackage WP-Admin-page
+ * @subpackage Configuration
  */
 
 // Prevent direct access
@@ -38,7 +38,7 @@ function loopis_sp_handle_actions() {
         loopis_sp_set_step_status($id, 'N/a'); // Set status to not applicable
         wp_send_json_success([                 // Send back JSON with success and id, and statustext
             'id' => $id,
-            'status' =>  '⬜ Funktion saknas.'
+            'status' =>  '⬜ Function missing.'
         ]);
     }else{
         try {
@@ -58,7 +58,7 @@ function loopis_sp_handle_actions() {
             loopis_sp_set_step_status($id, 'Error'); // Set status to Ok
             wp_send_json_error([                     // Send back JSON with error and id, and statustext
                 'id' => $id,    
-                'status' =>  '⚠️ Fel! Kunde inte köras.'
+                'status' =>  '⚠️ Failed! Could not run.'
             ]);
         }
     }
@@ -135,9 +135,9 @@ function loopis_sp_get_step_status($step) {
     if ($status === 'Ok') {
         return '✅ OK!';
     } elseif ($status === 'N/a') {
-        return '⬜ Funktion saknas.';
+        return '⬜ Function missing.';
     } elseif ($status === 'Error') {
-        return '⚠️ Fel! Kunde inte köras.';
+        return '⚠️ Failed! Could not run.';
     } else {
         return '⬜';
     }

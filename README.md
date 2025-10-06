@@ -5,6 +5,13 @@
 This project is currently being developed by volunteers under the name "develoopers".<br>
 
 ## 📋 Changelog
+**0.6 (2025-10-06)**<br>
+Database reset tool moved to plugin `LOOPIS Develooper`<br>
+Roles and capabilites page moved to plugin `LOOPIS Develooper`<br>
+Separate page added for `Plugins`<br>
+Custom error logging enabled<br>
+UI translated to english<br>
+
 **0.5 (2025-09-26)**<br>
 LOOPIS default page templates inserted in `wp_postmeta`<br>
 LOOPIS pages for 'front', 'posts' and 'privacy-policy' set in `wp_options`<br>

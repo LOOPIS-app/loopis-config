@@ -2,10 +2,8 @@
 /**
  * Main function to configure the WordPress database for LOOPIS.
  *
- * This function is called in 'loopis-config_page.php'
- *
  * @package LOOPIS_Config
- * @subpackage Database
+ * @subpackage Configuration
  */
 
 // Prevent direct access
