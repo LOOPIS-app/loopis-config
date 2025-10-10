@@ -24,6 +24,9 @@ add_action('wp_ajax_loopis_sp_handle_actions', 'loopis_sp_handle_actions');
 add_action('wp_ajax_loopis_log_message', 'loopis_log_message');
 add_action('wp_ajax_loopis_sp_clear_step_status', 'loopis_sp_clear_step_status');
 add_action('wp_ajax_loopis_refresh_roles_display', 'loopis_refresh_roles_display_ajax');
+add_action('wp_ajax_loopis_sp_update_handler', 'loopis_sp_update_handler');
+add_action('admin_post_activate_plugins', 'loopis_sp_activate_plugins_handler');
+
 
 /**
  * Renders loopis config page.
@@ -40,9 +43,10 @@ function loopis_config_page() {
         <!-- Page content-->
         <h2>Konfigurera WordPress</h2>
         <p>  
-            <button id="run_loopis_config_installation" class="button button-primary" value="Start">Starta</button>
+            <button id="run_preinstaller" class="button button-primary" value="Install plugins">Install plugins</button>
+            <button id="run_loopis_config_installation" class="button button-primary" value="Start">Install loopis</button>
+            <button id="run_loopis_config_update" class="button button-primary" value="Update">Update</button>
         </p> 
-        
         <table class="wp-list-table widefat fixed striped">
                 <thead>
                     <tr>
@@ -52,6 +56,11 @@ function loopis_config_page() {
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <td class="column-component">Install plugins</td>
+                        <td class="column-place">Plugins</td>
+                        <td class="column-status" data-step="install_plugins"><span class="status"><?php echo loopis_sp_get_step_status('install_plugins'); ?></span></td>
+                    </tr>
                     <tr>
                         <td class="column-component">LOOPIS settings</td>
                         <td class="column-place">wp_loopis_settings</td>
@@ -91,11 +100,6 @@ function loopis_config_page() {
                         <td class="column-component">Delete plugins</td>
                         <td class="column-place">Plugins</td>
                         <td class="column-status" data-step="remove_plugins"><span class="status"><?php echo loopis_sp_get_step_status('remove_plugins'); ?></span></td>
-                    </tr>
-                    <tr>
-                        <td class="column-component">Install plugins</td>
-                        <td class="column-place">Plugins</td>
-                        <td class="column-status" data-step="install_plugins"><span class="status"><?php echo loopis_sp_get_step_status('install_plugins'); ?></span></td>
                     </tr>
                     <tr>
                         <td class="column-component">WordPress root files</td>

@@ -46,7 +46,7 @@ function loopis_plugins_install(){
     ];
 
     // Helps avoid internal installer wp_die
-    if (!class_exists('Loopis_Silent_Skin')) {
+    if (!class_exists('Loopis_Skin')) {
         class Loopis_Skin extends WP_Upgrader_Skin {
             public function header() {}
             public function footer() {}
@@ -92,4 +92,49 @@ function loopis_plugins_install(){
     loopis_elog_function_end_success('loopis_plugins_install');
 }
 
+/**
+ * Activates plugins installed by in wp-content/plugins/
+ * 
+ *  Currently kills ajax 
+ *      - Run on classic post?
+ *      - Direct user to activate themselves?
+ * 
+ * Tampering with internal ajax seems unneccesary.
+ * 
+ * @return void
+ */
+ 
+function loopis_plugins_activate(){
+    loopis_elog_function_start('loopis_plugins_activate');
+        // Plugin list
+        $plugins = [
+            [
+                'slug' => 'post-smtp',
+                'main' => 'post-smtp/postman-smtp.php',
+            ],
+            [
+                'slug' => 'wp-statistics',
+                'main' => 'wp-statistics/wp-statistics.php',
+            ],
+            [
+                'slug' => 'wp-user-manager',
+                'main' => 'wp-user-manager/wp-user-manager.php',
+            ],
+            [
+                'slug' => 'ewww-image-optimizer',
+                'main' => 'ewww-image-optimizer/ewww-image-optimizer.php',
+            ],
+        ];
 
+        foreach ($plugins as $plugin){
+            if (file_exists(WP_PLUGIN_DIR . '/' . $plugin['main'])){
+                if (!is_plugin_active($plugin['slug'])) {
+                    loopis_elog_first_level("activating plugin: {$plugin['slug']}");
+                    activate_plugin($plugin['main'], $silent = true );
+                }
+            }
+        }
+        delete_transient('_wpum_activation_redirect'); // Had to be found in wpum code, really annoying
+
+        loopis_elog_function_end_success('loopis_plugins_activate');
+    }

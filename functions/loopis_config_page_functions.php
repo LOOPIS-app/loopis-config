@@ -14,6 +14,11 @@ if (!defined('ABSPATH')) {
 }
 
 /**
+ * ======================== Button Handlers ========================
+ */
+
+
+/**
  * AJAX handler for backend step processing via stepFunction.
  *
  * Process:
@@ -24,6 +29,7 @@ if (!defined('ABSPATH')) {
  *
  * @return void
  */
+
 function loopis_sp_handle_actions() {
     // Check nonce
     check_ajax_referer('loopis_config_nonce', 'nonce');
@@ -67,6 +73,62 @@ function loopis_sp_handle_actions() {
 }
 
 /**
+ * Post function helper for activate plugins
+ *
+ * @return void
+ */
+function loopis_sp_activate_plugins_handler() {
+    // Activate your plugins
+    
+    ob_start();                             
+    loopis_plugins_activate();
+    ob_get_clean();
+    // Completes error log
+    error_log('');
+    error_log('=========================== End: Preinstaller! ===========================');
+    error_log('');
+    // Redirect after activation
+    wp_redirect(admin_url('admin.php?page=loopis_config&activated=1'));
+    exit;
+}
+
+
+/**
+ * AJAX handler for updating version, runs loopis_config_run_updates if possible.
+ * 
+ * Sends json
+ * 
+ *  @return void
+ */
+
+function loopis_sp_update_handler() {
+    // Check nonce
+    check_ajax_referer('loopis_config_nonce', 'nonce');
+
+    // Get saved option
+    $current_version = get_option('loopis_config_version');
+
+    // If up to date then no update
+    if ($current_version == LOOPIS_CONFIG_VERSION) {
+        wp_send_json_success(['message' => 'Loopis installation is up to date!']);
+    }else{
+        try {     // Try to run updates
+            ob_start(); 
+            $result = loopis_config_run_updates();
+            ob_get_clean();
+            wp_send_json_success(['message' => $result]);
+        } catch (Exception $e) {
+            wp_send_json_error(['message' => 'Update failed: ' . $e->getMessage()]);
+        }
+    }
+
+    wp_die();
+}
+
+/**
+ * ======================== logger-aid ========================
+ */
+/**
  *  Send error log from JS.
  *  @return void
  */
@@ -86,10 +148,15 @@ function loopis_log_message() {
 }
 
 /**
+ * ======================== Status Functions ========================
+ */
+
+
+/**
  *  Clear all statuses.
  *  @return void
  */ 
-function loopis_sp_clear_step_status(){
+function loopis_sp_clear_step_status($key){
 
     // All steps
     $steps = [
@@ -118,6 +185,9 @@ function loopis_sp_clear_step_status(){
     // Set status to null
     foreach($steps as $id){
         loopis_sp_set_step_status($id, '');
+    }
+    if ($key=='Setup'){
+        loopis_sp_set_step_status('install_plugins', 'Ok');
     }
     
     wp_die();
@@ -151,6 +221,10 @@ function loopis_sp_set_step_status($step, $status) {
     // Sets option of step to status
     update_option('loopis_step_status_' . $step, $status);
 }
+
+/**
+ * ======================== Roles Display ========================
+ */
 
 /**
  * AJAX handler for refreshing user roles display.

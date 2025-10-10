@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin version
-define('LOOPIS_CONFIG_VERSION', '0.5');
+define('LOOPIS_CONFIG_VERSION', '0.5.0');
 
 // Define plugin folder path constants
 define('LOOPIS_CONFIG_DIR', plugin_dir_path(__FILE__)); // Server-side path to /wp-content/plugins/loopis-config/
@@ -25,6 +25,7 @@ define('LOOPIS_CONFIG_URL', plugin_dir_url(__FILE__)); // Client-side path to ht
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config_page_functions.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_admintool_cleanup.php'; // Will be moved to plugin "LOOPIS Develoopers"
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_logger.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config_update.php';
 
 // Include pages
 require_once LOOPIS_CONFIG_DIR . 'pages/loopis_config_page.php';
@@ -89,6 +90,7 @@ function loopis_enqueue_admin_scripts($hook) {
     ]);
 }
 
+// Plugin activation log
 function loopis_log_on_activation() {
     error_log(" ");
     error_log("===== ACTIVATED! LOOPIS Config =====");
@@ -97,6 +99,7 @@ function loopis_log_on_activation() {
     error_log(" ");
 }
 
+// Admin session periodic logger
 function loopis_log_admin_load() {
 
     if (defined('DOING_AJAX') && DOING_AJAX) return;

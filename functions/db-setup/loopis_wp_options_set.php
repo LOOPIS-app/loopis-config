@@ -39,6 +39,7 @@ function loopis_wp_options_set() {
         'comment_order'         => 'desc',
         'timezone_string'       => 'Europe/Stockholm',
         'auto_update_core_major'=> 'disabled',
+        'loopis_config_version' => LOOPIS_CONFIG_VERSION,
         // Add more options as needed
     );
 
