@@ -2,6 +2,8 @@
 /**
  * Main function to configure the WordPress database for LOOPIS.
  *
+ * This function is called from WP admin page 'loopis_config.php'.
+ *
  * @package LOOPIS_Config
  * @subpackage Configuration
  */
@@ -11,7 +13,7 @@ if (!defined('ABSPATH')) {
     exit; 
 } 
 
-// Include necessary files
+// Include db-setup functions files
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_lockers_create.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_settings_create.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_settings_insert.php';
@@ -19,8 +21,8 @@ require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_pages_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_cats_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_tags_insert.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_user_roles_set.php';
-require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_users_insert.php';
-require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_plugins_delete.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_admins_insert.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_wp_plugins_delete.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_plugins_install.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_wp_options_set.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_wp_screen_options_set.php';
@@ -38,7 +40,7 @@ function loopis_db_setup() {
     // Insert LOOPIS default values into custom table 'loopis_settings'
     loopis_settings_insert();
 
-    // Insert LOOPIS default pages into 'wp_posts' (+ delete default WP pages and posts)
+    // Insert LOOPIS default pages into 'wp_posts' (and delete default WP pages and posts)
     loopis_pages_insert();
 
      // Insert LOOPIS default categories into 'wp_terms'
@@ -47,19 +49,19 @@ function loopis_db_setup() {
     // Insert LOOPIS default tags into 'wp_terms'
     loopis_tags_insert();
 
-    // Set LOOPIS default user roles in 'wp_options' (before 'loopis_users_insert')
+    // Set LOOPIS default user roles in 'wp_options' (has to run before 'loopis_admins_insert')
     loopis_user_roles_set();
 
-    // Insert LOOPIS default tags into 'wp_terms'
-    loopis_users_insert();
+    // Insert LOOPIS admin users into 'wp_users'
+    loopis_admins_insert();
 
-    // Delete default plugins
-    loopis_plugins_delete();
+    // Delete WordPress default plugins
+    loopis_wp_plugins_delete();
 
     // Install necessary plugins
     loopis_plugins_install();
 
-    // Set WordPress settings in 'wp_options' (after 'loopis_users_insert' and 'loopis_pages_insert')
+    // Set 'wp_options' (has to run after 'loopis_admins_insert' and 'loopis_pages_insert')
     loopis_wp_options_set();
 
     // Set WordPress admin screen options in 'wp_usermeta'

@@ -4,9 +4,6 @@
  * 
  * This function is called by main function 'loopis_db_setup'.
  * 
- * Handles the creation and management of LOOPIS user roles
- * including copying capabilities from existing roles and adding LOOPIS-specific capabilities.
- * 
  * @package LOOPIS_Config
  * @subpackage User_Roles
  */

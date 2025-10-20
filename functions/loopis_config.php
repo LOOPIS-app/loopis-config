@@ -100,7 +100,7 @@ function loopis_sp_clear_step_status(){
         'loopis_cats',
         'loopis_tags',
         'loopis_user_roles',
-        'loopis_users',
+        'loopis_admins',
         'remove_plugins',
         'install_plugins',
         'install_root_files',
