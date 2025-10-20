@@ -1,6 +1,6 @@
 <?php
 /**
- * Function to delete default plugins not used by LOOPIS.
+ * Function to delete WordPress default plugins.
  *
  * This function is called by main function 'loopis_db_setup'.
  * 
@@ -22,8 +22,8 @@ include_once(ABSPATH . 'wp-admin/includes/file.php'); //delete_plugins()
  * 
  * @return void
  */
-function loopis_plugins_delete() {
-    loopis_elog_function_start('loopis_plugins_delete');
+function loopis_wp_plugins_delete() {
+    loopis_elog_function_start('loopis_wp_plugins_delete');
 
     // Plugin main file in /wp-content/plugins
     $undesired_plugins = [
@@ -43,5 +43,5 @@ function loopis_plugins_delete() {
             delete_plugins([$plugin]);
         }
     }
-    loopis_elog_function_end_success('loopis_plugins_delete');
+    loopis_elog_function_end_success('loopis_wp_plugins_delete');
 }

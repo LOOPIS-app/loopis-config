@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
     exit; 
 }
 
-// Include page functions
+// Include functions
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_db_setup.php';
 
@@ -56,42 +56,42 @@ function loopis_config_page() {
                     </tr>
                     <tr>
                         <td class="column-component">LOOPIS pages</td>
-                        <td class="column-place">wp_posts</td>
+                        <td class="column-place">wp_loopis_pages</td>
                         <td class="column-status" data-step="loopis_pages"><span class="status"><?php echo loopis_sp_get_step_status('loopis_pages'); ?></span></td>
                     </tr>
                     <tr>
                         <td class="column-component">LOOPIS categories</td>
-                        <td class="column-place">wp_terms</td>
+                        <td class="column-place">wp_loopis_cats</td>
                         <td class="column-status" data-step="loopis_cats"><span class="status"><?php echo loopis_sp_get_step_status('loopis_cats'); ?></span></td>
                     </tr>
                     <tr>
                         <td class="column-component">LOOPIS tags</td>
-                        <td class="column-place">wp_terms</td>
+                        <td class="column-place">wp_loopis_tags</td>
                         <td class="column-status" data-step="loopis_tags"><span class="status"><?php echo loopis_sp_get_step_status('loopis_tags'); ?></span></td>
                     </tr>
                     <tr>
                         <td class="column-component">LOOPIS user roles</td>
-                        <td class="column-place">wp_options</td>
+                        <td class="column-place">wp_loopis_user_roles</td>
                         <td class="column-status" data-step="loopis_user_roles"><span class="status"><?php echo loopis_sp_get_step_status('loopis_user_roles'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">LOOPIS users</td>
+                        <td class="column-component">LOOPIS admins</td>
                         <td class="column-place">wp_users</td>
-                        <td class="column-status" data-step="loopis_users"><span class="status"><?php echo loopis_sp_get_step_status('loopis_users'); ?></span></td>
+                        <td class="column-status" data-step="loopis_admins"><span class="status"><?php echo loopis_sp_get_step_status('loopis_admins'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">Delete plugins</td>
-                        <td class="column-place">Plugins</td>
-                        <td class="column-status" data-step="remove_plugins"><span class="status"><?php echo loopis_sp_get_step_status('remove_plugins'); ?></span></td>
+                        <td class="column-component">Delete default WP plugins</td>
+                        <td class="column-place">Plugins folder</td>
+                        <td class="column-status" data-step="wp_plugins"><span class="status"><?php echo loopis_sp_get_step_status('wp_plugins'); ?></span></td>
                     </tr>
                     <tr>
-                        <td class="column-component">Install plugins</td>
-                        <td class="column-place">Plugins</td>
-                        <td class="column-status" data-step="install_plugins"><span class="status"><?php echo loopis_sp_get_step_status('install_plugins'); ?></span></td>
+                        <td class="column-component">Install LOOPIS plugins</td>
+                        <td class="column-place">Plugins folder</td>
+                        <td class="column-status" data-step="loopis_plugins"><span class="status"><?php echo loopis_sp_get_step_status('loopis_plugins'); ?></span></td>
                     </tr>
                     <tr>
                         <td class="column-component">WordPress root files</td>
-                        <td class="column-place">Server</td>
+                        <td class="column-place">WP root folder</td>
                         <td class="column-status" data-step="install_root_files"><span class="status"><?php echo loopis_sp_get_step_status('install_root_files'); ?></span></td>
                     </tr>
                     <tr>
