@@ -13,7 +13,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-
 /**
  * Insert categories into 'wp_terms'
  * 
