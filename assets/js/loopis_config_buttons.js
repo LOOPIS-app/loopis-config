@@ -13,13 +13,14 @@ jQuery(document).ready(function ($) {
     // All function calls and category ids, ordered by key
     const All_functions = { 
         'Setup': [
-        ['loopis_settings_create','loopis_settings'],
-        ['loopis_settings_insert','loopis_settings'],
-        ['loopis_lockers_create','loopis_lockers'],
+        ['','loopis_config_table'],
+        ['loopis_settings_create','loopis_settings_table'],
+        ['loopis_settings_insert','loopis_settings_insert'],
+        ['loopis_lockers_create','loopis_lockers_table'],
         ['loopis_pages_insert','loopis_pages'],
         ['loopis_cats_insert','loopis_cats'],
         ['loopis_tags_insert','loopis_tags'],
-        ['loopis_user_roles_set','loopis_user_roles'],
+        ['loopis_roles_set','loopis_roles'],
         ['loopis_admins_insert','loopis_admins'],
         ['loopis_wp_plugins_delete','wp_plugins'],
         ['loopis_plugins_install','loopis_plugins'],
@@ -30,7 +31,7 @@ jQuery(document).ready(function ($) {
         'Cleanup': [
         ['loopis_plugins_cleanup','plugins'],
         ['loopis_users_delete','users'],
-        ['loopis_user_roles_delete','user_roles'],
+        ['loopis_roles_delete','roles'],
         ['loopis_tags_delete','tags'],
         ['loopis_categories_delete','categories'],
         ['loopis_pages_delete','pages'],

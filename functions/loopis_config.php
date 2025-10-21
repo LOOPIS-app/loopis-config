@@ -1,8 +1,8 @@
 <?php
 /**
- * Functions for using the LOOPIS configuration page in WP-Admin.
+ * Functions for running "loopis_db_setup()" on WP Admin page "loopis-config-page.php".
  * 
- * This file is included by main function 'loopis_db_setup'.
+ * This file is included from the WP Admin page.
  * 
  * @package LOOPIS_Config
  * @subpackage Configuration
@@ -93,21 +93,22 @@ function loopis_sp_clear_step_status(){
 
     // All steps
     $steps = [
-        'loopis_settings',
-        'loopis_settings',
-        'loopis_lockers',
+        'loopis_config_table',
+        'loopis_settings_table',
+        'loopis_settings_insert',
+        'loopis_lockers_table',
         'loopis_pages',
         'loopis_cats',
         'loopis_tags',
-        'loopis_user_roles',
+        'loopis_roles',
         'loopis_admins',
         'remove_plugins',
-        'install_plugins',
+        'install_wp_plugins',
         'install_root_files',
         'wp_options',
         'wp_screen_options',
         'users',
-        'user_roles',
+        'roles',
         'tags',
         'categories',
         'pages',

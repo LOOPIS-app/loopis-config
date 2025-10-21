@@ -4,7 +4,7 @@
  *
  * This function is called by main function 'loopis_db_setup'.
  * 
- * Modify the default settings here if needed, then reactivate the plugin.
+ * Modify the default settings here if needed, then reactivate the plugin. (?)
  * Do not change the column names, as that may break existing installations.
  *
  * @package LOOPIS_Config

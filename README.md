@@ -5,8 +5,9 @@
 This plugin is currently being developed by volunteers under the name "LOOPIS Develoopers".<br>
 
 ## 📋 Changelog
-**0.7 (2025-10-20)**<br>
-LOOPIS default users fixed and renamed to `loopis_insert_admins`<br>
+**0.7 (2025-10-21)**<br>
+Insert of LOOPIS default users fixed and renamed to `loopis_insert_admins`<br>
+Improved structure with dynamic inclusion of files in folders<br>
 
 **0.6 (2025-10-06)**<br>
 Database reset tool moved to plugin `LOOPIS Develooper`<br>

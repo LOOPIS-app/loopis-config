@@ -1,7 +1,8 @@
 <?php 
 /**
  * Cache buster function for LOOPIS setup process.
- * Included when changing functions names caused problems.
+ * 
+ * Temporarily included when function renaming seemed to cause problems.
  * 
  * @package LOOPIS_Config
  * @subpackage Dev-tools

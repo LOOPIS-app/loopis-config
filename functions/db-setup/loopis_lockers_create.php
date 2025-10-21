@@ -4,7 +4,7 @@
  *
  * This function is called by main function 'loopis_db_setup'.
  * 
- * Change the table structure here if needed, then reactivate the plugin.
+ * Change the table structure here if needed, then reactivate the plugin. (?)
  * Do not change the table name or column names, as that may break existing installations.
  *
  * @package LOOPIS_Config
