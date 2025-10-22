@@ -8,11 +8,12 @@
  * @subpackage Plugins
  */
 
-
+// Prevent direct access
 if (!defined('ABSPATH')) { 
     exit; 
 }
 
+// Possibly necessary dependencies as WordPress does not always autoload the following functions
 require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
 require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -56,7 +57,7 @@ function loopis_plugins_install(){
             public function after() {}
         }
     }
-    //Get upgrader
+    // Get upgrader
     $upgrader = new Plugin_Upgrader( new Loopis_Skin() );
 
     foreach ( $plugins as $plugin ) {

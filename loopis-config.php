@@ -3,8 +3,9 @@
 Plugin Name: LOOPIS Config
 Plugin URI: https://github.com/LOOPIS-app/loopis-config
 Description: Plugin for configuring a clean WP installation for LOOPIS.app
-Version: 0.5
-Author: develoopers
+Version: 0.7
+Version: 0.7
+Author: LOOPIS Develoopers
 Author URI: https://loopis.org
 */
 
@@ -14,80 +15,46 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin version
-define('LOOPIS_CONFIG_VERSION', '0.5.0');
+define('LOOPIS_CONFIG_VERSION', '0.7');
 
 // Define plugin folder path constants
-define('LOOPIS_CONFIG_DIR', plugin_dir_path(__FILE__)); // Server-side path to /wp-content/plugins/loopis-config/
-define('LOOPIS_CONFIG_URL', plugin_dir_url(__FILE__)); // Client-side path to https://site.com/wp-content/plugins/loopis-config/
+define('LOOPIS_CONFIG_DIR', plugin_dir_path(__FILE__));     // Server-side path to /wp-content/plugins/loopis-config/
+define('LOOPIS_CONFIG_URL', plugin_dir_url(__FILE__));      // Client-side path to https://site.com/wp-content/plugins/loopis-config/
 
+// Define folders to include
+function loopis_config_load_files() {
+    // Admin?
+    if (!current_user_can('administrator')) { return; } // Exit early
 
-// Include functions
-require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config_page_functions.php';
-require_once LOOPIS_CONFIG_DIR . 'functions/db-cleanup/loopis_admintool_cleanup.php'; // Will be moved to plugin "LOOPIS Develoopers"
-require_once LOOPIS_CONFIG_DIR . 'functions/loopis_logger.php';
-require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config_update.php';
+    loopis_config_include_folder('logging');
 
-// Include pages
-require_once LOOPIS_CONFIG_DIR . 'pages/loopis_config_page.php';
-require_once LOOPIS_CONFIG_DIR . 'pages/loopis_roles_display.php'; // Will be moved to plugin "LOOPIS Develoopers"
-
-// Admin menu hook
-add_action('admin_menu', 'loopis_config_menu');
-
-// Admin js hook
-add_action('admin_enqueue_scripts', 'loopis_enqueue_admin_scripts');
-
-// Admin style hook
-add_action('admin_enqueue_scripts', 'loopis_enqueue_admin_styles');
-
-// Log on plugin activation
-register_activation_hook(__FILE__, 'loopis_log_on_activation');
-
-// Log admin load
-add_action('admin_init', 'loopis_log_admin_load');
-
-// Setup admin menu
-function loopis_config_menu() {
-    //Render top level menu item
-    add_menu_page(
-        'LOOPIS Config',              // Page Title
-        'LOOPIS Config',              // Menu Title
-        'manage_options',             // Capability
-        'loopis_config',              // Menu Slug
-        'loopis_config_page',         // Function to display the page (change if submenus included)
-        LOOPIS_CONFIG_URL . 'assets/img/loopis-dashboard-icon.png'   // Dashboard icon 
-    );
-}
-
-// Enqueue admin menu style sheet(currently dead)
-function loopis_enqueue_admin_styles() {
-    wp_enqueue_style(
-        'loopis-config-admin-style', //Name
-        LOOPIS_CONFIG_URL . 'assets/css/loopis_admin_menu_style.css', //URL
-        [], // Dependencies
-        '1.0' // Version
-    );
-}
-
-// Enqueue admin js and AJAX
-function loopis_enqueue_admin_scripts($hook) {
-    // Optimisation if you are not on the loopis config page this wont load
-    if ($hook !== 'toplevel_page_loopis_config') {
-        return;
+    // Admin area?
+    if (is_admin()) {
+        loopis_config_include_folder('interface');
+        loopis_config_include_folder('pages');
     }
-    // Enqueue JS file
-    wp_enqueue_script(
-        'loopis_admin_buttons_js',
-        LOOPIS_CONFIG_URL . 'assets/js/loopis_admin_buttons.js',
-        ['jquery'],
-        '1.0',
-        true 
+}
+
+// Function to include all PHP files in a folder
+function loopis_config_include_folder($folder_name) {
+    $absolute_path = LOOPIS_CONFIG_DIR . '/' . $folder_name;
+    if (is_dir($absolute_path)) {
+        foreach (glob($absolute_path . '/*.php') as $file) {
+            include_once $file;
+        }
+    } else {
+        error_log("loopis-config: Failed to include folder from loopis-config.php: {$folder_name}");
+    }
+}
+
+// Enqueue style sheet
+function loopis_config_enqueue_styles() {
+    wp_enqueue_style(
+        'loopis-admin-style', // Name
+        LOOPIS_CONFIG_URL . 'assets/css/loopis_config_style.css', // URL
+        [],     // Dependencies
+        '1.0'   // Version
     );
-    // Ajax localisation
-    wp_localize_script('loopis_admin_buttons_js', 'loopis_ajax', [
-        'ajax_url' => admin_url('admin-ajax.php'),
-        'nonce'    => wp_create_nonce('loopis_config_nonce')
-    ]);
 }
 
 // Plugin activation log
@@ -101,7 +68,6 @@ function loopis_log_on_activation() {
 
 // Admin session periodic logger
 function loopis_log_admin_load() {
-
     if (defined('DOING_AJAX') && DOING_AJAX) return;
     if (defined('DOING_CRON') && DOING_CRON) return;
 
@@ -116,3 +82,18 @@ function loopis_log_admin_load() {
         set_transient('loopis_logger_flag', true,  1 * MINUTE_IN_SECONDS);
     }
 }
+
+// Admin menu hook
+add_action('admin_menu', 'loopis_config_admin_menu');
+
+// Admin style hook
+add_action('admin_enqueue_scripts', 'loopis_config_enqueue_styles');
+
+// Log on plugin activation
+register_activation_hook(__FILE__, 'loopis_log_on_activation');
+
+// Log admin load
+add_action('admin_init', 'loopis_log_admin_load');
+
+// Hook to load files when plugins are loaded
+add_action('plugins_loaded', 'loopis_config_load_files');

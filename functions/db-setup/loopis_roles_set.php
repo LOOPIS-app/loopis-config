@@ -4,11 +4,8 @@
  * 
  * This function is called by main function 'loopis_db_setup'.
  * 
- * Handles the creation and management of LOOPIS user roles
- * including copying capabilities from existing roles and adding LOOPIS-specific capabilities.
- * 
  * @package LOOPIS_Config
- * @subpackage User_Roles
+ * @subpackage Database
  */
 
 // Prevent direct access
@@ -20,8 +17,8 @@ if (!defined('ABSPATH')) {
  * Main function to change user roles for LOOPIS
  * Creates new roles with LOOPIS capabilities and removes old ones
  */
-function loopis_user_roles_set() {
-    loopis_elog_function_start('loopis_user_roles_set');
+function loopis_roles_set() {
+    loopis_elog_function_start('loopis_roles_set');
     
     // ===== CONFIGURATION - EASY TO MODIFY =====
     
@@ -46,8 +43,8 @@ function loopis_user_roles_set() {
     // loopis_delete_role('subscriber');
     
     // ===== END CONFIGURATION =====
-    
-    loopis_elog_function_end_success('loopis_user_roles_set');
+
+    loopis_elog_function_end_success('loopis_roles_set');
     return true;
 }
 

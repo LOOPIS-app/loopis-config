@@ -3,7 +3,7 @@
  * Logging functions so that all non specifics can be changed simultaneaously
  * 
  * @package LOOPIS_Config
- * @subpackage Error logging functions
+ * @subpackage Dev-tools
  */
 
 // Prevent direct access

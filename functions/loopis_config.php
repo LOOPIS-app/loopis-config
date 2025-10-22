@@ -1,11 +1,11 @@
 <?php
 /**
- * Functions for using the LOOPIS configuration page in WP-Admin.
+ * Functions for running "loopis_db_setup()" on WP Admin page "loopis-config-page.php".
  * 
- * This file is included by main function 'loopis_db_setup'.
+ * This file is included from the WP Admin page.
  * 
  * @package LOOPIS_Config
- * @subpackage WP-Admin-page
+ * @subpackage Configuration
  */
 
 // Prevent direct access
@@ -44,7 +44,7 @@ function loopis_sp_handle_actions() {
         loopis_sp_set_step_status($id, 'N/a'); // Set status to not applicable
         wp_send_json_success([                 // Send back JSON with success and id, and statustext
             'id' => $id,
-            'status' =>  '⬜ Funktion saknas.'
+            'status' =>  '⬜ Function missing.'
         ]);
     }else{
         try {
@@ -64,7 +64,7 @@ function loopis_sp_handle_actions() {
             loopis_sp_set_step_status($id, 'Error'); // Set status to Ok
             wp_send_json_error([                     // Send back JSON with error and id, and statustext
                 'id' => $id,    
-                'status' =>  '⚠️ Fel! Kunde inte köras.'
+                'status' =>  '⚠️ Failed! Could not run.'
             ]);
         }
     }
@@ -160,21 +160,22 @@ function loopis_sp_clear_step_status($key){
 
     // All steps
     $steps = [
-        'loopis_settings',
-        'loopis_settings',
-        'loopis_lockers',
+        'loopis_config_table',
+        'loopis_settings_table',
+        'loopis_settings_insert',
+        'loopis_lockers_table',
         'loopis_pages',
         'loopis_cats',
         'loopis_tags',
-        'loopis_user_roles',
-        'loopis_users',
+        'loopis_roles',
+        'loopis_admins',
         'remove_plugins',
-        'install_plugins',
+        'install_wp_plugins',
         'install_root_files',
         'wp_options',
         'wp_screen_options',
         'users',
-        'user_roles',
+        'roles',
         'tags',
         'categories',
         'pages',
@@ -205,9 +206,9 @@ function loopis_sp_get_step_status($step) {
     if ($status === 'Ok') {
         return '✅ OK!';
     } elseif ($status === 'N/a') {
-        return '⬜ Funktion saknas.';
+        return '⬜ Function missing.';
     } elseif ($status === 'Error') {
-        return '⚠️ Fel! Kunde inte köras.';
+        return '⚠️ Failed! Could not run.';
     } else {
         return '⬜';
     }
