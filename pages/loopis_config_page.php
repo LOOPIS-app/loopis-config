@@ -11,10 +11,6 @@ if (!defined('ABSPATH')) {
     exit; 
 }
 
-// Clear cache (if needed)
-require_once LOOPIS_CONFIG_DIR . 'cache/loopis_cache_buster.php';
-loopis_cache_buster();
-
 // Include functions
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_db_setup.php';
@@ -50,13 +46,10 @@ function loopis_config_page() {
     ?>
     <div class="wrap">
         <!-- Page title and description-->
-        <h1>⚙ LOOPIS Config</h1>
+        <h1>⚙ LOOPIS Config <span class="h1-right">Version <?php echo esc_html(LOOPIS_CONFIG_VERSION); ?></span></h1>
         <p class="description">💡 This is where you configure (and update) a WordPress installation for LOOPIS.</p>
 
         <!-- Page content-->
-        <h2>LOOPIS version</h2>
-        <p>Your installed version of "LOOPIS Config": <strong><?php echo LOOPIS_CONFIG_VERSION; ?></strong></p>
-
         <h2>Configuration of WordPress</h2>
         <p><button id="run_loopis_config_installation" class="button button-primary" value="Start">Start!</button></p> 
         <p><i>[Change button to Update! when done + grey out if all units are OK.].</i></p>
