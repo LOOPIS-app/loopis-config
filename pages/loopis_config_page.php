@@ -11,6 +11,10 @@ if (!defined('ABSPATH')) {
     exit; 
 }
 
+// Clear cache (if needed)
+require_once LOOPIS_CONFIG_DIR . 'cache/loopis_cache_buster.php';
+loopis_cache_buster();
+
 // Include functions
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_db_setup.php';
