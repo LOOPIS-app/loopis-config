@@ -2,7 +2,7 @@
 "LOOPIS Config" is a WordPress plugin that configures a WordPress installation for LOOPIS.app<br>
 
 ## 💡 Status
-This project is currently being developed by volunteers under the name "develoopers".<br>
+This plugin is currently being developed by volunteers under the name "The Develoopers".<br>
 
 ## 📋 Changelog
 **0.7 (2025-10-21)**<br>

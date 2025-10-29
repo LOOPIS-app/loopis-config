@@ -1,0 +1,10 @@
+/*!
+ * Plugin: LOOPIS Config
+ * Description: Custom WP-admin styles
+ */
+
+.h1-right {
+  float: right;
+  color: #50575e;
+  font-size: 13px;
+}
