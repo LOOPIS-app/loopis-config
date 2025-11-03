@@ -4,7 +4,7 @@ Plugin Name: LOOPIS Config
 Plugin URI: https://github.com/LOOPIS-app/loopis-config
 Description: Plugin for configuring a clean WP installation for LOOPIS.app
 Version: 0.7
-Author: LOOPIS Develoopers
+Author: The Develoopers
 Author URI: https://loopis.org
 */
 
@@ -41,8 +41,9 @@ function loopis_config_include_folder($folder_name) {
     }
 }
 
-// Enqueue style sheet
+// Enqueue style sheet (for admins in admin area)
 function loopis_config_enqueue_styles() {
+    if (!current_user_can('administrator') && !is_admin()) { return; } // Exit early
     wp_enqueue_style(
         'loopis-admin-style', // Name
         LOOPIS_CONFIG_URL . 'assets/css/loopis_config_style.css', // URL
