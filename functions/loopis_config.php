@@ -41,7 +41,10 @@ function loopis_sp_handle_actions() {
     // if function call does not exist
     if (!$function){
         // No function
-        loopis_sp_set_step_status($id, 'N/a'); // Set status to not applicable
+        loopis_config_update(
+            ['ID' => $id], 
+            ['Config_Status' => 'N/a',
+            'Config_Version' => LOOPIS_CONFIG_VERSION]); // Set status to not applicable
         wp_send_json_success([                 // Send back JSON with success and id, and statustext
             'id' => $id,
             'status' =>  '⬜ Function missing.'
@@ -52,7 +55,10 @@ function loopis_sp_handle_actions() {
             ob_start();                             // Output buffer
             $function();                            // Function call
             ob_get_clean();
-            loopis_sp_set_step_status($id, 'Ok');   // Set status to Ok
+            loopis_config_update(
+                ['ID' => $id], 
+                ['Config_Status' => 'Ok',
+                'Config_Version' => LOOPIS_CONFIG_VERSION]);  // Set status to Ok
             wp_send_json_success([                  // Send back JSON with success and id, and statustext
                 'id' => $id,
                 'status' => '✅ OK!',
@@ -61,7 +67,10 @@ function loopis_sp_handle_actions() {
             // Function failed
             error_log("End: Error in function call {$function}:  {$e->getMessage()}");
             error_log('Terminating process.');
-            loopis_sp_set_step_status($id, 'Error'); // Set status to Ok
+            loopis_config_update(
+                ['ID' => $id], 
+                ['Config_Status' => 'Error',
+                'Config_Version' => LOOPIS_CONFIG_VERSION]); // Set status to Error
             wp_send_json_error([                     // Send back JSON with error and id, and statustext
                 'id' => $id,    
                 'status' =>  '⚠️ Failed! Could not run.'
@@ -151,58 +160,8 @@ function loopis_log_message() {
  * ======================== Status Functions ========================
  */
 
-
-/**
- *  Clear all statuses.
- *  @return void
- */ 
-function loopis_sp_clear_step_status($key){
-
-    // All steps
-    $steps = [
-        'loopis_config_table',
-        'loopis_settings_table',
-        'loopis_settings_insert',
-        'loopis_lockers_table',
-        'loopis_pages',
-        'loopis_cats',
-        'loopis_tags',
-        'loopis_roles',
-        'loopis_admins',
-        'remove_plugins',
-        'install_wp_plugins',
-        'install_root_files',
-        'wp_options',
-        'wp_screen_options',
-        'users',
-        'roles',
-        'tags',
-        'categories',
-        'pages',
-        'databas',
-        'plugins',
-    ];
-
-    // Set status to null
-    foreach($steps as $id){
-        loopis_sp_set_step_status($id, '');
-    }
-    if ($key=='Setup'){
-        loopis_sp_set_step_status('install_plugins', 'Ok');
-    }
-    
-    wp_die();
-}
-
-/**
- * Loads status from wp_option whenever loopis config page runs.
- * 
- * Returns status-texts to render on html at data-step $step.
- * @return void
- */
-function loopis_sp_get_step_status($step) {
+function loopis_sp_get_status_text($status) {
     // For specific status respond with message
-    $status = get_option('loopis_step_status_' . $step, 'not_finished');
     if ($status === 'Ok') {
         return '✅ OK!';
     } elseif ($status === 'N/a') {
@@ -212,15 +171,6 @@ function loopis_sp_get_step_status($step) {
     } else {
         return '⬜';
     }
-}
-
-/**
- * Sets 'loopis_step_status'es in wp_options.
- * @return void
- */
-function loopis_sp_set_step_status($step, $status) {
-    // Sets option of step to status
-    update_option('loopis_step_status_' . $step, $status);
 }
 
 /**
@@ -247,4 +197,41 @@ function loopis_refresh_roles_display_ajax() {
     
     echo $output;
     wp_die();
+}
+
+/**
+ * ======================== Loopis Config Table ========================
+ */
+
+function loopis_config_insert($data) {
+    global $wpdb;
+    $table = $wpdb->prefix . 'loopis_config';
+
+    $wpdb->insert($table, $data);
+
+    // Reset the cache
+    wp_cache_delete('loopis_config_data', 'loopis');
+    $config = get_loopis_config_data();
+}
+
+function loopis_config_update($data, $where) {
+    global $wpdb;
+    $table = $wpdb->prefix . 'loopis_config';
+
+    $wpdb->update($table, $where,  $data);
+
+    // Reset the cache
+    wp_cache_delete('loopis_config_data', 'loopis');
+    $config = get_loopis_config_data();
+}
+
+function loopis_config_delete($where) {
+    global $wpdb;
+    $table = $wpdb->prefix . 'loopis_config';
+
+    $wpdb->delete($table, $where);
+
+    // Reset the cache
+    wp_cache_delete('loopis_config_data', 'loopis');
+    $config = get_loopis_config_data();
 }

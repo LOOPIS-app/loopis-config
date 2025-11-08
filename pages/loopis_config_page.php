@@ -13,13 +13,13 @@ if (!defined('ABSPATH')) {
 
 // Clear cache (if needed)
 require_once LOOPIS_CONFIG_DIR . 'cache/loopis_cache_buster.php';
-loopis_cache_buster();
-
+// loopis_cache_buster();
 // Include functions
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_db_setup.php';
 
 // Enqueue scripts
+
 function loopis_config_enqueue_scripts($hook) {
     // Enqueue JS file
     wp_enqueue_script(
@@ -29,12 +29,32 @@ function loopis_config_enqueue_scripts($hook) {
         '1.0',
         true 
     );
-    // Ajax localisation
+
+    // Get cached table data
+    $config = wp_cache_get('loopis_config_data', 'loopis');
+    $table_install = array_filter($config, fn($r) => $r['Category'] === 'Install');
+    $table_preinstall = array_filter($config, fn($r) => $r['Category'] === 'Component');
+
+    // Build Setup_functions array for JS
+    $setup_functions = [];
+    $preinstall_data = [];
+    foreach ($table_install as $row) {
+        $setup_functions[] = [$row['Config_function'], $row['ID']];
+    }
+    foreach ($table_preinstall as $row) {
+        $preinstall_data[] = array_merge(['ID' => $row['ID']], json_decode($row['Config_Data'], true));
+    }
+
+
+    // Ajax + dynamic functions localization
     wp_localize_script('loopis_config_buttons_js', 'loopis_ajax', [
-        'ajax_url' => admin_url('admin-ajax.php'),
-        'nonce'    => wp_create_nonce('loopis_config_nonce')
+        'ajax_url'        => admin_url('admin-ajax.php'),
+        'nonce'           => wp_create_nonce('loopis_config_nonce'),
+        'setup_functions' => $setup_functions, 
+        'preinstall_data' => $preinstall_data 
     ]);
 }
+
 
 // Config js hook
 add_action('admin_enqueue_scripts', 'loopis_config_enqueue_scripts');
@@ -53,6 +73,10 @@ add_action('admin_post_activate_plugins', 'loopis_sp_activate_plugins_handler');
  * @return void
  */
 function loopis_config_page() {
+    $config =  wp_cache_get('loopis_config_data', 'loopis');
+    $table_init = array_filter($config, fn($r) => $r['Category'] === 'Initialization');
+    $table_preinstall = array_filter($config, fn($r) => $r['Category'] === 'Component');
+    $table_install = array_filter($config, fn($r) => $r['Category'] === 'Install');
     ?>
     <div class="wrap">
         <!-- Page title and description-->
@@ -62,10 +86,10 @@ function loopis_config_page() {
         <!-- Page content-->
         <h2>Konfigurera WordPress</h2>
         <p>  
-            <button id="run_preinstaller" class="button button-primary" value="Install plugins">Install plugins</button>
             <button id="run_loopis_config_installation" class="button button-primary" value="Start">Install loopis</button>
             <button id="run_loopis_config_update" class="button button-primary" value="Update">Update</button>
         </p> 
+
         <table class="wp-list-table widefat fixed striped">
         <thead>
             <tr>
@@ -76,85 +100,36 @@ function loopis_config_page() {
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="column-unit">LOOPIS config</td>
-                <td class="column-place">wp_loopis_config</td>
-                <td class="column-status" data-step="loopis_config_table"><span class="status"><?php echo loopis_sp_get_step_status('loopis_config_table'); ?></span></td>
-                <td class="column-version"></td>
-            </tr>
-            <tr>
-                <td class="column-unit">LOOPIS settings</td>
-                <td class="column-place">wp_loopis_settings</td>
-                <td class="column-status" data-step="loopis_settings_table"><span class="status"><?php echo loopis_sp_get_step_status('loopis_settings_table'); ?></span></td>
-                <td class="column-version"></td>
-            </tr>
-            <tr>
-                <td class="column-unit">LOOPIS lockers</td>
-                <td class="column-place">wp_loopis_lockers</td>
-                <td class="column-status" data-step="loopis_lockers_table"><span class="status"><?php echo loopis_sp_get_step_status('loopis_lockers_table'); ?></span></td>
-                <td class="column-version"></td>
-            </tr>
-            <tr>
-                <td class="column-unit">LOOPIS pages</td>
-                <td class="column-place">wp_posts</td>
-                <td class="column-status" data-step="loopis_pages"><span class="status"><?php echo loopis_sp_get_step_status('loopis_pages'); ?></span></td>
-                <td class="column-version"></td>
-            </tr>
-            <tr>
-                <td class="column-unit">LOOPIS categories</td>
-                <td class="column-place">wp_terms</td>
-                <td class="column-status" data-step="loopis_cats"><span class="status"><?php echo loopis_sp_get_step_status('loopis_cats'); ?></span></td>
-                <td class="column-version"></td>
-            </tr>
-            <tr>
-                <td class="column-unit">LOOPIS tags</td>
-                <td class="column-place">wp_terms</td>
-                <td class="column-status" data-step="loopis_tags"><span class="status"><?php echo loopis_sp_get_step_status('loopis_tags'); ?></span></td>
-                <td class="column-version"></td>
-            </tr>
-            <tr>
-                <td class="column-unit">LOOPIS roles</td>
-                <td class="column-place">wp_options</td>
-                <td class="column-status" data-step="loopis_roles"><span class="status"><?php echo loopis_sp_get_step_status('loopis_roles'); ?></span></td>
-                <td class="column-version"></td>
-            </tr>
-            <tr>
-                <td class="column-unit">LOOPIS admins</td>
-                <td class="column-place">wp_users</td>
-                <td class="column-status" data-step="loopis_admins"><span class="status"><?php echo loopis_sp_get_step_status('loopis_admins'); ?></span></td>
-                <td class="column-version"></td>
-            </tr>
-            <tr>
-                <td class="column-unit">Delete default WP plugins</td>
-                <td class="column-place">Plugins</td>
-                <td class="column-status" data-step="wp_plugins"><span class="status"><?php echo loopis_sp_get_step_status('wp_plugins'); ?></span></td>
-                <td class="column-version"></td>
-            </tr>
-            <tr>
-                <td class="column-unit">Install LOOPIS plugins</td>
-                <td class="column-place">Plugins</td>
-                <td class="column-status" data-step="loopis_plugins"><span class="status"><?php echo loopis_sp_get_step_status('loopis_plugins'); ?></span></td>
-                <td class="column-version"></td>
-            </tr>
-            <tr>
-                <td class="column-unit">WordPress root files</td>
-                <td class="column-place">Server</td>
-                <td class="column-status" data-step="install_root_files"><span class="status"><?php echo loopis_sp_get_step_status('install_root_files'); ?></span></td>
-                <td class="column-version"></td>
-            </tr>
-            <tr>
-                <td class="column-unit">WordPress options</td>
-                <td class="column-place">wp_options</td>
-                <td class="column-status" data-step="wp_options"><span class="status"><?php echo loopis_sp_get_step_status('wp_options'); ?></span></td>
-                <td class="column-version"></td>
-            </tr>
-            <tr>
-                <td class="column-unit">WordPress admin screen options</td>
-                <td class="column-place">wp_usermeta</td>
-                <td class="column-status" data-step="wp_screen_options"><span class="status"><?php echo loopis_sp_get_step_status('wp_screen_options'); ?></span></td>
-                <td class="column-version"></td>
-            </tr>
-            
+        <?php foreach ($table_init as $row): ?>
+                <tr>
+                    <td class="column-unit"><?php echo htmlspecialchars($row['Unit']); ?></td>
+                    <td class="column-place"><?php echo htmlspecialchars($row['Place']); ?></td>
+                    <td class="column-status" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
+                        <span class="status"> <?php echo loopis_sp_get_status_text($row['Config_Status']); ?> </span>
+                    </td>
+                    <td class="column-version"><?php echo htmlspecialchars($row['Config_Version']); ?></td>
+                </tr>
+        <?php endforeach; ?>
+        <?php foreach ($table_preinstall as $row): ?>
+                <tr>
+                    <td class="column-unit"><?php echo htmlspecialchars($row['Unit']); ?></td>
+                    <td class="column-place"><?php echo htmlspecialchars($row['Place']); ?></td>
+                    <td class="column-status" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
+                        <span class="status"> <?php echo loopis_sp_get_status_text($row['Config_Status']); ?> </span>
+                    </td>
+                    <td class="column-version"><?php echo htmlspecialchars($row['Config_Version']); ?></td>
+                </tr>
+        <?php endforeach; ?>
+        <?php foreach ($table_install as $row): ?>
+                <tr>
+                    <td class="column-unit"><?php echo htmlspecialchars($row['Unit']); ?></td>
+                    <td class="column-place"><?php echo htmlspecialchars($row['Place']); ?></td>
+                    <td class="column-status" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
+                        <span class="status"> <?php echo loopis_sp_get_status_text($row['Config_Status']); ?> </span>
+                    </td>
+                    <td class="column-version"><?php echo htmlspecialchars($row['Config_Version']); ?></td>
+                </tr>
+        <?php endforeach; ?>
         </tbody>
 </table>
     </div>

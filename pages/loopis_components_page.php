@@ -13,6 +13,9 @@ if (!defined('ABSPATH')) {
 
 // Function to render the page
 function loopis_components_page() {
+    // get components
+    $config =  wp_cache_get('loopis_config_data', 'loopis');
+    $table = array_filter($config, fn($r) => $r['Category'] === 'Component');
     ?>
     <div class="wrap">
         <!-- Page title and description-->
@@ -20,11 +23,32 @@ function loopis_components_page() {
         <p class="description">💡 This is where you install and update compulsory components.</p>
 
         <!-- Page content-->
-        <h2>Installed components</h2>
-        <p><i>[Add list of installed components + button to update if approved by develoopers.]</i></p>
-        
-        <h2>Components to install</h2>
-        <p><i>[Add list of compulsory components + button to install them.]</i></p>
+        <h2>Components</h2>
+
+        <p>
+            <button id="run_preinstaller" class="button button-primary" value="Install plugins">Install plugins</button>
+            <button id="run_plupdate" class="button button-primary" value="Update plugins">Update plugins</button>
+        </p>
+        <table class="wp-list-table widefat fixed striped">
+        <thead>
+            <tr>
+                <th scope="col" class="manage-column">Component</th>
+                <th scope="col" class="manage-column">Status</th>
+                <th scope="col" class="manage-column">Version</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($table as $row): ?>
+                <tr>
+                    <td class="column-unit"><?php echo htmlspecialchars($row['Unit']); ?></td>
+                    <td class="column-status" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
+                        <span class="status"> <?php echo loopis_sp_get_status_text($row['Config_Status']); ?> </span>
+                    </td>
+                    <td class="column-version"><?php echo htmlspecialchars($row['Config_Version']); ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+</table>
 
     </div>
 <?php

@@ -18,7 +18,7 @@
     $stored_version = get_option('loopis_config_version');
     // Example code update with changes from version to version, add new version and function handle with main update.
     $updates = [
-        '0.5.0' => 'loopis_config_update_to_0_5_0',
+        '0.8.0' => 'loopis_config_update_to_0_8_0',
         // etc.
     ];
     // loops through and if the current version is less than the update version then it will run corresponding update
@@ -36,9 +36,9 @@
 }
 
  /**
- * Updates from 0.4.0 to 0.5.0 PLACEHOLDER EXAMPLE
+ * Updates from 0.7.0 to 0.8.0 PLACEHOLDER EXAMPLE
  */
-function loopis_config_update_to_0_5_0() {
+function loopis_config_update_to_0_8_0() {
     // update logic goes here
     loopis_elog_second_level("Doing stuff!");
     // Do stuff

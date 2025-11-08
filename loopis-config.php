@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin version
-define('LOOPIS_CONFIG_VERSION', '0.7');
+define('LOOPIS_CONFIG_VERSION', '0.7.0');
 
 // Define plugin folder path constants
 define('LOOPIS_CONFIG_DIR', plugin_dir_path(__FILE__));     // Server-side path to /wp-content/plugins/loopis-config/
@@ -83,6 +83,25 @@ function loopis_log_admin_load() {
     }
 }
 
+function get_loopis_config_data() {
+    $cache_key = 'loopis_config_data';
+
+    // Try to get cached version first
+    $config = wp_cache_get($cache_key, 'loopis');
+    if ($config !== false) {
+        return $config;
+    }
+
+    global $wpdb;
+    $table = $wpdb->prefix . 'loopis_config';
+    $config = $wpdb->get_results("SELECT * FROM $table", ARRAY_A);
+
+    // Cache it indefinitely (until explicitly cleared)
+    wp_cache_set($cache_key, $config, 'loopis');
+
+    return $config;
+}
+
 // Admin menu hook
 add_action('admin_menu', 'loopis_config_admin_menu');
 
@@ -96,4 +115,16 @@ register_activation_hook(__FILE__, 'loopis_log_on_activation');
 add_action('admin_init', 'loopis_log_admin_load');
 
 // Hook to load files when plugins are loaded
-add_action('plugins_loaded', 'loopis_config_load_files');
+add_action('plugins_loaded','loopis_config_load_files');
+
+// Loopis Config table is created on plugin activation
+register_activation_hook(__FILE__, function(){
+    include_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_config_table_insert.php';
+    loopis_config_table_insert();
+});
+
+// Cache table data
+add_action('admin_init', function() {
+    if (!current_user_can('administrator')) { return;} 
+    $config = get_loopis_config_data();
+});
