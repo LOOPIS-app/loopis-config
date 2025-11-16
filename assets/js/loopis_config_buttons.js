@@ -24,7 +24,7 @@ jQuery(document).ready(function ($) {
         ['loopis_admins_insert','loopis_admins'],
         ['loopis_wp_plugins_delete','wp_plugins'],
         ['loopis_plugins_install','loopis_plugins'],
-        ['','install_root_files'],
+        ['loopis_root_files_copy','wp_root_files'],
         ['loopis_wp_options_set','wp_options'],
         ['loopis_wp_screen_options_set','wp_screen_options'],
         ],

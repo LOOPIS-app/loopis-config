@@ -5,6 +5,10 @@
 This plugin is currently being developed by volunteers under the name "The Develoopers".<br>
 
 ## 📋 Changelog
+**0.8 (2025-11-16)**<br>
+LOOPIS `root_files` copied to WordPress root directory<br>
+Adjustments for configuration of `pages, roles, wp_options`<br>
+
 **0.7 (2025-10-21)**<br>
 Insert of LOOPIS default users fixed and renamed to `loopis_insert_admins`<br>
 Improved structure with dynamic inclusion of files in folders<br>
@@ -54,4 +58,4 @@ init commit with empty plugin file<br>
 Upload the zipped folder "loopis-config.zip" using **WP Admin > Plugins > Add Plugin > Upload Plugin**.
 
 ## 👤 Contributors
-Johan Linger, Hubert Hilborn, Johan Hagvil.<br>
+Johan Linger, Hubert Hilborn, Johan Hagvil, Kritsadakorn Moonmai.<br>

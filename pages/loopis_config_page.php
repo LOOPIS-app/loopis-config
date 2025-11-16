@@ -127,7 +127,7 @@ function loopis_config_page() {
             <tr>
                 <td class="column-unit">WordPress root files</td>
                 <td class="column-place">Server</td>
-                <td class="column-status" data-step="install_root_files"><span class="status"><?php echo loopis_sp_get_step_status('install_root_files'); ?></span></td>
+                <td class="column-status" data-step="wp_root_files"><span class="status"><?php echo loopis_sp_get_step_status('wp_root_files'); ?></span></td>
                 <td class="column-version"></td>
             </tr>
             <tr>
