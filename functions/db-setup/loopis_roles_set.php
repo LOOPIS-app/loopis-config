@@ -64,22 +64,6 @@ function loopis_roles_set() {
         ),
     );
 
-    // Manager
-    $roles['manager'] = array(
-        'name'         => 'Manager',
-        'capabilities' => array(
-            'read'                 => true,
-            'edit_posts'           => true,
-            'publish_posts'        => true,
-            'edit_published_posts' => true,
-            'upload_files'         => true,
-            'unfiltered_html'      => true,
-            'read_private_posts'   => true,
-            'edit_private_posts'   => true,
-            'edit_others_posts'    => true,
-        ),
-    );
-
     // Board member
     $roles['board'] = array(
         'name'         => 'Board',
@@ -96,7 +80,27 @@ function loopis_roles_set() {
         ),
     );
 
-    // Develooper (copy caps from administrator)
+    // Manager
+    $roles['manager'] = array(
+        'name'         => 'Manager',
+        'capabilities' => array(
+            'read'                   => true,
+            'edit_posts'             => true,
+            'publish_posts'          => true,
+            'edit_published_posts'   => true,
+            'upload_files'           => true,
+            'unfiltered_html'        => true,
+            'read_private_posts'     => true,
+            'edit_private_posts'     => true,
+            'edit_others_posts'      => true,
+            'delete_posts'           => true,
+            'delete_published_posts' => true,
+            'delete_private_posts'   => true,
+            'delete_others_posts'    => true,
+        ),
+    );
+
+    // Develooper (copy capabilities from administrator)
     $roles['develooper'] = array(
         'name'         => 'Develooper',
         'capabilities' => isset($roles['administrator']['capabilities']) 

@@ -58,4 +58,4 @@ init commit with empty plugin file<br>
 Upload the zipped folder "loopis-config.zip" using **WP Admin > Plugins > Add Plugin > Upload Plugin**.
 
 ## 👤 Contributors
-Johan Linger, Hubert Hilborn, Johan Hagvil, Kritsadakorn Moonmai.<br>
+Johan Linger, Hubert Hilborn, Johan Hagvil.<br>
