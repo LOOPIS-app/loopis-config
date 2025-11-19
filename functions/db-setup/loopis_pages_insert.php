@@ -50,7 +50,20 @@ function loopis_pages_insert() {
             'post_title' => '💡 Frågor & svar',
             'post_name'  => 'faq',
         ),
-        // These will be created by WPUM Plugin, but should be renamed like below.
+        array(
+            'post_title' => '💞 Event',
+            'post_name'  => 'event',
+        ),
+        array(
+            'post_title' => '🔔 Min aktivitet',
+            'post_name'  => 'activity',
+        ),
+
+        array(
+            'post_title' => '🐙 Admin',
+            'post_name'  => 'admin',
+        ),
+        // The pages below are created by WPUM Plugin. Should be renamed?
         /*
         array(
             'post_title' => '👤 Logga in',
@@ -73,10 +86,6 @@ function loopis_pages_insert() {
             'post_name'  => 'account',
         ),
         */
-        array(
-            'post_title' => '🐙 Admin',
-            'post_name'  => 'admin',
-        ),
     );
 
     // Common values for all pages
