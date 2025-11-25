@@ -5,6 +5,10 @@
 This plugin is currently being developed by volunteers under the name "The Develoopers".<br>
 
 ## 📋 Changelog
+**0.81 (2025-11-25)**<br>
+Converted `root_files` from gitlink to regular folder<b>
+Template files for Maintenance Mode added to `root_files`<br>
+
 **0.8 (2025-11-16)**<br>
 LOOPIS `root_files` copied to WordPress root directory<br>
 Adjustments for configuration of `pages, roles, wp_options`<br>
