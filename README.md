@@ -6,7 +6,7 @@ This plugin is currently being developed by volunteers under the name "The Devel
 
 ## 📋 Changelog
 **0.81 (2025-11-25)**<br>
-Converted `root_files` from gitlink to regular folder<b>
+Converted `root_files` from gitlink to regular folder<br>
 Template files for Maintenance Mode added to `root_files`<br>
 
 **0.8 (2025-11-16)**<br>
