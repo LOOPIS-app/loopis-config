@@ -1,0 +1,26 @@
+{
+    "name": "LOOPIS",
+    "short_name": "LOOPIS",
+    "description": "LOOPIS - Gör det enkelt att ge & få saker.",
+    "start_url": "/",
+    "scope": "/",
+    "icons": [
+        {
+            "src": "/favicon/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/favicon/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "lang": "sv-SE"
+}
