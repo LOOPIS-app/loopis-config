@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 function loopis_admins_insert() {
     loopis_elog_function_start('loopis_admins_insert');
 
-/* Let's not mess with user ID 1 for now, because that logs you out of WP admin
+/* Let's not mess with user 1 for now, because that logs you out of WP Admin...
     // Access WordPress database object
     global $wpdb;
 
@@ -56,6 +56,7 @@ function loopis_admins_insert() {
             'role'          => 'administrator',
             'display_name'  => 'LOOPIS',
             'first_name'    => 'LOOPIS',
+            'last_name'     => 'admin',
         ),
         array(
             'user_login'    => 'LOTTEN',
@@ -65,24 +66,17 @@ function loopis_admins_insert() {
             'role'          => 'administrator',
             'display_name'  => 'LOTTEN',
             'first_name'    => 'LOTTEN',
+            'last_name'     => 'robot',
         ),
         array(
-            'user_login'    => 'admin-4',
-            'user_nicename' => 'admin-4',
-            'user_email'    => 'admin-4@loopis.app',
+            'user_login'    => 'NISSE',
+            'user_nicename' => 'NISSE',
+            'user_email'    => 'nisse@loopis.app',
             'user_pass'     => 'w3bmaster!',
             'role'          => 'administrator',
-            'display_name'  => 'admin-4',
-            'first_name'    => 'admin-4',
-        ),
-        array(
-            'user_login'    => 'admin-5',
-            'user_nicename' => 'admin-5',
-            'user_email'    => 'admin-5@loopis.app',
-            'user_pass'     => 'w3bmaster!',
-            'role'          => 'administrator',
-            'display_name'  => 'admin-5',
-            'first_name'    => 'admin-5',
+            'display_name'  => 'NISSE',
+            'first_name'    => 'NISSE',
+            'last_name'     => 'robot',
         ),
     );
     
