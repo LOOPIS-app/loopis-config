@@ -49,6 +49,7 @@ function loopis_wp_options_set() {
         'thread_comments_depth' => '2',
         'comment_order'         => 'desc',
         'timezone_string'       => 'Europe/Stockholm',
+        'WPLANG'                => 'sv_SE',
         'auto_update_core_major'=> 'disabled',
         'fresh_site'            => '0'
         // Add more options as needed
