@@ -30,7 +30,7 @@ function loopis_wp_options_set() {
     $wp_options = array(
         'blogname'              => 'LOOPIS',
         'blogdescription'       => 'Ge & få saker i ditt grannskap.',
-        'admin_email'           => 'admin@loopis.se',
+        'admin_email'           => 'admin@loopis.app',
         'users_can_register'    => '1',
         'default_role'          => 'member_pending',
         'posts_per_page'        => '50',
