@@ -35,7 +35,7 @@ function loopis_pages_insert() {
             'post_name'  => 'gifts',
         ),
         array(
-            'post_title' => '🗄 Integritetspolicy',
+            'post_title' => '🗄 Integritet',
             'post_name'  => 'privacy',
         ),
         array(
