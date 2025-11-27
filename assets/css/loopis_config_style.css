@@ -1,0 +1,10 @@
+
+
+/* Kills button flashing
+*/
+#run_preinstaller,
+#run_plupdate,
+#run_loopis_config_installation,
+#run_loopis_config_update {
+    visibility: hidden;
+}

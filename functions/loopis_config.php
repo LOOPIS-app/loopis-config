@@ -135,6 +135,20 @@ function loopis_sp_update_handler() {
 }
 
 /**
+ * AJAX handler for updating plugin, dummy.
+ * 
+ * Sends json
+ * 
+ *  @return void
+ */
+function loopis_plugin_update_handler() {
+    // Dummy
+    check_ajax_referer('loopis_config_nonce', 'nonce');
+    wp_send_json_success(['message' => 'Up-to-date!']);
+    wp_die();
+}
+
+/**
  * ======================== logger-aid ========================
  */
 /**
