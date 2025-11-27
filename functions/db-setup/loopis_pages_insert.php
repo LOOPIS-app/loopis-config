@@ -1,6 +1,6 @@
 <?php
 /**
- * Functions to create LOOPIS pages (with page templates) in the WordPress database.
+ * Functions to create LOOPIS pages in the WordPress database.
  *
  * This function is called by main function 'loopis_db_setup'.
  *
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 function loopis_pages_insert() {
     loopis_elog_function_start('loopis_pages_insert');
     
-    // Delete default WordPress default pages and posts
+    // First delete default WordPress default pages and posts
     loopis_delete_default_content();
     
     // Define the pages to create
@@ -29,39 +29,44 @@ function loopis_pages_insert() {
         array(
             'post_title' => '🌈 Startsida',
             'post_name'  => 'start',
-            'page_template' => 'start.php'
         ),
         array(
             'post_title' => '🎁 Saker att få',
             'post_name'  => 'gifts',
-            'page_template' => 'gifts.php'
         ),
         array(
-            'post_title' => '🗄 Integritetspolicy',
+            'post_title' => '🗄 Integritet',
             'post_name'  => 'privacy',
-            'page_template' => 'privacy.php'
-        ),
-        array(
-            'post_title' => '🔍 Sök',
-            'post_name'  => 'search',
-            'page_template' => 'search.php'
         ),
         array(
             'post_title' => '♻ Upptäck',
             'post_name'  => 'discover',
-            'page_template' => 'discover.php'
         ),
         array(
             'post_title' => '💚 Ge bort',
             'post_name'  => 'submit',
-            'page_template' => 'submit.php'
         ),
         array(
             'post_title' => '💡 Frågor & svar',
             'post_name'  => 'faq',
-            'page_template' => 'faq.php'
         ),
-        // These will be created by WPUM Plugin, but should be renamed like below.
+        array(
+            'post_title' => '📡 Nyheter',
+            'post_name'  => 'news',
+        ),
+        array(
+            'post_title' => '💞 Event',
+            'post_name'  => 'event',
+        ),
+        array(
+            'post_title' => '🔔 Min aktivitet',
+            'post_name'  => 'activity',
+        ),
+        array(
+            'post_title' => '🐙 Admin',
+            'post_name'  => 'admin',
+        ),
+        // The pages below will be created by WPUM Plugin. Should be renamed later?
         /*
         array(
             'post_title' => '👤 Logga in',
@@ -84,11 +89,6 @@ function loopis_pages_insert() {
             'post_name'  => 'account',
         ),
         */
-        array(
-            'post_title' => '🐙 Admin',
-            'post_name'  => 'admin',
-            'page_template' => 'admin.php'
-        ),
     );
 
     // Common values for all pages
@@ -98,18 +98,10 @@ function loopis_pages_insert() {
         'post_type'      => 'page',
         'ping_status'    => 'closed',
         'comment_status' => 'closed',
-        'post_parent'    => 0, // No parent page for now.    
+        'post_parent'    => 0, // No parent pages for now.    
     );
 
-    // The unique meta key and value to identify pages created by this plugin.
-    $meta_key_to_add = '_loopis_config_page';
-    $meta_value_to_add = '1';
-
     foreach ($pages_to_create as $page) {
-        // Extract page template before merging
-        $page_template = isset($page['page_template']) ? $page['page_template'] : '';
-        unset($page['page_template']); // Remove from page data as it's not a wp_insert_post parameter
-        
         // Combine common values with page-specific values.
         $page_data = array_merge($page, $common_values);
 
@@ -124,38 +116,7 @@ function loopis_pages_insert() {
             $new_page_id = wp_insert_post($page_data);
 
             if (!is_wp_error($new_page_id)) {
-                // Add the unique meta tag to the newly created page.
-                add_post_meta($new_page_id, $meta_key_to_add, $meta_value_to_add, true);
-                
-                // Add page template if specified
-                if (!empty($page_template)) {
-                    add_post_meta($new_page_id, '_wp_page_template', $page_template, true);
-                    loopis_elog_first_level('Created page: ' . $page_data['post_title'] . ' with template: ' . $page_template);
-                } else {
-                    loopis_elog_first_level('Created page: ' . $page_data['post_title']);
-                }
-
-                // Set front page in wp_options
-                if ($page_data['post_name'] === 'start' && !is_wp_error($new_page_id)) {
-                    // Set this page as front page
-                    update_option('show_on_front', 'page');
-                    update_option('page_on_front', $new_page_id);
-                    loopis_elog_first_level('Set start page as front page: ' . $new_page_id);
-                }
-
-                // Set posts page in wp_options
-                if ($page_data['post_name'] === 'gifts' && !is_wp_error($new_page_id)) {
-                    // Set this page as posts page
-                    update_option('page_for_posts', $new_page_id);
-                    loopis_elog_first_level('Set gifts page as posts page: ' . $new_page_id);
-                }
-
-                // Set privacy policy page in wp_options
-                if ($page_data['post_name'] === 'privacy' && !is_wp_error($new_page_id)) {
-                    // Set this page as privacy policy page
-                    update_option('wp_page_for_privacy_policy', $new_page_id);
-                    loopis_elog_first_level('Set privacy page as privacy policy page: ' . $new_page_id);
-                }
+                loopis_elog_first_level('Created page: ' . $page_data['post_title']);
             }
         }
     }

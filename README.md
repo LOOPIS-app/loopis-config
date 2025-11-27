@@ -2,9 +2,20 @@
 "LOOPIS Config" is a WordPress plugin that configures a WordPress installation for LOOPIS.app<br>
 
 ## 💡 Status
-This project is currently being developed by volunteers under the name "develoopers".<br>
+This plugin is currently being developed by volunteers under the name "The Develoopers".<br>
 
 ## 📋 Changelog
+**0.82 (2025-11-26)**<br>
+Adjusted configuration of `pages, cats, roles, wp_options`<br>
+
+**0.81 (2025-11-25)**<br>
+Converted `root_files` from gitlink to regular folder<br>
+Added template files for Maintenance Mode to `root_files`<br>
+
+**0.8 (2025-11-16)**<br>
+LOOPIS `root_files` copied to WordPress root directory<br>
+Adjusted configuration of `pages, roles, wp_options`<br>
+
 **0.7 (2025-10-21)**<br>
 Insert of LOOPIS default users fixed and renamed to `loopis_insert_admins`<br>
 Improved structure with dynamic inclusion of files in folders<br>
@@ -12,9 +23,8 @@ Improved structure with dynamic inclusion of files in folders<br>
 **0.6 (2025-10-06)**<br>
 Database reset tool moved to plugin `LOOPIS Develooper`<br>
 Roles and capabilites page moved to plugin `LOOPIS Develooper`<br>
-Separate page added for `Plugins`<br>
+Separate page added for `Components`<br>
 Custom error logging enabled<br>
-UI translated to english<br>
 
 **0.5 (2025-09-26)**<br>
 LOOPIS default page templates inserted in `wp_postmeta`<br>
@@ -32,7 +42,7 @@ LOOPIS default categories inserted in `wp_terms`<br>
 WordPress default content deleted in `wp_posts`<br>
 WordPress default plugins deleted in `Plugins`<br>
 New ajax buttons in WP Admin Area<br>
-New folders for assets: css, js, root_files<br>
+New folders for assets: `css, js, root_files`<br>
 
 **0.2 (2025-09-18)**<br>
 User interface in WP Admin Area<br>
@@ -54,4 +64,4 @@ init commit with empty plugin file<br>
 Upload the zipped folder "loopis-config.zip" using **WP Admin > Plugins > Add Plugin > Upload Plugin**.
 
 ## 👤 Contributors
-Johan Linger, Hubert Hilborn, Johan Hagvil.<br>
+Johan Linger, Hubert Hilborn, Johan Hagvil<br>

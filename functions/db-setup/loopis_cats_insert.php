@@ -22,13 +22,6 @@ if (!defined('ABSPATH')) {
 function loopis_cats_insert() {
     loopis_elog_function_start('loopis_cats_insert');
 
-    // Delete default category 'uncategorized' first
-    $uncategorized = get_term_by('slug', 'uncategorized', 'category');
-    if ($uncategorized) {
-        wp_delete_term($uncategorized->term_id, 'category');
-        loopis_elog_first_level('Deleted uncategorized category');
-    }
-
     // Define the categories to insert
     $categories = [
         ['name' =>'⏳ Lottning',            'slug' => 'new'],
@@ -43,11 +36,7 @@ function loopis_cats_insert() {
         ['name' =>'😎 Pausad',              'slug' => 'paused'],
         ['name' =>'⭕ Arkiverad',           'slug' => 'archived'],
         ['name' =>'📌 Tips',                'slug' => 'tips'],
-        ['name' =>'Reserved_1',             'slug' => 'reserved_1'],
-        ['name' =>'Reserved_2',             'slug' => 'reserved_2'],
-        ['name' =>'Reserved_3',             'slug' => 'reserved_3'],
-        ['name' =>'Reserved_4',             'slug' => 'reserved_4'],
-        ['name' =>'Reserved_5',             'slug' => 'reserved_5'],
+        ['name' =>'🗓 Låna',                'slug' => 'borrow'],
     ];
 
     // Access WordPress database object
@@ -83,11 +72,23 @@ function loopis_cats_insert() {
         }
     }
     
-    // Update default category to 'new' - do this last
+    // Set 'new' as default category
     $term = get_term_by('slug', 'new', 'category');
     if ($term) {
         update_option('default_category', $term->term_id);
         loopis_elog_first_level('Set default category to: new');
     }
+
+    // Delete 'uncategorized' category
+    $uncategorized = get_term_by('slug', 'uncategorized', 'category');
+    if ($uncategorized) {
+        $deleted = wp_delete_term($uncategorized->term_id, 'category');
+        if (is_wp_error($deleted)) {
+            loopis_elog_first_level('Error deleting uncategorized: ' . $deleted->get_error_message());
+        } else {
+            loopis_elog_first_level('Successfully deleted uncategorized category');
+        }
+    }
+    
     loopis_elog_function_end_success('loopis_cats_insert');
 }

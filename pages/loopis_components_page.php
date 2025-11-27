@@ -19,7 +19,7 @@ function loopis_components_page() {
     ?>
     <div class="wrap">
         <!-- Page title and description-->
-        <h1>🧩 LOOPIS Components</h1>
+        <h1>🧩 LOOPIS Components <span class="h1-right">Version <?php echo esc_html(LOOPIS_CONFIG_VERSION); ?></span></h1>
         <p class="description">💡 This is where you install and update compulsory components.</p>
 
         <!-- Page content-->

@@ -43,7 +43,7 @@ function loopis_db_setup() {
     // Insert values to 'loopis_settings'
     loopis_settings_insert();
 
-    // Insert pages to 'wp_posts' (includes deleting default WP pages and posts)
+    // Insert pages to 'wp_posts' (and delete default WP content)
     loopis_pages_insert();
 
     // Insert categories to 'wp_terms'
@@ -52,10 +52,10 @@ function loopis_db_setup() {
     // Insert tags to 'wp_terms'
     loopis_tags_insert();
 
-    // Set user roles in 'wp_options' (run before 'loopis_admins_insert')
+    // Set user roles in 'wp_options'
     loopis_roles_set();
 
-    // Insert admin users in 'wp_users'
+    // Insert admin users in 'wp_users' (dependencies: roles_set)
     loopis_admins_insert();
 
     // Delete WP default plugins
@@ -64,7 +64,10 @@ function loopis_db_setup() {
     // Install necessary plugins
     loopis_plugins_install();
 
-    // Set WP options in 'wp_options' (run after 'loopis_admins_insert' and 'loopis_pages_insert')
+    // Copy root files to WordPress installation
+    loopis_root_files_copy();
+
+    // Set WP options in 'wp_options' (dependencies: roles_set + admins_insert + pages_insert)
     loopis_wp_options_set();
 
     // Set WP admin screen options in 'wp_usermeta'

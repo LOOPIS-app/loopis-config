@@ -5,7 +5,6 @@
  * Temporarily included when function renaming seemed to cause problems.
  * 
  * @package LOOPIS_Config
- * @subpackage Dev-tools
  */
 
 // Prevent direct access
@@ -13,6 +12,13 @@ if (!defined('ABSPATH')) {
     exit; 
 }
 
+// Paste and uncomment the code below where you want to run the cachebuster.
+
+// Clear cache (if needed)
+// require_once LOOPIS_CONFIG_DIR . 'cache/loopis_cache_buster.php';
+// loopis_cache_buster();
+
+// Function to clear various caches
 function loopis_cache_buster() {
     error_log('>>> LOOPIS clearing caches...');
     
@@ -33,7 +39,7 @@ function loopis_cache_buster() {
     flush_rewrite_rules(false);
     error_log('✓ Rewrite rules cleared');
     
-    // Force reload of included files by clearing the included files cache
+    // Force reload specific files?
     if (function_exists('opcache_invalidate')) {
         $files_to_invalidate = [
             LOOPIS_CONFIG_DIR . 'functions/loopis-db-setup.php',
