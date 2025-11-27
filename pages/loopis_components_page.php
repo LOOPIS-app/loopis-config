@@ -45,7 +45,9 @@ function loopis_components_page() {
                     <td class="column-status" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
                         <span class="status"> <?php echo loopis_sp_get_status_text($row['Config_Status']); ?> </span>
                     </td>
-                    <td class="column-version"><?php echo htmlspecialchars($row['Config_Version']); ?></td>
+                    <td class="column-version" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
+                    <span class="version"><?php echo htmlspecialchars($row['Config_Version']); ?></span>
+                </td>
                 </tr>
             <?php endforeach; ?>
         </tbody>

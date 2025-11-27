@@ -124,7 +124,7 @@ function loopis_config_table_insert() {
             'Place' => 'Server',
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
-            'Config_function' => '',//'loopis_root_files_copy',
+            'Config_function' => 'loopis_root_files_copy',
             'Category' => 'Install'
         ),
         array(
@@ -132,7 +132,7 @@ function loopis_config_table_insert() {
             'Place' => 'wp_options',
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
-            'Config_function' => 'loopis_wp_screen_options_set',//'loopis_root_files_copy',
+            'Config_function' => 'loopis_wp_screen_options_set',
             'Category' => 'Install'
         ),
         array(
@@ -140,7 +140,7 @@ function loopis_config_table_insert() {
             'Place' => 'wp_usermeta',
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
-            'Config_function' => '',//'loopis_wp_options_set',
+            'Config_function' => 'loopis_wp_options_set',
             'Category' => 'Install'
         ),
         array(

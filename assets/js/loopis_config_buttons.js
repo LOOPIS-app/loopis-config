@@ -13,6 +13,7 @@ jQuery(document).ready(function ($) {
     // All function calls and category ids
     const Setup_functions = loopis_ajax.setup_functions;
     const plugins = loopis_ajax.preinstall_data;
+    const version= loopis_ajax.version;
 
     //====== installPlugins: plugin dependency install function ======
 
@@ -31,8 +32,8 @@ jQuery(document).ready(function ($) {
                 localStorage.setItem('loopis_plugins_installed', '1');
 
                 // Swap buttons
-                $('#run_preinstaller').css('visibility', 'hidden');
-                $('#run_loopis_config_installation').css('visibility', 'visible');
+                $('#run_preinstaller').hide();
+                $('#run_loopis_config_installation').show();
                 $('#run_loopis_config_installation').prop('disabled', false).text('Install Loopis')
 
                 // Simulate regular POST
@@ -63,7 +64,8 @@ jQuery(document).ready(function ($) {
                 main: plugin.main,
             }).done(function (response) {
                 if (response.success) {
-                    $(`td[data-step=${plugin.ID}] .status`).html(`OK ${plugin.slug}...`);
+                    $(`td[data-step=${plugin.ID}] .status`).html(`🔄 Installed: ${plugin.slug}...`);
+                    $(`td[data-step=${plugin.ID}] .version`).html(`${version}`);
                     index++;
                     installNext();
                 } else {
@@ -84,8 +86,8 @@ jQuery(document).ready(function ($) {
     function stepFunction(index) {
         // Check if list ended
         if (index >= Setup_functions.length) {
-            $('#run_loopis_config_installation').css('visibility', 'hidden');
-            $('#run_loopis_config_update').css('visibility', 'visible');
+            $('#run_loopis_config_installation').hide();
+            $('#run_loopis_config_update').show();
             localStorage.setItem('loopis_config_installed', '1');
             logToPhp(" ");
             logToPhp(`=========================== End: Database Setup! ===========================`);
@@ -113,7 +115,7 @@ jQuery(document).ready(function ($) {
         }, function (response) {                              // Afterwards
             const data = response.data;                       // Read the status JSON brought
             $(`td[data-step='${data.id}'] .status`).html(data.status);   // and set the status 
-
+            $(`td[data-step='${data.id}'] .version`).html(version);   // and set the version
             // Check if JSON says success
             if (response.success) {
                 // Continue to next step
@@ -155,7 +157,7 @@ jQuery(document).ready(function ($) {
         });
     }
 
-     //====== updateVersion: loopis configuration update ======
+     //====== updatePlugins: loopis configuration update ======
 
     function updatePlugins() {
         logToPhp(" ");
@@ -219,27 +221,31 @@ jQuery(document).ready(function ($) {
     $('#run_plupdate').on('click', function () {
         $(this).prop('disabled', true).text('🔄 Updating Plugins...');
         updatePlugins();
+        $(this).prop('disabled', true).text('Up-to-date!');
     });    
 
     // Button hider
+    $('#run_preinstaller, #run_plupdate, #run_loopis_config_installation, #run_loopis_config_update')
+    .css('visibility', 'visible')
+    .hide();
     if (localStorage.getItem('loopis_config_installed') === '1') {
-        $('#run_preinstaller').css('visibility', 'hidden');
-        $('#run_loopis_config_installation').css('visibility', 'hidden');
-        $('#run_plupdate').css('visibility', 'visible');
-        $('#run_loopis_config_update').css('visibility', 'visible');
+        $('#run_preinstaller').hide();
+        $('#run_loopis_config_installation').hide();
+        $('#run_plupdate').show();
+        $('#run_loopis_config_update').show();
     }else {
         if (localStorage.getItem('loopis_plugins_installed') === '1'){
-            $('#run_preinstaller').css('visibility', 'hidden');
-            $('#run_plupdate').css('visibility', 'visible');
+            $('#run_preinstaller').hide();
+            $('#run_plupdate').show();
             $('#run_plupdate').prop('disabled', true).text('Up-to-date');
-            $('#run_loopis_config_installation').css('visibility', 'visible');
-            $('#run_loopis_config_update').css('visibility', 'hidden');
+            $('#run_loopis_config_installation').show();
+            $('#run_loopis_config_update').hide();
         }else{
-            $('#run_preinstaller').css('visibility', 'visible');
-            $('#run_plupdate').css('visibility', 'hidden');
-            $('#run_loopis_config_installation').css('visibility', 'visible');
+            $('#run_preinstaller').show();
+            $('#run_plupdate').hide();
+            $('#run_loopis_config_installation').show();
             $('#run_loopis_config_installation').prop('disabled', true).text('Please Install Components...');
-            $('#run_loopis_config_update').css('visibility', 'hidden');
+            $('#run_loopis_config_update').hide();
         }
     };
 

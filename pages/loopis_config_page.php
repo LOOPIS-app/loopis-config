@@ -48,7 +48,8 @@ function loopis_config_enqueue_scripts($hook) {
         'ajax_url'        => admin_url('admin-ajax.php'),
         'nonce'           => wp_create_nonce('loopis_config_nonce'),
         'setup_functions' => $setup_functions, 
-        'preinstall_data' => $preinstall_data 
+        'preinstall_data' => $preinstall_data,
+        'version' => LOOPIS_CONFIG_VERSION,
     ]);
 }
 
@@ -104,7 +105,9 @@ function loopis_config_page() {
                     <td class="column-status" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
                         <span class="status"> <?php echo loopis_sp_get_status_text($row['Config_Status']); ?> </span>
                     </td>
-                    <td class="column-version"><?php echo htmlspecialchars($row['Config_Version']); ?></td>
+                    <td class="column-version" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
+                    <span class="version"><?php echo htmlspecialchars($row['Config_Version']); ?></span>
+                    </td>
                 </tr>
         <?php endforeach; ?>
         <?php foreach ($table_preinstall as $row): ?>
@@ -114,7 +117,9 @@ function loopis_config_page() {
                     <td class="column-status" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
                         <span class="status"> <?php echo loopis_sp_get_status_text($row['Config_Status']); ?> </span>
                     </td>
-                    <td class="column-version"><?php echo htmlspecialchars($row['Config_Version']); ?></td>
+                    <td class="column-version" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
+                    <span class="version"><?php echo htmlspecialchars($row['Config_Version']); ?></span>
+                    </td>
                 </tr>
         <?php endforeach; ?>
         <?php foreach ($table_install as $row): ?>
@@ -122,9 +127,11 @@ function loopis_config_page() {
                     <td class="column-unit"><?php echo htmlspecialchars($row['Unit']); ?></td>
                     <td class="column-place"><?php echo htmlspecialchars($row['Place']); ?></td>
                     <td class="column-status" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
-                        <span class="status"> <?php echo loopis_sp_get_status_text($row['Config_Status']); ?> </span>
+                    <span class="status"> <?php echo loopis_sp_get_status_text($row['Config_Status']); ?> </span>
                     </td>
-                    <td class="column-version"><?php echo htmlspecialchars($row['Config_Version']); ?></td>
+                    <td class="column-version" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
+                    <span class="version"><?php echo htmlspecialchars($row['Config_Version']); ?></span>
+                    </td>
                 </tr>
         <?php endforeach; ?>
         </tbody>
