@@ -88,10 +88,10 @@ function loopis_sp_handle_actions() {
  */
 function loopis_sp_activate_plugins_handler() {
     // Activate your plugins
-    
     ob_start();                             
     loopis_plugins_activate();
     ob_get_clean();
+    loopis_pages_rename();
     // Completes error log
     error_log('');
     error_log('=========================== End: Preinstaller! ===========================');
@@ -109,7 +109,6 @@ function loopis_sp_activate_plugins_handler() {
  * 
  *  @return void
  */
-
 function loopis_sp_update_handler() {
     // Check nonce
     check_ajax_referer('loopis_config_nonce', 'nonce');
@@ -187,31 +186,6 @@ function loopis_sp_get_status_text($status) {
     }
 }
 
-/**
- * ======================== Roles Display ========================
- */
-
-/**
- * AJAX handler for refreshing user roles display.
- * @return void
- */
-function loopis_refresh_roles_display_ajax() {
-    // Verify nonce
-    check_ajax_referer('loopis_config_nonce', 'nonce');
-    
-    // Check user permissions
-    if (!current_user_can('manage_options')) {
-        wp_die('Insufficient permissions');
-    }
-    
-    // Output the refreshed user roles display
-    ob_start();
-    loopis_display_user_roles_inline();
-    $output = ob_get_clean();
-    
-    echo $output;
-    wp_die();
-}
 
 /**
  * ======================== Loopis Config Table ========================

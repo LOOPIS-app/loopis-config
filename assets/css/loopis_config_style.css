@@ -9,12 +9,10 @@
   font-size: 13px;
 }
 
-
-/* Kills button flashing
-*/
-#run_preinstaller,
-#run_plupdate,
-#run_loopis_config_installation,
-#run_loopis_config_update {
-    visibility: hidden;
+.status {
+  font-family: system-ui, -apple-system, "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 1em;
+  line-height: 1em;
+  /* optional: align emoji vertically if needed */
+  vertical-align: middle;
 }

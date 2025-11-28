@@ -14,6 +14,7 @@ jQuery(document).ready(function ($) {
     const Setup_functions = loopis_ajax.setup_functions;
     const plugins = loopis_ajax.preinstall_data;
     const version= loopis_ajax.version;
+    const outofdate= loopis_ajax.outofdate;
 
     //====== installPlugins: plugin dependency install function ======
 
@@ -27,14 +28,12 @@ jQuery(document).ready(function ($) {
     
         function installNext() {
             if (index >= total) {
- 
                 // Set button rememberer 
-                localStorage.setItem('loopis_plugins_installed', '1');
+                localStorage.setItem('loopis_config_installed', '1');
 
                 // Swap buttons
-                $('#run_preinstaller').hide();
-                $('#run_loopis_config_installation').show();
-                $('#run_loopis_config_installation').prop('disabled', false).text('Install Loopis')
+                $('#run_loopis_config_installation').hide();
+                $('#run_loopis_config_update').show();
 
                 // Simulate regular POST
                 const form = document.createElement("form");
@@ -51,7 +50,6 @@ jQuery(document).ready(function ($) {
                 document.body.appendChild(form);
 
                 form.submit(); // Submits like a regular POST
-
                 return;
             }
             const plugin = plugins[index];
@@ -86,9 +84,6 @@ jQuery(document).ready(function ($) {
     function stepFunction(index) {
         // Check if list ended
         if (index >= Setup_functions.length) {
-            $('#run_loopis_config_installation').hide();
-            $('#run_loopis_config_update').show();
-            localStorage.setItem('loopis_config_installed', '1');
             logToPhp(" ");
             logToPhp(`=========================== End: Database Setup! ===========================`);
             logToPhp(" ");
@@ -197,17 +192,10 @@ jQuery(document).ready(function ($) {
 
     //====== Button Listeners ======
 
-    // Install Plugins button listener
-    $('#run_preinstaller').on('click', function () {
-        $(this).prop('disabled', true).text('🔄 Installing Plugins...');
-        $('.status').html('⬜');
-        //clearStatus();
-        installPlugins()
-    });
-
     // Setup button listener
     $('#run_loopis_config_installation').on('click', function () {
         $(this).prop('disabled', true).text('🔄 Installing Loopis...');
+        installPlugins();
         stepFunction(0);
     });
 
@@ -224,29 +212,24 @@ jQuery(document).ready(function ($) {
         $(this).prop('disabled', true).text('Up-to-date!');
     });    
 
-    // Button hider
-    $('#run_preinstaller, #run_plupdate, #run_loopis_config_installation, #run_loopis_config_update')
-    .css('visibility', 'visible')
-    .hide();
-    if (localStorage.getItem('loopis_config_installed') === '1') {
-        $('#run_preinstaller').hide();
-        $('#run_loopis_config_installation').hide();
-        $('#run_plupdate').show();
-        $('#run_loopis_config_update').show();
-    }else {
-        if (localStorage.getItem('loopis_plugins_installed') === '1'){
-            $('#run_preinstaller').hide();
-            $('#run_plupdate').show();
-            $('#run_plupdate').prop('disabled', true).text('Up-to-date');
-            $('#run_loopis_config_installation').show();
-            $('#run_loopis_config_update').hide();
+    // Button Enabler
+    if (localStorage.getItem('loopis_config_installed') === '1') {//Enable update if installed and not versioncoherent
+        $('#run_loopis_config_installation').prop('disabled', true).text('Installed!');
+        if (outofdate){
+            $('#run_loopis_config_update').prop('disabled', false).text('Update loopis');
         }else{
-            $('#run_preinstaller').show();
-            $('#run_plupdate').hide();
-            $('#run_loopis_config_installation').show();
-            $('#run_loopis_config_installation').prop('disabled', true).text('Please Install Components...');
-            $('#run_loopis_config_update').hide();
-        }
+            $('#run_loopis_config_update').prop('disabled', true).text('Up-to-date!');
+        };
+        if (outofdate){
+            $('#run_plupdate').prop('disabled', false).text('Update plugins');
+        }else{
+            $('#run_plupdate').prop('disabled', true).text('Up-to-date!');
+        };
+    }else { // If not installed, disable update enable install
+        $('#run_loopis_config_installation').prop('disabled', false).text('Install loopis');
+        $('#run_loopis_config_update').prop('disabled', true).text('Update loopis');
+        $('#run_plupdate').prop('disabled', true).text('Update plugins');
     };
+
 
 });

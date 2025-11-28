@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin version
-define('LOOPIS_CONFIG_VERSION', '0.8.0');
+define('LOOPIS_CONFIG_VERSION', '0.8.3');
 
 // Define plugin folder path constants
 define('LOOPIS_CONFIG_DIR', plugin_dir_path(__FILE__));     // Server-side path to /wp-content/plugins/loopis-config/
@@ -27,7 +27,9 @@ function loopis_config_load_files() {
     if (!is_admin()) { return; } // Exit early
         loopis_config_include_folder('interface');
         loopis_config_include_folder('pages');
+        loopis_config_include_folder('functions');
 }
+
 
 // Function to include all PHP files in a folder
 function loopis_config_include_folder($folder_name) {

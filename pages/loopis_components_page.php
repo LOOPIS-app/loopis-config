@@ -26,8 +26,7 @@ function loopis_components_page() {
         <h2>Components</h2>
 
         <p>
-            <button id="run_preinstaller" class="button button-primary" value="Install plugins">Install plugins</button>
-            <button id="run_plupdate" class="button button-primary" value="Update plugins">Update plugins</button>
+            <button id="run_plupdate" class="button button-primary" value="Update plugins" disabled>Update plugins</button>
         </p>
         
         <table class="wp-list-table widefat fixed striped">

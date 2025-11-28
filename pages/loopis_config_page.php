@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Include functions
-require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config.php';
+require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config_functions.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_db_setup.php';
 
 // Enqueue scripts
@@ -41,7 +41,7 @@ function loopis_config_enqueue_scripts($hook) {
     foreach ($table_preinstall as $row) {
         $preinstall_data[] = array_merge(['ID' => $row['ID']], json_decode($row['Config_Data'], true));
     }
-
+    $outofdate = !(LOOPIS_CONFIG_VERSION == get_option('loopis_config_version'));
 
     // Ajax + dynamic functions localization
     wp_localize_script('loopis_config_buttons_js', 'loopis_ajax', [
@@ -50,6 +50,7 @@ function loopis_config_enqueue_scripts($hook) {
         'setup_functions' => $setup_functions, 
         'preinstall_data' => $preinstall_data,
         'version' => LOOPIS_CONFIG_VERSION,
+        'outofdate' => $outofdate,
     ]);
 }
 
@@ -84,8 +85,8 @@ function loopis_config_page() {
         <!-- Page content-->
         <h2>Konfigurera WordPress</h2>
         <p>  
-            <button id="run_loopis_config_installation" class="button button-primary" value="Start">Install loopis</button>
-            <button id="run_loopis_config_update" class="button button-primary" value="Update">Update</button>
+            <button id="run_loopis_config_installation" class="button button-primary" value="Start" disabled>Install loopis</button>
+            <button id="run_loopis_config_update" class="button button-primary" value="Update" disabled>Update</button>
         </p> 
 
         <table class="wp-list-table widefat fixed striped">
@@ -110,24 +111,24 @@ function loopis_config_page() {
                     </td>
                 </tr>
         <?php endforeach; ?>
-        <?php foreach ($table_preinstall as $row): ?>
-                <tr>
-                    <td class="column-unit"><?php echo htmlspecialchars($row['Unit']); ?></td>
-                    <td class="column-place"><?php echo htmlspecialchars($row['Place']); ?></td>
-                    <td class="column-status" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
-                        <span class="status"> <?php echo loopis_sp_get_status_text($row['Config_Status']); ?> </span>
-                    </td>
-                    <td class="column-version" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
-                    <span class="version"><?php echo htmlspecialchars($row['Config_Version']); ?></span>
-                    </td>
-                </tr>
-        <?php endforeach; ?>
         <?php foreach ($table_install as $row): ?>
                 <tr>
                     <td class="column-unit"><?php echo htmlspecialchars($row['Unit']); ?></td>
                     <td class="column-place"><?php echo htmlspecialchars($row['Place']); ?></td>
                     <td class="column-status" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
                     <span class="status"> <?php echo loopis_sp_get_status_text($row['Config_Status']); ?> </span>
+                    </td>
+                    <td class="column-version" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
+                    <span class="version"><?php echo htmlspecialchars($row['Config_Version']); ?></span>
+                    </td>
+                </tr>
+        <?php endforeach; ?>
+        <?php foreach ($table_preinstall as $row): ?>
+                <tr>
+                    <td class="column-unit"><?php echo htmlspecialchars($row['Unit']); ?></td>
+                    <td class="column-place"><?php echo htmlspecialchars($row['Place']); ?></td>
+                    <td class="column-status" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
+                        <span class="status"> <?php echo loopis_sp_get_status_text($row['Config_Status']); ?> </span>
                     </td>
                     <td class="column-version" data-step="<?php echo htmlspecialchars($row['ID']); ?>">
                     <span class="version"><?php echo htmlspecialchars($row['Config_Version']); ?></span>
