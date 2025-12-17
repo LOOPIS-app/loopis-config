@@ -5,11 +5,11 @@
 This plugin is currently being developed by volunteers under the name "The Develoopers".<br>
 
 ## 📋 Changelog
-**0.83 (2025-11-28)**<br>
+**0.83 (2025-12-12)**<br>
 Adjusted configuration of `pages, wp_options`<br>
 Added `wp_loopis_config` and improved backend stucture<br>
 Rewritten admin-page HTML<br>
-
+Added a plugin options setter 
 
 **0.82 (2025-11-26)**<br>
 Adjusted configuration of `pages, cats, roles, wp_options`<br>
