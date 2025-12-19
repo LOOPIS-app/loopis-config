@@ -24,7 +24,7 @@ require_once ABSPATH . 'wp-admin/includes/misc.php';
  * 
  * @return void
  */
-function loopis_plugins_install(){
+function loopis_ext_plugins_install(){
     loopis_elog_function_start('loopis_plugins_install');
     $slug = sanitize_text_field( $_POST['slug'] ?? '' );
     $main = sanitize_text_field( $_POST['main'] ?? '' );
@@ -81,7 +81,6 @@ function loopis_plugins_install(){
  * 
  * @return void
  */
- 
 function loopis_plugins_activate(){
     loopis_elog_function_start('loopis_plugins_activate');
     // Plugin list get
@@ -171,7 +170,7 @@ function loopis_plugin_options_set(){
         loopis_elog_second_level("Setting option: {$option_name}!");
         update_option($option_name, $option_value);
     }
-    loopis_elog_first_level("Options set!");
+    loopis_elog_first_level("Plugin options set!");
 }
 
 /**

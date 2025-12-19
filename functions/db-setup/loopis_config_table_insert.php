@@ -144,6 +144,22 @@ function loopis_config_table_insert() {
             'Category' => 'Install'
         ),
         array(
+            'Unit' => 'Loopis Components',
+            'Place' => 'wp_content',
+            'Config_Status' => 'Nan',
+            'Config_Version' => '0.0.0',
+            'Config_function' => 'loopis_components_install',
+            'Category' => 'Install'
+        ),
+        array(
+            'Unit' => 'Loopis Themes',
+            'Place' => 'wp_content',
+            'Config_Status' => 'Nan',
+            'Config_Version' => '0.0.0',
+            'Config_function' => 'loopis_themes_configure',
+            'Category' => 'Install'
+        ),
+        array(
             'Unit' => 'Post SMTP',
             'Place' => 'wp_content',
             'Config_Status' => 'Nan',

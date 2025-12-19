@@ -10,6 +10,7 @@ Adjusted configuration of `pages, wp_options`<br>
 Added `wp_loopis_config` and improved backend stucture<br>
 Rewritten admin-page HTML<br>
 Added a plugin options setter 
+Added components installer and theme configurer
 
 **0.82 (2025-11-26)**<br>
 Adjusted configuration of `pages, cats, roles, wp_options`<br>

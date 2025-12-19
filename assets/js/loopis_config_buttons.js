@@ -57,7 +57,7 @@ jQuery(document).ready(function ($) {
             $.post(loopis_ajax.ajax_url, {
                 action: 'loopis_sp_handle_actions',
                 nonce: loopis_ajax.nonce,
-                func_step: 'loopis_plugins_install',
+                func_step: 'loopis_ext_plugins_install',
                 slug: plugin.slug,
                 main: plugin.main,
             }).done(function (response) {
