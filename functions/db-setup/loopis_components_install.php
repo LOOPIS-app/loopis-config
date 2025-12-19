@@ -16,29 +16,7 @@
 
 function loopis_components_install(){
     loopis_elog_function_start('loopis_components_install');
-
-    $theme = array(
-        'name' => 'loopis-theme',
-        'zip_url' => 'https://github.com/LOOPIS-app/loopis-theme/archive/refs/heads/main.zip',
-    );
-
-    $theme_zip = download_url( $theme['zip_url'] );
-    if ( ! is_wp_error( $theme_zip ) ) {
-        $result = unzip_file( $theme_zip, get_theme_root() );
-        if ( file_exists( $theme_zip ) ) {
-            if ( unlink( $theme_zip ) ) {
-                // Deleted successfully
-            } else {
-                loopis_elog_first_level( "Failed to delete temp zip: $theme_zip" );
-            }
-        }
-
-        if ( ! is_wp_error( $result ) ) {
-            $theme_folder = $theme['name'] . '-main'; // GitHub ZIP adds -branch
-            switch_theme( $theme_folder );
-        }
-    }
-
+    
     $repos = array(
         'loopis-develooper' => 'https://github.com/LOOPIS-app/loopis-develooper/archive/refs/heads/main.zip',
         'loopis-admin' => 'https://github.com/LOOPIS-app/loopis-admin/archive/refs/heads/main.zip',
