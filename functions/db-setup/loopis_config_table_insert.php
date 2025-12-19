@@ -12,7 +12,11 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-
+/**
+ * Create table 'wp_loopis_config'
+ * 
+ * @return void
+ */
 function loopis_config_table_insert() {
     global $wpdb;
 
