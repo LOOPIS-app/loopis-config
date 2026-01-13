@@ -18,7 +18,7 @@
     $stored_version = get_option('loopis_config_version');
     // Example code update with changes from version to version, add new version and function handle with main update.
     $updates = [
-        '0.8.0' => 'loopis_config_update_to_0_8_0',
+        '0.8.4' => 'loopis_config_update_to_0_8_4',
         // etc.
     ];
     // loops through and if the current version is less than the update version then it will run corresponding update
@@ -36,11 +36,14 @@
 }
 
  /**
- * Updates from 0.7.0 to 0.8.0 PLACEHOLDER EXAMPLE
+ * Updates from 0.8.3 to 0.8.4 this contains no significant changes, barring succesful install
+ *      therefore this just reconciles the table and the JS reruns install
  */
-function loopis_config_update_to_0_8_0() {
+function loopis_config_update_to_0_8_4() {
     // update logic goes here
-    loopis_elog_second_level("Doing stuff!");
-    // Do stuff
+    loopis_elog_second_level("Rerunning installation!");
+    loopis_config_reconcile_table();
+    wp_cache_delete('loopis_config_data', 'loopis');
+    $config = get_loopis_config_data();
 }
 

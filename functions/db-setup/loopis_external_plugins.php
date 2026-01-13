@@ -22,17 +22,13 @@ require_once ABSPATH . 'wp-admin/includes/misc.php';
 /**
  * Installs plugins in wp-content/plugins/
  * 
- * @return void
+ * @return void  Sends JSON response with plugin slug and status.
  */
 function loopis_ext_plugins_install(){
     loopis_elog_function_start('loopis_plugins_install');
     $slug = sanitize_text_field( $_POST['slug'] ?? '' );
     $main = sanitize_text_field( $_POST['main'] ?? '' );
     $plugin_dir = WP_PLUGIN_DIR . '/' . $slug;
-
-
-
-    // Helps avoid internal installer wp_die
     if (!class_exists('Loopis_Skin')) {
         class Loopis_Skin extends WP_Upgrader_Skin {
             public function header() {}
@@ -63,17 +59,26 @@ function loopis_ext_plugins_install(){
         wp_send_json_error([ 'slug' => $slug, 'status' => 'Failed to get API info' ]);
     }
 
-    // Install plugin
     loopis_elog_first_level("Installing plugin: {$slug}");
+    set_error_handler(function($errno, $errstr, $errfile, $errline){
+        if (str_contains($errstr, 'Failed to open directory')) return true;
+        return false;
+    });
+    // Install plugin
     $result = $upgrader->install( $api->download_link );
+    // clear and wait for safety
+    clearstatcache(true, $plugin_dir);
+    usleep(200000);
+    
+    restore_error_handler();
 
     if ( is_wp_error( $result ) ) {
         loopis_elog_function_end_failure('loopis_plugins_install');
         wp_send_json_error([ 'slug' => $slug, 'status' => $result->get_error_message() ]);
     }
-
+    $version = loopis_get_plugin_version( $slug );
     loopis_elog_function_end_success('loopis_plugins_install');
-    wp_send_json_success([ 'slug' => $slug, 'status' => 'Installed successfully' ]);
+    wp_send_json_success([ 'slug' => $slug, 'status' => 'Installed successfully','version' => $version ]);
 }
 
 /**
@@ -92,18 +97,19 @@ function loopis_plugins_activate(){
     }
 
     foreach ($preinstall_data as $plugin){
+        $version = loopis_get_plugin_version( $plugin['slug'] );
         if (file_exists(WP_PLUGIN_DIR . '/' . $plugin['main'])){
             if (!is_plugin_active($plugin['slug'])) {
                 loopis_elog_first_level("activating plugin: {$plugin['slug']}");
                 activate_plugin($plugin['main'], $silent = true );
                 loopis_config_update(['ID' => $plugin['ID']], 
                     ['Config_Status' => 'Ok',
-                    'Config_Version' => LOOPIS_CONFIG_VERSION]);
+                    'Config_Version' => $version]);
             }
         } else{
             loopis_config_update(['ID' => $plugin['ID']], 
                     ['Config_Status' => 'Error',
-                    'Config_Version' => LOOPIS_CONFIG_VERSION]);
+                    'Config_Version' => $version]);
         }
     }
 
@@ -176,7 +182,8 @@ function loopis_plugin_options_set(){
 /**
  * A version getter incase we want to include internal version data
  * 
- * @return void
+ * @param string $plugin_slug Plugin slug.
+ * @return string|false Plugin version if found, false otherwise.
  */
 function loopis_get_plugin_version( $plugin_slug ) {
     $plugins = get_plugins();

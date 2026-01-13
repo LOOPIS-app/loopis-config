@@ -5,17 +5,23 @@
 This plugin is currently being developed by volunteers under the name "The Develoopers".<br>
 
 ## 📋 Changelog
-**0.83 (2025-12-12)**<br>
+**0.8.4 (2025-12-12)**<br>
+Refactoring filenames
+Solved issues with install + troubleshooting
+Fixed some comments and syncing
+Removed obsolete functionality
+
+**0.8.3 (2025-12-12)**<br>
 Adjusted configuration of `pages, wp_options`<br>
 Added `wp_loopis_config` and improved backend stucture<br>
 Rewritten admin-page HTML<br>
 Added a plugin options setter 
 Added components installer and theme configurer
 
-**0.82 (2025-11-26)**<br>
+**0.8.2 (2025-11-26)**<br>
 Adjusted configuration of `pages, cats, roles, wp_options`<br>
 
-**0.81 (2025-11-25)**<br>
+**0.8.1 (2025-11-25)**<br>
 Converted `root_files` from gitlink to regular folder<br>
 Added template files for Maintenance Mode to `root_files`<br>
 

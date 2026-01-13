@@ -3,7 +3,7 @@
 Plugin Name: LOOPIS Config
 Plugin URI: https://github.com/LOOPIS-app/loopis-config
 Description: Plugin for configuring a clean WP installation for LOOPIS.app
-Version: 0.8.3
+Version: 0.8.4
 Author: The Develoopers
 Author URI: https://loopis.org
 */
@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin version
-define('LOOPIS_CONFIG_VERSION', '0.8.3');
+define('LOOPIS_CONFIG_VERSION', '0.8.4');
 
 // Define plugin folder path constants
 define('LOOPIS_CONFIG_DIR', plugin_dir_path(__FILE__));     // Server-side path to /wp-content/plugins/loopis-config/
@@ -116,8 +116,9 @@ add_action('plugins_loaded','loopis_config_load_files');
 
 // Loopis Config table is created on plugin activation
 register_activation_hook(__FILE__, function(){
-    include_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_config_table_insert.php';
+    include_once LOOPIS_CONFIG_DIR . 'functions/db-setup/loopis_config_table.php';
     loopis_config_table_insert();
+    loopis_config_reconcile_table();
 });
 
 // Cache table data

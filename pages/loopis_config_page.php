@@ -16,7 +16,6 @@ require_once LOOPIS_CONFIG_DIR . 'functions/loopis_config_functions.php';
 require_once LOOPIS_CONFIG_DIR . 'functions/loopis_db_setup.php';
 
 // Enqueue scripts
-
 function loopis_config_enqueue_scripts($hook) {
     // Enqueue JS file
     wp_enqueue_script(
@@ -34,14 +33,20 @@ function loopis_config_enqueue_scripts($hook) {
 
     // Build Setup_functions array for JS
     $setup_functions = [];
-    $preinstall_data = [];
     foreach ($table_install as $row) {
-        $setup_functions[] = [$row['Config_function'], $row['ID']];
+        $setup_functions[] =[
+            'func_step' =>$row['Config_function'],
+            'ID' => $row['ID'],
+            'cdata'=> !empty($row['Config_Data']) ? json_decode($row['Config_Data'], true) : []
+        ];
     }
+    
+    $preinstall_data = [];
     foreach ($table_preinstall as $row) {
         $preinstall_data[] = array_merge(['ID' => $row['ID']], json_decode($row['Config_Data'], true));
     }
-    $outofdate = !(LOOPIS_CONFIG_VERSION == get_option('loopis_config_version'));
+    $installed = get_option('loopis_config_version') ? true : false;
+    $outofdate = LOOPIS_CONFIG_VERSION !== get_option('loopis_config_version');
 
     // Ajax + dynamic functions localization
     wp_localize_script('loopis_config_buttons_js', 'loopis_ajax', [
@@ -51,9 +56,20 @@ function loopis_config_enqueue_scripts($hook) {
         'preinstall_data' => $preinstall_data,
         'version' => LOOPIS_CONFIG_VERSION,
         'outofdate' => $outofdate,
+        'installed' => $installed,
     ]);
 }
 
+// Button updater auxillary 
+add_action('wp_ajax_loopis_get_status', function () {   
+    $installed = get_option('loopis_config_version') ? true : false;
+    $outofdate = LOOPIS_CONFIG_VERSION !== get_option('loopis_config_version');
+
+    wp_send_json_success([
+        'installed' => $installed,
+        'outofdate' => $outofdate,
+    ]);
+});
 
 // Config js hook
 add_action('admin_enqueue_scripts', 'loopis_config_enqueue_scripts');
@@ -61,8 +77,6 @@ add_action('admin_enqueue_scripts', 'loopis_config_enqueue_scripts');
 // Ajax handler hooks
 add_action('wp_ajax_loopis_sp_handle_actions', 'loopis_sp_handle_actions');
 add_action('wp_ajax_loopis_log_message', 'loopis_log_message');
-add_action('wp_ajax_loopis_sp_clear_step_status', 'loopis_sp_clear_step_status');
-add_action('wp_ajax_loopis_refresh_roles_display', 'loopis_refresh_roles_display_ajax');
 add_action('wp_ajax_loopis_sp_update_handler', 'loopis_sp_update_handler');
 add_action('admin_post_activate_plugins', 'loopis_sp_activate_plugins_handler');
 

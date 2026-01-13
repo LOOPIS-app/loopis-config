@@ -28,15 +28,6 @@ function loopis_config_admin_menu() {
         'loopis_config_page'          // Function
     );
 
-    add_submenu_page(
-        'loopis_config_main',         // Parent slug
-        'Components',                 // Page title
-        'Components',                 // Menu title
-        'manage_options',             // Capability
-        'loopis_components',          // Menu slug
-        'loopis_components_page'      // Function
-    );
-
     // Hide the main menu page (but keep the icon and submenus)
     remove_submenu_page('loopis_config_main', 'loopis_config_main');
 }

@@ -27,7 +27,7 @@ if (!defined('ABSPATH')) {
  *  - Updates the LOOPIS step status accordingly.
  *  - Returns a JSON response for dynamic UI updates.
  *
- * @return void
+ * @return void Sends JSON response for UI.
  */
 
 function loopis_sp_handle_actions() {
@@ -37,17 +37,22 @@ function loopis_sp_handle_actions() {
     // Get function and id
     $function = isset($_POST['func_step']) ? sanitize_text_field($_POST['func_step']) : '';
     $id = isset($_POST['id']) ? sanitize_text_field($_POST['id']) : '';
-
+    $data = $_POST['data'] ?? '';
+    $ver_str = sanitize_text_field($data['ver_str'] ?? '' );
+    $slug = sanitize_text_field( $_POST['slug'] ?? '' );
+    $main = sanitize_text_field( $_POST['main'] ?? '' );
+    $version = LOOPIS_CONFIG_VERSION;
     // if function call does not exist
     if (!$function){
         // No function
         loopis_config_update(
             ['ID' => $id], 
             ['Config_Status' => 'N/a',
-            'Config_Version' => LOOPIS_CONFIG_VERSION]); // Set status to not applicable
+            'Config_Version' => $version]); // Set status to not applicable
         wp_send_json_success([                 // Send back JSON with success and id, and statustext
             'id' => $id,
-            'status' =>  '⬜ Function missing.'
+            'status' =>  '⬜ Function missing.',
+            'version' => $version,
         ]);
     }else{
         try {
@@ -55,13 +60,17 @@ function loopis_sp_handle_actions() {
             ob_start();                             // Output buffer
             $function();                            // Function call
             ob_get_clean();
+            if (!empty($ver_str) && defined($ver_str)) {
+                $version = constant($ver_str);
+            }
             loopis_config_update(
                 ['ID' => $id], 
                 ['Config_Status' => 'Ok',
-                'Config_Version' => LOOPIS_CONFIG_VERSION]);  // Set status to Ok
+                'Config_Version' => $version]);  // Set status to Ok
             wp_send_json_success([                  // Send back JSON with success and id, and statustext
                 'id' => $id,
                 'status' => '✅ OK!',
+                'version' => $version,
             ]);
         } catch (Throwable $e) {
             // Function failed
@@ -70,10 +79,11 @@ function loopis_sp_handle_actions() {
             loopis_config_update(
                 ['ID' => $id], 
                 ['Config_Status' => 'Error',
-                'Config_Version' => LOOPIS_CONFIG_VERSION]); // Set status to Error
+                'Config_Version' => '-']); // Set status to Error
             wp_send_json_error([                     // Send back JSON with error and id, and statustext
                 'id' => $id,    
-                'status' =>  '⚠️ Failed! Could not run.'
+                'status' =>  '⚠️ Failed! Could not run.',
+                'version' => '-',
             ]);
         }
     }
@@ -91,10 +101,11 @@ function loopis_sp_activate_plugins_handler() {
     ob_start();                             
     loopis_plugins_activate();
     ob_get_clean();
+
     loopis_pages_rename();
     // Completes error log
     error_log('');
-    error_log('=========================== End: Preinstaller! ===========================');
+    error_log('=========================== End: Loopis Installer! ===========================');
     error_log('');
     // Redirect after activation
     wp_redirect(admin_url('admin.php?page=loopis_config&activated=1'));
@@ -105,9 +116,7 @@ function loopis_sp_activate_plugins_handler() {
 /**
  * AJAX handler for updating version, runs loopis_config_run_updates if possible.
  * 
- * Sends json
- * 
- *  @return void
+ *  @return void Sends JSON response for UI.
  */
 function loopis_sp_update_handler() {
     // Check nonce
@@ -133,23 +142,11 @@ function loopis_sp_update_handler() {
     wp_die();
 }
 
-/**
- * AJAX handler for updating plugin, dummy.
- * 
- * Sends json
- * 
- *  @return void
- */
-function loopis_plugin_update_handler() {
-    // Dummy
-    check_ajax_referer('loopis_config_nonce', 'nonce');
-    wp_send_json_success(['message' => 'Up-to-date!']);
-    wp_die();
-}
 
 /**
  * ======================== logger-aid ========================
  */
+
 /**
  *  Send error log from JS.
  *  @return void
@@ -173,6 +170,11 @@ function loopis_log_message() {
  * ======================== Status Functions ========================
  */
 
+/**
+ * Status text getter.
+ * 
+ * @return string Status text for config page table.
+ */
 function loopis_sp_get_status_text($status) {
     // For specific status respond with message
     if ($status === 'Ok') {
@@ -190,7 +192,12 @@ function loopis_sp_get_status_text($status) {
 /**
  * ======================== Loopis Config Table ========================
  */
-
+/**
+ * Insert a new row into the loopis_config table.
+ *
+ * @param array $data Array of column => value pairs to insert.
+ * @return void
+ */
 function loopis_config_insert($data) {
     global $wpdb;
     $table = $wpdb->prefix . 'loopis_config';
@@ -202,6 +209,14 @@ function loopis_config_insert($data) {
     $config = get_loopis_config_data();
 }
 
+/**
+* Update rows in the loopis_config table.
+*
+* @param array $data  Associative array of column => new value pairs.
+* @param array $where Associative array of column => value pairs used for the WHERE clause.
+*                     Only rows matching these conditions will be updated.
+* @return void
+*/
 function loopis_config_update($data, $where) {
     global $wpdb;
     $table = $wpdb->prefix . 'loopis_config';
@@ -213,6 +228,13 @@ function loopis_config_update($data, $where) {
     $config = get_loopis_config_data();
 }
 
+/**
+ * Delete rows from the loopis_config table.
+ *
+ * @param array $where Associative array of column => value pairs used for the WHERE clause.
+ *                     Only rows matching these conditions will be deleted.
+ * @return void
+ */
 function loopis_config_delete($where) {
     global $wpdb;
     $table = $wpdb->prefix . 'loopis_config';

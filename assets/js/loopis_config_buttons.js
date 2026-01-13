@@ -5,7 +5,6 @@
 
 // Jquery for 'do when the document is ready and loaded'
 jQuery(document).ready(function ($) {
-
     // =========================
     // LOOPIS Setup 
     // =========================
@@ -13,115 +12,86 @@ jQuery(document).ready(function ($) {
     // All function calls and category ids
     const Setup_functions = loopis_ajax.setup_functions;
     const plugins = loopis_ajax.preinstall_data;
-    const version= loopis_ajax.version;
-    const outofdate= loopis_ajax.outofdate;
-
+    const version = loopis_ajax.version;
+    let outofdate = loopis_ajax.outofdate;
+    let installed = loopis_ajax.installed;
+    updateButtons();
     //====== installPlugins: plugin dependency install function ======
 
     function installPlugins() {
-        logToPhp(" ");
-        logToPhp(`=========================== Start: Preinstaller! ===========================`);
-        logToPhp(" ");
-
-        const total = plugins.length;
-        let index = 0;
-    
-        function installNext() {
-            if (index >= total) {
-                // Set button rememberer 
-                localStorage.setItem('loopis_config_installed', '1');
-
-                // Swap buttons
-                $('#run_loopis_config_installation').hide();
-                $('#run_loopis_config_update').show();
-
-                // Simulate regular POST
-                const form = document.createElement("form");
-                form.method = "POST";
-                form.action = "/wp-admin/admin-post.php";
-
-                const input = document.createElement("input");
-                input.type = "hidden"; // No UI
-                input.name = "action";
-                input.value = "activate_plugins"; // Hook into admin_post_activate_plugins
-
-                form.appendChild(input);
-
-                document.body.appendChild(form);
-
-                form.submit(); // Submits like a regular POST
-                return;
-            }
-            const plugin = plugins[index];
-            $(`td[data-step=${plugin.ID}] .status`).html(`🔄 Installing ${plugin.slug}...`);
-            $.post(loopis_ajax.ajax_url, {
-                action: 'loopis_sp_handle_actions',
-                nonce: loopis_ajax.nonce,
-                func_step: 'loopis_ext_plugins_install',
-                slug: plugin.slug,
-                main: plugin.main,
-            }).done(function (response) {
-                if (response.success) {
-                    $(`td[data-step=${plugin.ID}] .status`).html(`🔄 Installed: ${plugin.slug}...`);
-                    $(`td[data-step=${plugin.ID}] .version`).html(`${version}`);
-                    index++;
-                    installNext();
-                } else {
-                    $('#run_preinstaller').prop('disabled', false).text('Install Plugins')
-                    logToPhp(" ");
-                    logToPhp(`=========================== End: Preinstaller! ===========================`);
-                    logToPhp(" ");
+        return new Promise((resolve, reject) => {
+            const total = plugins.length;
+            let index = 0;
+            
+            function installNext() {
+                if (index >= total) {
+                    resolve(); // promise fulfilled
+                    return;
                 }
-            });
-        }
-    
-        installNext(); // Start first install
+
+                const plugin = plugins[index];
+                $(`td[data-step=${plugin.ID}] .status`).html(`🔄 Installing ${plugin.slug}...`);
+
+                $.post(loopis_ajax.ajax_url, {
+                    action: 'loopis_sp_handle_actions',
+                    nonce: loopis_ajax.nonce,
+                    func_step: 'loopis_ext_plugins_install',
+                    slug: plugin.slug,
+                    main: plugin.main,
+                }).done(function (response) {
+                    const data = response.data;
+                    if (response.success) {
+                        $(`td[data-step=${plugin.ID}] .status`).html(`🔄 Installed: ${plugin.slug}...`);
+                        $(`td[data-step='${plugin.ID}'] .version`).html(data.version);
+                        index++;
+                        installNext();
+                    } else {
+                        reject("Plugin install failed");
+                    }
+                }).fail(() => reject("Database setup failed"));
+            }
+        
+            installNext(); // Start first install
+        });
     }
+
 
     //====== stepFunction: main setup function ======
 
     // Regressive ajax $_POST submission function 
     function stepFunction(index) {
-        // Check if list ended
-        if (index >= Setup_functions.length) {
-            logToPhp(" ");
-            logToPhp(`=========================== End: Database Setup! ===========================`);
-            logToPhp(" ");
-            return
-        } else if(index==0){
-            logToPhp(" ");
-            logToPhp(`=========================== Start: Database Setup! ===========================`);
-            logToPhp(" ");
-        }
+        return new Promise((resolve, reject) => {
+            // Check if list ended
+            if (index >= Setup_functions.length) {
+                resolve()
+                return
+            } 
 
-        // Define id and func_step
-        const func_step = Setup_functions[index][0];
-        const id = Setup_functions[index][1];
+            // Define id and func_step
+            const step = Setup_functions[index];
 
-        // Set current step to 🔄 Running!
-        $(`td[data-step='${id}'] .status`).html('🔄 Running!');
+            // Set current step to 🔄 Running!
+            $(`td[data-step='${step.ID}'] .status`).html('🔄 Running!');
 
-        // Do post with loopis ajax
-        $.post(loopis_ajax.ajax_url, { 
-            action: 'loopis_sp_handle_actions',               // Do php function loopis_sp_handle_actions
-            nonce: loopis_ajax.nonce,                         // With our nonce
-            func_step: func_step,                             // our function
-            id: id                                            // and function id
-        }, function (response) {                              // Afterwards
-            const data = response.data;                       // Read the status JSON brought
-            $(`td[data-step='${data.id}'] .status`).html(data.status);   // and set the status 
-            $(`td[data-step='${data.id}'] .version`).html(version);   // and set the version
-            // Check if JSON says success
-            if (response.success) {
-                // Continue to next step
-                stepFunction(index + 1);
-            } else {
-                $('#run_loopis_config_installation').prop('disabled', false).text('Install Loopis')
-                // Stop on error
-                logToPhp(" ");
-                logToPhp(`=========================== End: Database Setup! ===========================`);
-                logToPhp(" ");
-            }
+            // Do post with loopis ajax
+            $.post(loopis_ajax.ajax_url, { 
+                action: 'loopis_sp_handle_actions',               // Do php function loopis_sp_handle_actions
+                nonce: loopis_ajax.nonce,                         // With our nonce
+                func_step: step.func_step,                             // our function,
+                id: step.ID,                                           // function id
+                data: step.cdata,                                       // and data
+            }, function (response) {                              // Afterwards
+                const data = response.data;                       // Read the status JSON brought
+                $(`td[data-step='${data.id}'] .status`).html(data.status);   // and set the status 
+                $(`td[data-step='${data.id}'] .version`).html(data.version);   // and set the version
+                // Check if JSON says success
+                if (response.success) {
+                    // Continue to next step
+                    stepFunction(index + 1).then(resolve).catch(reject);;
+                } else {
+                    reject("Database setup failed");
+                }
+            }).fail(() => reject("Database setup failed"));
         });
     }
 
@@ -152,34 +122,49 @@ jQuery(document).ready(function ($) {
         });
     }
 
-     //====== updatePlugins: loopis configuration update ======
+    //====== subfunctions ======
 
-    function updatePlugins() {
+    // PHP Error logger
+    function installButton() {
         logToPhp(" ");
-        logToPhp(`=========================== Start: Update! ===========================`);
+        logToPhp(`=========================== Start: Loopis Installer! ===========================`);
         logToPhp(" ");
-        // Do post with loopis ajax
-        $.post(loopis_ajax.ajax_url, { 
-            action: 'loopis_plugins_update_handler',          // Do php function loopis_sp_handle_actions
-            nonce: loopis_ajax.nonce,                         // With our nonce
-        }, function (response) {                              // Afterwards
-            const data = response.data;
-            logToPhp(data.message);
-            if (response.success) {
-                $('#run_plupdate').prop('disabled', true).text('Up-to-date!')
+        Promise.all([ //run simultaneously
+            installPlugins(), 
+            stepFunction(0)     
+        ])
+            .then(() => {
+                // when both are finished, submit
+                refreshLoopisState()
+
+                $('#run_loopis_config_installation').hide();
+                $('#run_loopis_config_update').show();
+    
+                const form = document.createElement("form");
+                form.method = "POST";
+                form.action = "/wp-admin/admin-post.php";
+    
+                const input = document.createElement("input");
+                input.type = "hidden";
+                input.name = "action";
+                input.value = "activate_plugins";
+    
+                form.appendChild(input);
+                document.body.appendChild(form);
+                form.submit();
+            })
+            .catch(err => {
+                console.error(err);
+                $('#run_loopis_config_installation')
+                    .prop('disabled', false)
+                    .text('Install Loopis');
+                logToPhp(err);
                 logToPhp(" ");
-                logToPhp('=========================== End: Update! ===========================');
+                logToPhp(`=========================== End: Loopis Installer! ===========================`);
                 logToPhp(" ");
-            } else {
-                $('#run_plupdate').prop('disabled', false).text('Update')
-                logToPhp(" ");
-                logToPhp('=========================== End: Update! ===========================');
-                logToPhp(" ");
-            }
-        });
+            });
     }
 
-    //====== subfunctions ======
 
     // PHP Error logger
     function logToPhp(error_log) {
@@ -194,42 +179,50 @@ jQuery(document).ready(function ($) {
 
     // Setup button listener
     $('#run_loopis_config_installation').on('click', function () {
+        installButton();
         $(this).prop('disabled', true).text('🔄 Installing Loopis...');
-        installPlugins();
-        stepFunction(0);
     });
-
     // Update button listener
     $('#run_loopis_config_update').on('click', function () {
         $(this).prop('disabled', true).text('🔄 Updating Loopis...');
         updateVersion();
+        //TEMPORARY
+        installButton();
     });    
 
-    // Update button listener
-    $('#run_plupdate').on('click', function () {
-        $(this).prop('disabled', true).text('🔄 Updating Plugins...');
-        updatePlugins();
-        $(this).prop('disabled', true).text('Up-to-date!');
-    });    
+    // Button to db fix
+    function refreshLoopisState() {
+        return $.post(loopis_ajax.ajax_url, {
+            action: 'loopis_get_status',
+            nonce: loopis_ajax.nonce
+        }).done(response => {
+            if (!response.success) return;
+    
+            installed = response.data.installed;
+            outofdate = response.data.outofdate;
+    
+            updateButtons();
+        });
+    }
 
-    // Button Enabler
-    if (localStorage.getItem('loopis_config_installed') === '1') {//Enable update if installed and not versioncoherent
-        $('#run_loopis_config_installation').prop('disabled', true).text('Installed!');
-        if (outofdate){
-            $('#run_loopis_config_update').prop('disabled', false).text('Update loopis');
-        }else{
-            $('#run_loopis_config_update').prop('disabled', true).text('Up-to-date!');
-        };
-        if (outofdate){
-            $('#run_plupdate').prop('disabled', false).text('Update plugins');
-        }else{
-            $('#run_plupdate').prop('disabled', true).text('Up-to-date!');
-        };
-    }else { // If not installed, disable update enable install
-        $('#run_loopis_config_installation').prop('disabled', false).text('Install loopis');
-        $('#run_loopis_config_update').prop('disabled', true).text('Update loopis');
-        $('#run_plupdate').prop('disabled', true).text('Update plugins');
-    };
-
-
+    function updateButtons(){
+       if (installed) {//Enable update if installed and not versioncoherent
+           $('#run_loopis_config_installation').prop('disabled', true).text('Installed!');
+           if (outofdate){
+               $('#run_loopis_config_update').prop('disabled', false).text('Update loopis');
+           }else{
+               $('#run_loopis_config_update').prop('disabled', true).text('Up-to-date!');
+           };
+           if (outofdate){
+               $('#run_plupdate').prop('disabled', false).text('Update plugins');
+           }else{
+               $('#run_plupdate').prop('disabled', true).text('Up-to-date!');
+           };
+       }else { // If not installed, disable update enable install
+           $('#run_loopis_config_installation').prop('disabled', false).text('Install loopis');
+           $('#run_loopis_config_update').prop('disabled', true).text('Update loopis');
+           $('#run_plupdate').prop('disabled', true).text('Update plugins');
+       };
+    }
 });
+
