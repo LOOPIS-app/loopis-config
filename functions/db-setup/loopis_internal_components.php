@@ -25,26 +25,16 @@ function loopis_components_install(){
     // Get upgrader
     $upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
     $result = $upgrader->install( $zip_url ); // Install
-
     if ( is_wp_error( $result ) ) {
         loopis_elog_first_level( "Failed installing $slug" );
+    }else:{
+        loopis_elog_first_level( "Installed: $slug!" );
     }
-
     $plugin_slug = $slug . '-main/' . $slug . '.php'; // if installed then activate
     if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_slug ) ) {
         activate_plugin( $plugin_slug );
+        loopis_elog_first_level( "Activated: $slug!" );
     }
-    // will not run yet
-    if (function_exists('github_updater_register_plugin')) {
-        github_updater_register_plugin(array(
-            'slug'   => $slug,
-            'uri'    => $zip_url,
-            'type'   => 'plugin',
-            'update' => true,
-        ));
-    }
-
-    
     loopis_elog_function_end_success('loopis_components_install');
 }
 
