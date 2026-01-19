@@ -27,7 +27,7 @@ function loopis_components_install(){
     $result = $upgrader->install( $zip_url ); // Install
     if ( is_wp_error( $result ) ) {
         loopis_elog_first_level( "Failed installing $slug" );
-    }else:{
+    }else{
         loopis_elog_first_level( "Installed: $slug!" );
     }
     $plugin_slug = $slug . '-main/' . $slug . '.php'; // if installed then activate
