@@ -1,22 +1,22 @@
 # ⚙ LOOPIS Config
-"LOOPIS Config" is a WordPress plugin that configures a WordPress installation for LOOPIS.app<br>
+Plugin configuring a WordPress installation for LOOPIS.app<br>
 
 ## 💡 Status
 This plugin is currently being developed by volunteers under the name "The Develoopers".<br>
 
 ## 📋 Changelog
 **0.8.4 (2025-12-12)**<br>
-Refactoring filenames
-Solved issues with install + troubleshooting
-Fixed some comments and syncing
-Removed obsolete functionality
+Refactoring filenames<br>
+Solved issues with install + troubleshooting<br>
+Fixed some comments and syncing<br>
+Removed obsolete functionality<br>
 
 **0.8.3 (2025-12-12)**<br>
 Adjusted configuration of `pages, wp_options`<br>
 Added `wp_loopis_config` and improved backend stucture<br>
 Rewritten admin-page HTML<br>
-Added a plugin options setter 
-Added components installer and theme configurer
+Added a plugin options setter<br>
+Added components installer and theme configurer<br>
 
 **0.8.2 (2025-11-26)**<br>
 Adjusted configuration of `pages, cats, roles, wp_options`<br>
