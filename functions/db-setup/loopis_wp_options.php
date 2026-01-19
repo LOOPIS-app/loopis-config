@@ -51,6 +51,7 @@ function loopis_wp_options_set() {
         'timezone_string'       => 'Europe/Stockholm',
         'WPLANG'                => 'sv_SE',
         'auto_update_core_major'=> 'disabled',
+        'loopis_config_version' => LOOPIS_CONFIG_VERSION,
         'fresh_site'            => '0'
         // Add more options as needed
     );

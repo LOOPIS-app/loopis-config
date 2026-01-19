@@ -21,7 +21,7 @@ function loopis_include_db_setup_files() {
     
     foreach ($php_files as $file) {
         require_once $file;
-        error_log("loopis_db_setup: Included " . basename($file));
+        //error_log("loopis_db_setup: Included " . basename($file));
     }
     
     return true;

@@ -125,6 +125,37 @@ function loopis_pages_insert() {
 }
 
 /**
+ * Alters WPUM pages for use in loopis
+ * 
+ * Runs post activation
+ *
+ * @return void
+ */
+// Another possibillity might be to stop the wpum page creation, and create them from scratch
+function loopis_pages_rename() {
+    loopis_elog_function_start('loopis_pages_rename');
+    // Change array
+    $pages = array(
+        'log-in' => '👤 Logga in',
+        'register' => '📋 Bli medlem',
+        'password-reset' => '🔑 Byt lösenord',
+        'profile' => '👤 Min profil',
+        'account' => '⚙ Inställningar',
+    );
+    // Update pages
+    foreach ($pages as $post_name => $new_title) {
+        $page = get_page_by_path($post_name, OBJECT, 'page');
+        if ($page) {
+            wp_update_post(array(
+                'ID' => $page->ID,
+                'post_title' => $new_title,
+            ));
+        }
+    }
+    loopis_elog_function_end_success('loopis_pages_rename');
+}
+
+/**
  * Delete default WordPress pages and posts
  *
  * @return void

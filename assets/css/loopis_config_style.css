@@ -8,3 +8,11 @@
   color: #50575e;
   font-size: 13px;
 }
+
+.status {
+  font-family: system-ui, -apple-system, "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 1em;
+  line-height: 1em;
+  /* optional: align emoji vertically if needed */
+  vertical-align: middle;
+}

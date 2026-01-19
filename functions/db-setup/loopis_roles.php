@@ -13,6 +13,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Set up LOOPIS custom user roles.
+ * 
+ * @return bool true
+ */
 function loopis_roles_set() {
     loopis_elog_function_start('loopis_roles_set');
 

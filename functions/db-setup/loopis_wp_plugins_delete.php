@@ -22,6 +22,7 @@ include_once(ABSPATH . 'wp-admin/includes/file.php'); //delete_plugins()
  * 
  * @return void
  */
+
 function loopis_wp_plugins_delete() {
     loopis_elog_function_start('loopis_wp_plugins_delete');
 
