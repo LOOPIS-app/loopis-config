@@ -6,15 +6,15 @@ This plugin is currently being developed by volunteers under the name "The Devel
 
 ## 📋 Changelog
 **0.8.5 (2025-12-12)**<br>
-Added MU-plugins
-Added dummy enviroment
-Refactored install order to allow for env use
+Added MU-plugins<br>
+Added dummy enviroment<br>
+Refactored install order to allow for env use<br>
 
 **0.8.4 (2025-12-12)**<br>
-Refactoring filenames
-Solved issues with install + troubleshooting
-Fixed some comments and syncing
-Removed obsolete functionality
+Refactoring filenames<br>
+Solved issues with install + troubleshooting<br>
+Fixed some comments and syncing<br>
+Removed obsolete functionality<br>
 
 **0.8.3 (2025-12-12)**<br>
 Adjusted configuration of `pages, wp_options`<br>
