@@ -16,6 +16,10 @@ Refactoring filenames<br>
 Solved issues with install + troubleshooting<br>
 Fixed some comments and syncing<br>
 Removed obsolete functionality<br>
+Refactoring filenames<br>
+Solved issues with install + troubleshooting<br>
+Fixed some comments and syncing<br>
+Removed obsolete functionality<br>
 
 **0.8.3 (2025-12-12)**<br>
 Adjusted configuration of `pages, wp_options`<br>
