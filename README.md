@@ -5,6 +5,11 @@
 This plugin is currently being developed by volunteers under the name "The Develoopers".<br>
 
 ## 📋 Changelog
+**0.8.5 (2025-12-12)**<br>
+Added MU-plugins
+Added dummy enviroment
+Refactored install order to allow for env use
+
 **0.8.4 (2025-12-12)**<br>
 Refactoring filenames
 Solved issues with install + troubleshooting
@@ -75,6 +80,10 @@ init commit with empty plugin file<br>
 
 ## 💾 Installation/Update
 Upload the zipped folder "loopis-config.zip" using **WP Admin > Plugins > Add Plugin > Upload Plugin**.
+Replace dummy.env in /root-files/ with the sandbox .env file from the drive
+Run the install
+
+Update either reinstalls or reruns root config
 
 ## 👤 Contributors
 Johan Linger, Hubert Hilborn, Johan Hagvil<br>

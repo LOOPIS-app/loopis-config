@@ -19,6 +19,7 @@
     // Example code update with changes from version to version, add new version and function handle with main update.
     $updates = [
         '0.8.4' => 'loopis_config_update_to_0_8_4',
+        '0.8.5' => 'loopis_config_update_to_0_8_5',
         // etc.
     ];
     // loops through and if the current version is less than the update version then it will run corresponding update
@@ -43,6 +44,33 @@ function loopis_config_update_to_0_8_4() {
     // update logic goes here
     loopis_elog_second_level("Rerunning installation!");
     loopis_config_reconcile_table();
+    wp_cache_delete('loopis_config_data', 'loopis');
+    $config = get_loopis_config_data();
+}
+
+ /**
+ * Updates from 0.8.4 to 0.8.5 this contains mostly root and table changes, therefore this runs reconcile and root
+ */
+function loopis_config_update_to_0_8_5() {
+    // update logic goes here
+    loopis_elog_second_level("Rerunning installation!");
+    loopis_config_reconcile_table();
+    loopis_root_files_copy();
+    global $wpdb;
+
+    $table = $wpdb->prefix . 'loopis_config';
+
+    $unit_id = $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT ID FROM $table WHERE unit = %s",
+            'WordPress root files'
+        )
+    );  
+
+    loopis_config_update(
+        ['ID' => $unit_id], 
+        ['Config_Version' => '0.8.5']);
+
     wp_cache_delete('loopis_config_data', 'loopis');
     $config = get_loopis_config_data();
 }

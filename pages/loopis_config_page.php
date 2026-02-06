@@ -54,7 +54,7 @@ function loopis_config_enqueue_scripts($hook) {
         'nonce'           => wp_create_nonce('loopis_config_nonce'),
         'setup_functions' => $setup_functions, 
         'preinstall_data' => $preinstall_data,
-        'version' => LOOPIS_CONFIG_VERSION,
+        'version' => get_option('loopis_config_version') ? get_option('loopis_config_version') : false,
         'outofdate' => $outofdate,
         'installed' => $installed,
     ]);

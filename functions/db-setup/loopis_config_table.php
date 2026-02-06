@@ -60,6 +60,14 @@ if (!defined('ABSPATH')) {
             'Category' => 'Install'
         ),
         array(
+            'Unit' => 'WordPress root files',
+            'Place' => 'Server',
+            'Config_Status' => 'Nan',
+            'Config_Version' => '0.0.0',
+            'Config_function' => 'loopis_root_files_copy',
+            'Category' => 'Install'
+        ),
+        array(
             'Unit' => 'LOOPIS pages',
             'Place' => 'wp_posts',
             'Config_Status' => 'Nan',
@@ -105,14 +113,6 @@ if (!defined('ABSPATH')) {
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
             'Config_function' => 'loopis_wp_plugins_delete',
-            'Category' => 'Install'
-        ),
-        array(
-            'Unit' => 'WordPress root files',
-            'Place' => 'Server',
-            'Config_Status' => 'Nan',
-            'Config_Version' => '0.0.0',
-            'Config_function' => 'loopis_root_files_copy',
             'Category' => 'Install'
         ),
         array(
