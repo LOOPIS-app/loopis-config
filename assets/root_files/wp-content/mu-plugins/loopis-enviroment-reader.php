@@ -2,6 +2,9 @@
 /**
 * Plugin name: LOOPIS enviroment reader
 * Description: Reads enviroment varibles into constants.
+* Author: Hubert Hilborn
+* Since 2026-02-09
+*
 */
 
 // Enviroment loader

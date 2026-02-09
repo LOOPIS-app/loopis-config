@@ -1,6 +1,9 @@
 <?php
 /**
- * This file filters error reporting levels for the whole site!
+ * Plugin name: LOOPIS error reporting
+ * Author: Johan Hagvil
+ * Since: 2026-02-09
+ * Description: This file filters error reporting levels for the whole site!
  * 
  * Why filter error reporting?
  * Primarily to prevent the WPUM plugin from flooding debug.log 

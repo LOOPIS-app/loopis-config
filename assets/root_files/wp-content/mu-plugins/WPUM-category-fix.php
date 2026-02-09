@@ -2,6 +2,8 @@
 /**
  * Plugin Name: WPUM category fix
  * Description: Stops the category from resetting on edit.
+ * Author: Hubert Hilborn
+ * Since: 2026-02-09
  */
 
 function is_post_new(int $post_id){
