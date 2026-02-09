@@ -5,7 +5,7 @@ Plugin configuring a WordPress installation for LOOPIS.app<br>
 This plugin is currently being developed by volunteers under the name "The Develoopers".<br>
 
 ## 📋 Changelog
-**0.8.5 (2025-12-12)**<br>
+**0.85 (2026-02-09)**<br>
 Added MU-plugins<br>
 Added dummy enviroment<br>
 Refactored install order to allow for env use<br>
