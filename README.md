@@ -5,6 +5,10 @@ Plugin configuring a WordPress installation for LOOPIS.app<br>
 This plugin is currently being developed by volunteers under the name "The Develoopers".<br>
 
 ## 📋 Changelog
+**0.85 (2026-02-12)**<br>
+New patch update system<br>
+Added locker fix<br>
+
 **0.85 (2026-02-09)**<br>
 Added MU-plugins<br>
 Added dummy enviroment<br>
@@ -87,8 +91,6 @@ init commit with empty plugin file<br>
 Upload the zipped folder "loopis-config.zip" using **WP Admin > Plugins > Add Plugin > Upload Plugin**.
 Replace dummy.env in /root-files/ with the sandbox .env file from the drive
 Run the install
-
-Update either reinstalls or reruns root config
 
 ## 👤 Contributors
 Johan Linger, Hubert Hilborn, Johan Hagvil<br>
