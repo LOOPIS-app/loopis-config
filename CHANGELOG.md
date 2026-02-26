@@ -1,25 +1,25 @@
 # 📋 Changelog for "LOOPIS Config"
 
-## 0.8.5 (beta/staging)
+## 0.85 (beta/staging)
 - Broke out CHANGELOG from README, to match other repos.
 
-## 0.8.4 (2025-12-12)
+## 0.84 (2025-12-12)
 - Refactoring filenames
 - Solved issues with install + troubleshooting
 - Fixed some comments and syncing
 - Removed obsolete functionality
 
-## 0.8.3 (2025-12-12)
+## 0.83 (2025-12-12)
 - Adjusted configuration of `pages, wp_options`
 - Added `wp_loopis_config` and improved backend stucture
 - Rewritten admin-page HTML
 - Added a plugin options setter
 - Added components installer and theme configurer
 
-## 0.8.2 (2025-11-26)
+## 0.82 (2025-11-26)
 - Adjusted configuration of `pages, cats, roles, wp_options`
 
-## 0.8.1 (2025-11-25)
+## 0.81 (2025-11-25)
 - Converted `root_files` from gitlink to regular folder
 - Added template files for Maintenance Mode to `root_files`
 
