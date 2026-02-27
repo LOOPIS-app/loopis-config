@@ -1,15 +1,11 @@
 # ⚙ LOOPIS Config
-Plugin configuring a WordPress installation for LOOPIS.app<br>
+**Plugin configuring a WordPress installation for LOOPIS.app**
 
 ## 💡 Status
-This plugin is currently being developed by volunteers under the name "The Develoopers".<br>
-
-## 📋 Changelog
-
-
+Preparing for configuration in MultiSite environment. → [CHANGELOG.md](CHANGELOG.md)
 
 ## 💾 Installation/Update
-Upload the zipped folder "loopis-config.zip" using **WP Admin > Plugins > Add Plugin > Upload Plugin**.
+Upload the zipped folder "loopis-config.zip" in WP Admin.
 
 ## 👤 Contributors
-Johan Linger, Hubert Hilborn, Johan Hagvil<br>
+Hubert Hilborn, Johan Hagvil, Johan Linger
