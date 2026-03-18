@@ -33,7 +33,7 @@ function loopis_tags_insert() {
         ['name' => 'Böcker',           'slug' => 'bocker'],
         ['name' => 'Djursaker',        'slug' => 'djursaker'],
         ['name' => 'Elektronik',       'slug' => 'elektronik'],
-        ['name' => 'Fest',             'slug' => 'fest'],
+        ['name' => 'Fest & högtid',    'slug' => 'fest-högtid'],
         ['name' => 'Förvaring',        'slug' => 'forvaring'],
         ['name' => 'Hobby & pyssel',   'slug' => 'hobby-pyssel'],
         ['name' => 'Hushåll',          'slug' => 'hushall'],

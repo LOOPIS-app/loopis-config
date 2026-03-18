@@ -69,8 +69,7 @@ function loopis_settings_insert() {
         'welcome_email_greeting' => 'Hej [user_first_name]!',
         'welcome_email_message' => '<div style="padding: 10px;text-align: center;font-size: 18px;background: #f5f5f5;border-radius: 10px"><p>🎉 Ditt konto på LOOPIS.app är nu aktiverat.<br>→  Logga in med din vanliga webbläsare.</p><p><a href="/faq/tips-till-ny-medlem/">📌 Tips till ny medlem!</a></p></div>',
         'welcome_email_footer' => '<table style="border-collapse: collapse"><tr><td style="vertical-align: middle;padding-right: 5px"><img src="/wp-content/images/LOOPIS_icon.png" alt="LOOPIS_logo" style="height: 32px"></td><td style="vertical-align: middle;width: 275px"><p style="font-size: 11px;font-style: italic;margin: 0;line-height: 1.2">Information från <a href="/">LOOPIS.app</a> <br> angående ditt användarkonto.</p></td></tr></table>',
-        'locker_fetch_warning' => '⚠ Det är mycket saker i skåpen just nu! <br>🐎 Hämta gärna så snabbt som möjligt.',
-        'locker_leave_warning' => '⚠ Det är mycket saker i skåpen just nu! <br>🐌 Vänta gärna någon dag med att lämna.',
+        'locker_full_warning' => '⚠ Det är mycket saker i skåpen just nu! <br>🐎 Hämta dina saker så snabbt som möjligt.<br> 🐌 Vänta någon dag med att lämna stora saker.',
         'event_name' => '🛸 LOOPIS HQ',
         'event_name_history' => serialize(['🌳 LOOPIS på torget', '🛸 LOOPIS HQ']),
     ];

@@ -186,8 +186,6 @@ jQuery(document).ready(function ($) {
     $('#run_loopis_config_update').on('click', function () {
         $(this).prop('disabled', true).text('🔄 Updating Loopis...');
         updateVersion();
-        //TEMPORARY
-        installButton();
     });    
 
     // Button to db fix
