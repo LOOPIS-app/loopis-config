@@ -15,8 +15,6 @@
  */
 function loopis_mu_install() {
     loopis_elog_function_start('loopis_mu_install');
-
-    // Get install data from POST
     $data = $_POST['data'] ?? [];
     $slug = sanitize_text_field($data['slug'] ?? '');
     $zip_url = sanitize_text_field($data['zip_url'] ?? '');

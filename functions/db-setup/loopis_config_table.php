@@ -34,7 +34,8 @@ if (!defined('ABSPATH')) {
             'Config_Version' => LOOPIS_CONFIG_VERSION,
             'Config_function' => '',
             'Category' => 'Initialization'
-        ),array(
+        ),
+        array(
             'Unit' => 'Loopis MU-plugins',
             'Place' => 'wp-content',
             'Config_Status' => 'Nan',
@@ -42,7 +43,7 @@ if (!defined('ABSPATH')) {
             'Config_function' => 'loopis_mu_install()',
             'Config_Data' => json_encode([
                 'slug' => 'loopis-MU',
-                'zip_url' => 'https://github.com/LOOPIS-app/loopis-theme/archive/refs/heads/main.zip',
+                'zip_url' => 'https://github.com/LOOPIS-app/mu-plugins/archive/refs/heads/main.zip',
             ]),
             'Category' => 'Install'
             
