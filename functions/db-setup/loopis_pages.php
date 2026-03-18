@@ -47,16 +47,16 @@ function loopis_pages_insert() {
             'post_name'  => 'submit',
         ),
         array(
-            'post_title' => '💡 Frågor & svar',
-            'post_name'  => 'faq',
-        ),
-        array(
             'post_title' => '📡 Nyheter',
-            'post_name'  => 'news',
+            'post_name'  => 'forum',
         ),
         array(
             'post_title' => '💞 Event',
             'post_name'  => 'event',
+        ),
+        array(
+            'post_title' => '📌 Tips!',
+            'post_name'  => 'tips',
         ),
         array(
             'post_title' => '🔔 Min aktivitet',
@@ -66,29 +66,15 @@ function loopis_pages_insert() {
             'post_title' => '🐙 Admin',
             'post_name'  => 'admin',
         ),
-        // The pages below will be created by WPUM Plugin. Should be renamed later?
-        /*
         array(
-            'post_title' => '👤 Logga in',
-            'post_name'  => 'log-in',
+            'post_title' => '🌈 Förnya medlemskap',
+            'post_name'  => 'renew',
         ),
         array(
-            'post_title' => '📋 Bli medlem',
-            'post_name'  => 'register',
+            'post_title' => '🛒 Shoppen',
+            'post_name'  => 'shop',
         ),
-        array(
-            'post_title' => '🔑 Byt lösenord',
-            'post_name'  => 'password-reset',
-        ),
-        array(
-            'post_title' => '👤 Min profil',
-            'post_name'  => 'profile',
-        ),
-        array(
-            'post_title' => '⚙ Inställningar',
-            'post_name'  => 'account',
-        ),
-        */
+        // Five more pages will be created by WPUM Plugin, see below function loopis_pages_rename()
     );
 
     // Common values for all pages
@@ -153,6 +139,67 @@ function loopis_pages_rename() {
         }
     }
     loopis_elog_function_end_success('loopis_pages_rename');
+}
+
+/**
+ * Creates sub-pages with parent pages
+ *
+ * @return void
+ */
+function loopis_pages_with_parents() {
+    loopis_elog_function_start('loopis_pages_with_parents');
+    
+    // Define sub-pages with their parents
+    $sub_pages = array(
+        'renew' => array(
+            array(
+                'post_title'  => '🙏 Tack',
+                'post_name'   => 'renew-confirm',
+            ),
+        ),
+        'register' => array(
+            array(
+                'post_title'  => '⚡ Betala medlemskap',
+                'post_name'   => 'register-pay',
+            ),
+            array(
+                'post_title'  => '💚 Välkommen',
+                'post_name'   => 'register-welcome',
+            ),
+        ),
+    );
+
+    // Create sub-pages
+    foreach ($sub_pages as $parent_slug => $children) {
+        $parent_page = get_page_by_path($parent_slug, OBJECT, 'page');
+        
+        if ($parent_page) {
+            foreach ($children as $child) {
+                $child_page = get_page_by_path($child['post_name'], OBJECT, 'page');
+                
+                if ($child_page == null) {
+                    $child_data = array(
+                        'post_title'     => $child['post_title'],
+                        'post_name'      => $child['post_name'],
+                        'post_author'    => 1,
+                        'post_status'    => 'publish',
+                        'post_type'      => 'page',
+                        'ping_status'    => 'closed',
+                        'comment_status' => 'closed',
+                        'post_parent'    => $parent_page->ID,
+                    );
+                    
+                    $new_page_id = wp_insert_post($child_data);
+                    
+                    if (!is_wp_error($new_page_id)) {
+                        loopis_elog_first_level('Created page: ' . $child['post_title']);
+                    }
+                }
+            }
+        }
+    }
+    
+    loopis_elog_function_end_success('loopis_pages_with_parents');
 }
 
 /**

@@ -1,96 +1,11 @@
 # ⚙ LOOPIS Config
-Plugin configuring a WordPress installation for LOOPIS.app<br>
+**Plugin configuring a WordPress installation for LOOPIS.app**
 
 ## 💡 Status
-This plugin is currently being developed by volunteers under the name "The Develoopers".<br>
-
-## 📋 Changelog
-**0.85 (2026-02-12)**<br>
-New patch update system<br>
-Added locker fix<br>
-
-**0.85 (2026-02-09)**<br>
-Added MU-plugins<br>
-Added dummy enviroment<br>
-Refactored install order to allow for env use<br>
-
-
-**0.8.4 (2025-12-12)**<br>
-Refactoring filenames<br>
-Solved issues with install + troubleshooting<br>
-Fixed some comments and syncing<br>
-Removed obsolete functionality<br>
-Refactoring filenames<br>
-Solved issues with install + troubleshooting<br>
-Fixed some comments and syncing<br>
-Removed obsolete functionality<br>
-
-**0.8.3 (2025-12-12)**<br>
-Adjusted configuration of `pages, wp_options`<br>
-Added `wp_loopis_config` and improved backend stucture<br>
-Rewritten admin-page HTML<br>
-Added a plugin options setter<br>
-Added components installer and theme configurer<br>
-
-**0.8.2 (2025-11-26)**<br>
-Adjusted configuration of `pages, cats, roles, wp_options`<br>
-
-**0.8.1 (2025-11-25)**<br>
-Converted `root_files` from gitlink to regular folder<br>
-Added template files for Maintenance Mode to `root_files`<br>
-
-**0.8 (2025-11-16)**<br>
-LOOPIS `root_files` copied to WordPress root directory<br>
-Adjusted configuration of `pages, roles, wp_options`<br>
-
-**0.7 (2025-10-21)**<br>
-Insert of LOOPIS default users fixed and renamed to `loopis_insert_admins`<br>
-Improved structure with dynamic inclusion of files in folders<br>
-
-**0.6 (2025-10-06)**<br>
-Database reset tool moved to plugin `LOOPIS Develooper`<br>
-Roles and capabilites page moved to plugin `LOOPIS Develooper`<br>
-Separate page added for `Components`<br>
-Custom error logging enabled<br>
-
-**0.5 (2025-09-26)**<br>
-LOOPIS default page templates inserted in `wp_postmeta`<br>
-LOOPIS pages for 'front', 'posts' and 'privacy-policy' set in `wp_options`<br>
-WordPress admin default screen options set in `wp_usermeta`<br>
-
-**0.4 (2025-09-25)**<br>
-LOOPIS default users inserted in `wp_users`<br>
-LOOPIS default user roles set in `wp_options`<br>
-LOOPIS default plugins installed in `Plugins`<br>
-New section in WP Admin Area for viewing user roles capabilities<br>
-
-**0.3 (2025-09-22)**<br>
-LOOPIS default categories inserted in `wp_terms`<br>
-WordPress default content deleted in `wp_posts`<br>
-WordPress default plugins deleted in `Plugins`<br>
-New ajax buttons in WP Admin Area<br>
-New folders for assets: `css, js, root_files`<br>
-
-**0.2 (2025-09-18)**<br>
-User interface in WP Admin Area<br>
-
-**0.1 (2025-09-12)**<br>
-LOOPIS custom table created: `loopis_lockers`<br>
-LOOPIS custom table created: `loopis_settings`<br>
-LOOPIS default settings inserted in `loopis_settings`<br>
-LOOPIS default pages inserted in `wp_posts`<br>
-LOOPIS default tags inserted in `wp_terms`<br>
-WordPress default settings set in `wp_options`<br>
-Database cleanup tool for development purposes<br>
-
-**0.0 (2025-08-26)**<br>
-init commit with empty plugin file<br>
-
+Preparing for configuration in MultiSite environment. → [CHANGELOG.md](CHANGELOG.md)
 
 ## 💾 Installation/Update
-Upload the zipped folder "loopis-config.zip" using **WP Admin > Plugins > Add Plugin > Upload Plugin**.
-Replace dummy.env in /root-files/ with the sandbox .env file from the drive
-Run the install
+Upload the zipped folder "loopis-config.zip" in WP Admin.
 
 ## 👤 Contributors
-Johan Linger, Hubert Hilborn, Johan Hagvil<br>
+Hubert Hilborn, Johan Hagvil, Johan Linger

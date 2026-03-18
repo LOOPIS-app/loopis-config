@@ -3,10 +3,19 @@
 Plugin Name: LOOPIS Config
 Plugin URI: https://github.com/LOOPIS-app/loopis-config
 Description: Plugin for configuring a clean WP installation for LOOPIS.app
-Version: 0.86
+Version: 0.85 (beta)
 Author: The Develoopers
 Author URI: https://loopis.org
 */
+
+/*
+ * Copyright (C) 2026 LOOPIS
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ */
 
 /*
  * Copyright (C) 2026 LOOPIS
@@ -23,7 +32,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin version
-define('LOOPIS_CONFIG_VERSION', '0.86');
+define('LOOPIS_CONFIG_VERSION', '0.85');
 
 // Define plugin folder path constants
 define('LOOPIS_CONFIG_DIR', plugin_dir_path(__FILE__));     // Server-side path to /wp-content/plugins/loopis-config/
