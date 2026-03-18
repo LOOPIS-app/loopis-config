@@ -8,6 +8,15 @@ Author: The Develoopers
 Author URI: https://loopis.org
 */
 
+/*
+ * Copyright (C) 2026 LOOPIS
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ */
+
 // Prevent direct access
 if (!defined('ABSPATH')) { 
     exit; 
@@ -22,16 +31,22 @@ define('LOOPIS_CONFIG_URL', plugin_dir_url(__FILE__));      // Client-side path 
 // Define patch folder path constant
 define('PATCH_FOLDER','functions/update/patch');
 // Define folders to include (for admins in admin area)
+
+require 'Migration.php';
 function loopis_config_load_files() {
     if (!current_user_can('administrator')) { return; } // Exit early
     loopis_config_include_folder('logging');
     if (!is_admin()) { return; } // Exit early
         loopis_config_include_folder('interface');
         loopis_config_include_folder('pages');
+        loopis_config_include_folder('init');
         loopis_config_include_folder('functions');
         loopis_config_include_folder('functions/update');
 }
-
+add_action('init', function() {
+    $uploads = wp_upload_dir();
+    error_log( print_r($uploads, true) );
+});
 
 // Function to include all PHP files in a folder
 function loopis_config_include_folder($folder_name) {
@@ -47,7 +62,7 @@ function loopis_config_include_folder($folder_name) {
 
 // Enqueue style sheet (for admins in admin area)
 function loopis_config_enqueue_styles() {
-    if (!current_user_can('administrator') && !is_admin()) { return; } // Exit early
+    if (!current_user_can('administrator') && !is_super_admin()) { return; } // Exit early
     wp_enqueue_style(
         'loopis-admin-style', // Name
         LOOPIS_CONFIG_URL . 'assets/css/loopis_config_style.css', // URL
@@ -101,8 +116,11 @@ function get_loopis_config_data() {
     return $config;
 }
 
+// New site hook!
+add_action('wpmu_new_blog', 'loopis_initialize_database', 10, 1);
+
 // Admin menu hook
-add_action('admin_menu', 'loopis_config_admin_menu');
+add_action('network_admin_menu', 'loopis_config_admin_menu');
 
 // Admin style hook
 add_action('admin_enqueue_scripts', 'loopis_config_enqueue_styles');
