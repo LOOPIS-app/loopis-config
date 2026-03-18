@@ -1,6 +1,6 @@
 <?php
 /**
- * Functions to fetch and install Loopis repos Admin, Theme and Develooper.
+ * Functions to fetch and install Loopis repos (Admin, Content, Develooper, Theme, and Users).
  *
  * @package LOOPIS_Config
  * @subpackage Database

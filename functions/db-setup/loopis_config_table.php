@@ -40,13 +40,12 @@ if (!defined('ABSPATH')) {
             'Place' => 'wp-content',
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
-            'Config_function' => 'loopis_mu_install()',
+            'Config_function' => 'loopis_mu_install',
             'Config_Data' => json_encode([
                 'slug' => 'loopis-MU',
                 'zip_url' => 'https://github.com/LOOPIS-app/mu-plugins/archive/refs/heads/main.zip',
             ]),
             'Category' => 'Install'
-            
         ),
         array(
             'Unit' => 'LOOPIS settings table',
