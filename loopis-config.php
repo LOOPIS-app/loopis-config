@@ -41,7 +41,7 @@ define('LOOPIS_CONFIG_URL', plugin_dir_url(__FILE__));      // Client-side path 
 define('PATCH_FOLDER','functions/update/patch');
 // Define folders to include (for admins in admin area)
 
-require 'Migration.php';
+//require 'Migration.php';
 function loopis_config_load_files() {
     if (!current_user_can('administrator')) { return; } // Exit early
     loopis_config_include_folder('logging');
