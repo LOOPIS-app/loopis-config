@@ -119,8 +119,11 @@ function get_loopis_config_data() {
 add_action('wpmu_new_blog', 'loopis_initialize_database', 10, 1);
 
 // Admin menu hook
-add_action('network_admin_menu', 'loopis_config_admin_menu');
-
+if (is_multisite()) {   
+    add_action('network_admin_menu', 'loopis_config_admin_menu');
+} else {
+    add_action('admin_menu', 'loopis_config_admin_menu');
+}
 // Admin style hook
 add_action('admin_enqueue_scripts', 'loopis_config_enqueue_styles');
 
@@ -148,6 +151,7 @@ add_action('admin_init', function() {
 
 
 add_action('admin_menu', function () {
+    if (!is_multisite(  )) { return; } 
     add_menu_page(
         'Loopis Site Config',
         'Loopis Site Config',

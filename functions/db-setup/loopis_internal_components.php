@@ -32,7 +32,7 @@ function loopis_components_install(){
     }
     $plugin_slug = $slug . '-main/' . $slug . '.php'; // if installed then activate
     if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_slug ) ) {
-        activate_plugin( $plugin_slug );
+        activate_plugin( $plugin_slug , '', is_multisite());
         loopis_elog_first_level( "Activated: $slug!" );
     }
     loopis_elog_function_end_success('loopis_components_install');
@@ -68,7 +68,21 @@ function loopis_themes_configure() {
         }
 
         if ( $theme_stylesheet ) {
-            switch_theme( $theme_stylesheet );
+            if (is_multisite()) {
+                $allowed_themes = get_site_option('allowedthemes', []);
+                $allowed_themes[$theme_stylesheet] = true;
+                update_site_option('allowedthemes', $allowed_themes);
+
+                // Optionally switch the theme on all sites
+                $sites = get_sites();
+                foreach ($sites as $site) {
+                    switch_to_blog($site->blog_id);
+                    switch_theme($theme_stylesheet);
+                    restore_current_blog();
+                }
+            } else {
+                switch_theme($theme_stylesheet);
+            }
             loopis_elog_first_level( "Activated theme: {$slug}" );
         } else {
             loopis_elog_first_level( "Theme installed but not registered." );

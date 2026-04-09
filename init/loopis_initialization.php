@@ -40,7 +40,6 @@ function loopis_initialize_database($blog_id){
  */
 
 function loopis_configure_site_database(){
-
     // Terms
     loopis_cats_insert();
     // Pages
