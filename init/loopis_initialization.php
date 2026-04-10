@@ -30,6 +30,8 @@ function loopis_initialize_database($blog_id){
     loopis_tags_insert();
     // Back to main
     restore_current_blog();
+    //lockers
+    loopis_lockers_create();
 }
 /**
  * Function: loopis_configure_site_database
@@ -51,5 +53,7 @@ function loopis_configure_site_database(){
     loopis_wp_options_set();
     loopis_roles_set();
     loopis_tags_insert();
+    //lockers?
+    loopis_lockers_create();
 }
 

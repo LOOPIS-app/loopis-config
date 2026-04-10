@@ -42,10 +42,6 @@ function loopis_config_load_files() {
         loopis_config_include_folder('functions');
         loopis_config_include_folder('functions/update');
 }
-add_action('init', function() {
-    $uploads = wp_upload_dir();
-    error_log( print_r($uploads, true) );
-});
 
 // Function to include all PHP files in a folder
 function loopis_config_include_folder($folder_name) {
@@ -145,6 +141,7 @@ register_activation_hook(__FILE__, function(){
 
 // Cache table data
 add_action('admin_init', function() {
+    if (!current_user_can('administrator')) { return;} 
     if (!current_user_can('administrator')) { return;} 
     $config = get_loopis_config_data();
 });
