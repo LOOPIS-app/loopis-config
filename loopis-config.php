@@ -102,7 +102,11 @@ function get_loopis_config_data() {
     }
 
     global $wpdb;
-    $table = $wpdb->prefix . 'loopis_config';
+    if (is_multisite(  )){
+        $table = $wpdb->base_prefix . 'loopis_config';
+    } else{
+        $table = $wpdb->prefix . 'loopis_config';
+    }
     $config = $wpdb->get_results("SELECT * FROM $table", ARRAY_A);
 
     // Cache it indefinitely (until explicitly cleared)
