@@ -41,9 +41,13 @@ function loopis_mu_install() {
     // Extract ZIP
     $zip = new ZipArchive();
     if ($zip->open($tmp_file) === true) {
-        $zip->extractTo($mu_dir);
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $entry = $zip->getNameIndex($i);
+            $dest_path = $mu_dir . '/' . basename($entry); 
+            copy("zip://{$tmp_file}#{$entry}", $dest_path);
+        }
         $zip->close();
-        loopis_elog_first_level("Extracted $slug to MU plugins");
+        loopis_elog_first_level("Extracted $slug directly into MU plugins");
     } else {
         loopis_elog_first_level("Failed to open ZIP for $slug");
         @unlink($tmp_file);

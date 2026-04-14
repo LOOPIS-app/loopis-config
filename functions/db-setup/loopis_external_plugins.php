@@ -101,7 +101,11 @@ function loopis_plugins_activate(){
         if (file_exists(WP_PLUGIN_DIR . '/' . $plugin['main'])){
             if (!is_plugin_active($plugin['slug'])) {
                 loopis_elog_first_level("activating plugin: {$plugin['slug']}");
-                activate_plugin($plugin['main'], $silent = true );
+                if (is_multisite()) {
+                    activate_plugin($plugin['main'], $silent = true, $network_wide = true);
+                } else {
+                    activate_plugin($plugin['main'], $silent = true);
+                }
                 loopis_config_update(['ID' => $plugin['ID']], 
                     ['Config_Status' => 'Ok',
                     'Config_Version' => $version]);
