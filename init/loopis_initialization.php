@@ -6,6 +6,13 @@
  * @subpackage Admin-page
  */
 
+/**
+ * Function: loopis_initialize_database
+ * Description:
+ *              Function to configure site database.
+ *
+ * @return void Sends JSON response for UI.
+ */
 
 function loopis_initialize_database($blog_id){
     // Go to sub-site
@@ -23,5 +30,30 @@ function loopis_initialize_database($blog_id){
     loopis_tags_insert();
     // Back to main
     restore_current_blog();
+    //lockers
+    loopis_lockers_create();
+}
+/**
+ * Function: loopis_configure_site_database
+ * Description:
+ *              Function to configure site database.
+ *
+ * @return void Sends JSON response for UI.
+ */
+
+function loopis_configure_site_database(){
+    // Terms
+    loopis_cats_insert();
+    // Pages
+    loopis_pages_insert();
+    loopis_pages_rename();
+    // Options
+    loopis_settings_create();
+    loopis_settings_insert();
+    loopis_wp_options_set();
+    loopis_roles_set();
+    loopis_tags_insert();
+    //lockers?
+    loopis_lockers_create();
 }
 

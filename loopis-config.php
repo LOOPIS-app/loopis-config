@@ -17,15 +17,6 @@ Author URI: https://loopis.org
  * (at your option) any later version.
  */
 
-/*
- * Copyright (C) 2026 LOOPIS
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- */
-
 // Prevent direct access
 if (!defined('ABSPATH')) { 
     exit; 
@@ -41,7 +32,6 @@ define('LOOPIS_CONFIG_URL', plugin_dir_url(__FILE__));      // Client-side path 
 define('PATCH_FOLDER','functions/update/patch');
 // Define folders to include (for admins in admin area)
 
-//require 'Migration.php';
 function loopis_config_load_files() {
     if (!current_user_can('administrator')) { return; } // Exit early
     loopis_config_include_folder('logging');
@@ -52,10 +42,6 @@ function loopis_config_load_files() {
         loopis_config_include_folder('functions');
         loopis_config_include_folder('functions/update');
 }
-add_action('init', function() {
-    $uploads = wp_upload_dir();
-    error_log( print_r($uploads, true) );
-});
 
 // Function to include all PHP files in a folder
 function loopis_config_include_folder($folder_name) {
@@ -116,7 +102,11 @@ function get_loopis_config_data() {
     }
 
     global $wpdb;
-    $table = $wpdb->prefix . 'loopis_config';
+    if (is_multisite(  )){
+        $table = $wpdb->base_prefix . 'loopis_config';
+    } else{
+        $table = $wpdb->prefix . 'loopis_config';
+    }
     $config = $wpdb->get_results("SELECT * FROM $table", ARRAY_A);
 
     // Cache it indefinitely (until explicitly cleared)
@@ -129,8 +119,11 @@ function get_loopis_config_data() {
 add_action('wpmu_new_blog', 'loopis_initialize_database', 10, 1);
 
 // Admin menu hook
-add_action('network_admin_menu', 'loopis_config_admin_menu');
-
+if (is_multisite()) {   
+    add_action('network_admin_menu', 'loopis_config_admin_menu');
+} else {
+    add_action('admin_menu', 'loopis_config_admin_menu');
+}
 // Admin style hook
 add_action('admin_enqueue_scripts', 'loopis_config_enqueue_styles');
 
@@ -153,5 +146,53 @@ register_activation_hook(__FILE__, function(){
 // Cache table data
 add_action('admin_init', function() {
     if (!current_user_can('administrator')) { return;} 
+    if (!current_user_can('administrator')) { return;} 
     $config = get_loopis_config_data();
 });
+
+
+add_action('admin_menu', function () {
+    if (!is_multisite(  )) { return; } 
+    add_menu_page(
+        'Loopis Site Config',
+        'Loopis Site Config',
+        'manage_options',
+        'loopis-site-config',
+        'loopis_site_config_page',
+        'dashicons-database-import',
+        80
+    );
+});
+
+add_action('admin_init', function () {
+    if (!isset($_POST['loopis_site_config'])) {
+        return;
+    }
+
+    if (!isset($_POST['loopis_site_config_nonce']) ||
+        !wp_verify_nonce($_POST['loopis_site_config_nonce'], 'loopis_site_config_action')) {
+        wp_die('Security check failed');
+    }
+    loopis_configure_site_database();
+    update_option('wp_site_config_completed', 1);
+});
+
+function loopis_site_config_page() {
+    ?>
+    <div class="wrap">
+        <h1>Loopis site configuration!</h1>
+
+        <?php if (get_option('wp_site_config_completed')) : ?>
+            <div class="notice notice-success">
+                <p>Configuration has already been completed.</p>
+            </div>
+        <?php endif; ?>
+
+        <form method="post">
+            <?php wp_nonce_field('loopis_site_config_action', 'loopis_site_config_nonce'); ?>
+            <input type="hidden" name="loopis_site_config" value="1" />
+            <?php submit_button('Configure', 'primary', 'submit', false); ?>
+        </form>
+    </div>
+    <?php
+}

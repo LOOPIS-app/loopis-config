@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
  *     Config_Status: string,
  *     Config_Version: string,
  *     Config_function: string,
- *     Config_Data?: string,
+ *     Config_Data: string,
  * }>
  */
  function loopis_config_get_table(){
@@ -34,6 +34,18 @@ if (!defined('ABSPATH')) {
             'Config_Version' => LOOPIS_CONFIG_VERSION,
             'Config_function' => '',
             'Category' => 'Initialization'
+        ),
+        array(
+            'Unit' => 'Loopis MU-plugins',
+            'Place' => 'wp-content',
+            'Config_Status' => 'Nan',
+            'Config_Version' => '0.0.0',
+            'Config_function' => 'loopis_mu_install',
+            'Config_Data' => json_encode([
+                'slug' => 'loopis-MU',
+                'zip_url' => 'https://github.com/LOOPIS-app/mu-plugins/archive/refs/heads/main.zip',
+            ]),
+            'Category' => 'Install'
         ),
         array(
             'Unit' => 'LOOPIS settings table',
@@ -155,6 +167,32 @@ if (!defined('ABSPATH')) {
                 'slug' => 'loopis-develooper',
                 'zip_url' => 'https://github.com/LOOPIS-app/loopis-develooper/archive/refs/heads/main.zip',
                 'ver_str' => 'LOOPIS_DEVELOOPER_VERSION',
+                ])
+        ),
+        array(
+            'Unit' => 'Loopis Users',
+            'Place' => 'wp_content',
+            'Config_Status' => 'Nan',
+            'Config_Version' => '0.0.0',
+            'Config_function' => 'loopis_components_install',
+            'Category' => 'Install',
+            'Config_Data' => json_encode([
+                'slug' => 'loopis-users',
+                'zip_url' => 'https://github.com/LOOPIS-app/loopis-users/archive/refs/heads/main.zip',
+                'ver_str' => 'LOOPIS_USERS_VERSION',
+                ])
+        ),
+        array(
+            'Unit' => 'Loopis Content',
+            'Place' => 'wp_content',
+            'Config_Status' => 'Nan',
+            'Config_Version' => '0.0.0',
+            'Config_function' => 'loopis_components_install',
+            'Category' => 'Install',
+            'Config_Data' => json_encode([
+                'slug' => 'loopis-content',
+                'zip_url' => 'https://github.com/LOOPIS-app/loopis-content/archive/refs/heads/main.zip',
+                'ver_str' => 'LOOPIS_CONTENT_VERSION',
                 ])
         ),
         array(

@@ -120,6 +120,7 @@ jQuery(document).ready(function ($) {
                 logToPhp(" ");
             }
         });
+        installButton();
     }
 
     //====== subfunctions ======

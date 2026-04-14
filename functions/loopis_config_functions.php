@@ -103,6 +103,8 @@ function loopis_sp_activate_plugins_handler() {
     ob_get_clean();
 
     loopis_pages_rename();
+    loopis_pages_with_parents();
+    
     // Completes error log
     error_log('');
     error_log('=========================== End: Loopis Installer! ===========================');
