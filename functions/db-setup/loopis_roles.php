@@ -32,6 +32,8 @@ function loopis_roles_set() {
         }
     }
     $admin_role = get_role('administrator');
+    
+    // Create custom LOOPIS roles
     $roles = array(
         'member_canceled' => array(
             'name' => 'Member_canceled',
@@ -98,8 +100,15 @@ function loopis_roles_set() {
             'name'         => 'Develooper',
             'capabilities' => $admin_role ? $admin_role->capabilities : array()
         ),
+        'stocker' => array(
+            'name' => 'Stocker',
+            'capabilities' => array(
+                'read_private_posts' => true,
+                'edit_private_posts' => true,
+            ),
+        ),
     );
-    // Define LOOPIS custom capabilities and which roles should have them
+    // Create LOOPIS custom capabilities and which roles should have them
     $loopis_capabilities = array(
         'loopis_admin' => array(
             'administrator',
@@ -123,17 +132,12 @@ function loopis_roles_set() {
             'manager',
             'board',
         ),
-        'loopis_storage_submit' => array(
+        'loopis_storage' => array(
             'administrator',
             'develooper',
             'manager',
             'board',
-        ),
-        'loopis_storage_book' => array(
-            'administrator',
-            'develooper',
-            'manager',
-            'board',
+            'stocker',
         ),
     );
     foreach ($roles as $role => $role_info) {
