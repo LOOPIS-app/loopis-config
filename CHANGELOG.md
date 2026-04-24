@@ -1,7 +1,7 @@
 # 📋 Changelog for "LOOPIS Config"
 
-## 0.85 (beta/staging)
-- Broke out CHANGELOG from README, to match other repos.
+## 0.85 (2026-04-24)
+- Preparations for multisite
 
 ## 0.84 (2025-12-12)
 - Refactoring filenames
