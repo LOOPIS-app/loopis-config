@@ -47,10 +47,6 @@ function loopis_pages_insert() {
             'post_name'  => 'submit',
         ),
         array(
-            'post_title' => '📡 Nyheter',
-            'post_name'  => 'forum',
-        ),
-        array(
             'post_title' => '💞 Event',
             'post_name'  => 'event',
         ),
