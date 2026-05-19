@@ -25,7 +25,7 @@ function loopis_pages_insert() {
     loopis_delete_default_content();
     
     // Define the pages to create
-    $pages_to_create =  (is_multisite()&&get_current_blog()===1)  ? array(
+    $pages_to_create =  (is_multisite()&&get_current_blog_id()===1)  ? array(
         array(
             'post_title' => '🌈 Startsida',
             'post_name'  => 'start',

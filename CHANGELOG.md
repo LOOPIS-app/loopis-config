@@ -1,5 +1,9 @@
 # 📋 Changelog for "LOOPIS Config"
 
+## 0.86  (2026-05-18) 
+- Updated favicon content in folder `root-files`
+- Updated `.env` in folder `root-files` + information in README.md
+
 ## 0.85 (2026-04-24)
 - Preparations for multisite
 
