@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" href="<?php echo $favicon; ?>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,600;1,300;1,400&subset=latin&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo $assetsUrl; ?>styles.css">
+    <script src="<?php echo $assetsUrl; ?>timer.js"></script>
+    <title><?php echo $texts['title']; ?></title>
+</head>
+
+<body>
+
+    <div class="container">
+
+    <header class="header">
+        <h1><?php echo $texts['header']; ?></h1>
+        <h2><?php echo $texts['subheader']; ?></h2>
+    </header>
+
+    <!--START_TIMER_BLOCK-->
+    <?php if (isset($timer)&& $timer['enabled'] === true): ?>
+        <section class="timer">
+            <div class="timer__item">
+                <div class="timer__data" id="timerResultDays"></div>
+                <div class="timer__type">Dagar</div>
+            </div>:
+            <div class="timer__item">
+                <div class="timer__data" id="timerResultHours"></div>
+                <div class="timer__type">Timmar</div>
+            </div>:
+            <div class="timer__item">
+                <div class="timer__data" id="timerResultMinutes"></div>
+                <div class="timer__type">Minuter</div>
+            </div>:
+            <div class="timer__item">
+                <div class="timer__data" id="timerResultSeconds"></div>
+                <div class="timer__type">Sekunder</div>
+            </div>
+        </section>
+        <script type="application/javascript">
+            startTimer(<?php echo $timer['days']; ?>, <?php echo $timer['hours']; ?>, <?php echo $timer['minutes']; ?>, <?php echo $startTime; ?>, <?php echo $timeShift; ?>);
+        </script>
+    <?php endif; ?>
+    <!--END_TIMER_BLOCK-->
+
+</div>
+
+<footer class="footer">
+    <div class="footer__content">
+        <a href="mailto:info@loopis.app">info@loopis.app</a>
+    </div>
+</footer>
+
+</body>
+</html>
