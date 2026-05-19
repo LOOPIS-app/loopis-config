@@ -3,7 +3,5 @@
 **/.DS_Store
 Thumbs.db
 assets/root_files/.env
-assets/root_files/dummy.env
 sandbox.php
 Migration.php
-assets/root_files/dummy.env
