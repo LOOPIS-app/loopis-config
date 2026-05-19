@@ -40,6 +40,11 @@ function loopis_cats_insert() {
         ['name' =>'🎁 Saker att få',        'slug' => 'stuff'],
         ['name' =>'⛔ Hidden',              'slug' => 'hidden'],
     ];
+    if (is_multisite() && (get_current_blog_id()===1)){
+        $categories[] =     ['name' =>'💚 Efterfrågat',     'slug' => 'requested'   ];
+        $categories[] =     ['name' =>'🧡 På gång',         'slug' => 'coming'      ];
+        $categories[] =     ['name' =>'❤ Aktivt',           'slug' => 'active'      ];
+    }
     $parent_map = [
         'tips'           => 'stuff',
         'old'            => 'stuff',
