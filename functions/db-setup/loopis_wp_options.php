@@ -60,7 +60,6 @@ function loopis_wp_options_set() {
         $wp_options['blogname'] = 'LOOPIS HQ';
         $wp_options['site_title'] = 'LOOPIS HQ';    
     }
-    loopis_set_site_icon();
     // Set the options
     foreach ($wp_options as $option_name => $option_value) {
         update_option($option_name, $option_value);
@@ -68,88 +67,3 @@ function loopis_wp_options_set() {
     loopis_elog_function_end_success('loopis_wp_options_set');
 }
 
-
-function loopis_set_site_icon() {
-    if ( get_option( 'site_icon' ) ) {
-        return; 
-    }
-
-    $src_file_path = LOOPIS_CONFIG_DIR . '/assets/img/site-icon.png';
-
-    $file_path = WP_CONTENT_DIR . '/uploads/site-icon.png'; 
-
-    if ( ! file_exists( $src_file_path ) && ! file_exists( $file_path ) ) {
-        return;
-    }
-
-    require_once ABSPATH . 'wp-admin/includes/file.php';
-    require_once ABSPATH . 'wp-admin/includes/media.php';
-    require_once ABSPATH . 'wp-admin/includes/image.php';
-    if (! file_exists( $file_path ) ) {
-        $file_contents = file_get_contents( $src_file_path );
-
-        if ( false === $file_contents ) {
-            return;
-        }
-
-        $upload = wp_upload_bits(
-            'site-icon.png',
-            null,
-            $file_contents
-        );
-
-        if ( ! empty( $upload['error'] ) ) {
-            return;
-        }
-    }else{
-
-        if ( ! is_readable( $file_path ) ) {
-            return;
-        }
-
-        $filetype = wp_check_filetype($file_path);
-
-        if ( empty( $filetype['type'] ) ) {
-            return;
-        }
-
-        $upload = array(
-            'file'      => $file_path,                 
-            'type'      => $filetype['type'],
-            'error'     => '',
-        );
-    }
-
-
-    // Prepare attachment.
-    $attachment = array(
-        'post_mime_type' => wp_check_filetype( $upload['file'] )['type'],
-        'post_title'     => sanitize_file_name( pathinfo( $upload['file'], PATHINFO_FILENAME ) ),
-        'post_content'   => '',
-        'post_status'    => 'inherit',
-    );
-
-    // Insert attachment.
-    $attach_id = wp_insert_attachment(
-        $attachment,
-        $upload['file']
-    );
-
-    if ( is_wp_error( $attach_id ) || ! $attach_id ) {
-        return;
-    }
-
-    // Generate metadata.
-    $attach_data = wp_generate_attachment_metadata(
-        $attach_id,
-        $upload['file']
-    );
-
-    wp_update_attachment_metadata(
-        $attach_id,
-        $attach_data
-    );
-
-    // Set as site icon
-    update_option( 'site_icon', (int) $attach_id );
-}
