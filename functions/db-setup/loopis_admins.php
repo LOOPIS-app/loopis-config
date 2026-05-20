@@ -15,6 +15,7 @@ if (!defined('ABSPATH')) {
 if (!defined('ADMIN_PASS')){
     define('ADMIN_PASS', "w3bmaster!");
 }
+
 /**
  * Insert admin users into wp_users
  * 

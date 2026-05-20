@@ -30,7 +30,7 @@ function loopis_components_install(){
     }else{
         loopis_elog_first_level( "Installed: $slug!" );
     }
-    $plugin_slug = $slug . '-main/' . $slug . '.php'; // if installed then activate
+    $plugin_slug = $slug . '-staging/' . $slug . '.php'; // if installed then activate
     if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_slug ) ) {
         activate_plugin( $plugin_slug , '', is_multisite());
         loopis_elog_first_level( "Activated: $slug!" );

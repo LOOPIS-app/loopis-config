@@ -147,5 +147,27 @@ register_activation_hook(__FILE__, function(){
 add_action('admin_init', function() {
     if (!current_user_can('administrator')) { return;} 
     $config = get_loopis_config_data();
+    loopis_plugin_ic();
 });
 
+function loopis_plugin_ic(){
+    $check = get_plugins();
+    $list =[
+        'post-smtp/postman-smtp.php'             => 'Post SMTP',
+        'wp-statistics/wp-statistics.php'         => 'WP statistics',
+        'ewww-image-optimizer/ewww-image-optimizer.php'  => 'EWWW Image Optimizer',
+        'wp-user-manager/wp-user-manager.php'       => 'WP User Manager',
+    ];
+    include_once LOOPIS_CONFIG_DIR . '/functions/loopis_config_functions.php';
+
+    foreach ($list as $path => $name){
+        if (isset($check[$path])){
+            loopis_config_update(
+                ['Unit' => $name,
+                'Category' => 'Component',], 
+                ['Config_Status' => 'Ok',
+                'Config_Version' => $check[$path]['Version']]);
+            error_log("updated: {$name}");
+        }
+    }
+}

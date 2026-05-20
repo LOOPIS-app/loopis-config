@@ -102,9 +102,9 @@ function loopis_plugins_activate(){
             if (!is_plugin_active($plugin['slug'])) {
                 loopis_elog_first_level("activating plugin: {$plugin['slug']}");
                 if (is_multisite()) {
-                    activate_plugin($plugin['main'], $silent = true, $network_wide = true);
+                    //activate_plugin($plugin['main'], $silent = true, $network_wide = true);
                 } else {
-                    activate_plugin($plugin['main'], $silent = true);
+                    //activate_plugin($plugin['main'], $silent = true);
                 }
                 loopis_config_update(['ID' => $plugin['ID']], 
                     ['Config_Status' => 'Ok',

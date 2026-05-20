@@ -136,7 +136,7 @@ jQuery(document).ready(function ($) {
         ])
             .then(() => {
                 // when both are finished, submit
-                refreshLoopisState()
+                refreshLoopisState();
 
                 $('#run_loopis_config_installation').hide();
                 $('#run_loopis_config_update').show();
