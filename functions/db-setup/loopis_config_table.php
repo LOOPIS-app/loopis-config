@@ -272,6 +272,18 @@ if (!defined('ABSPATH')) {
                 'main' => 'ewww-image-optimizer/ewww-image-optimizer.php'
                 ])
         ),
+        array(
+            'Unit' => 'Query Monitor',
+            'Place' => 'Plugins',
+            'Config_Status' => 'Nan',
+            'Config_Version' => '0.0.0',
+            'Config_function' => '',
+            'Category' => 'Component',
+            'Config_Data' => json_encode([
+                'slug' => 'query-monitor',
+                'main' => 'query-monitor/query-monitor.php'
+                ])
+        ),
     );
 }
 
