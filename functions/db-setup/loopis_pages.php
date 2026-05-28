@@ -25,7 +25,7 @@ function loopis_pages_insert() {
     loopis_delete_default_content();
     
     // Define the pages to create
-    $pages_to_create =  (is_multisite()&&get_current_blog_id()===1)  ? array(
+    $pages_to_create =  (!(is_multisite()&&get_current_blog_id()===1))  ? array(
         array(
             'post_title' => '🌈 Startsida',
             'post_name'  => 'start',
@@ -73,7 +73,7 @@ function loopis_pages_insert() {
 
     ) : array(
         array(
-            'post_title' => '🌈 Startsida',
+            'post_title' => '🗺 Start',
             'post_name'  => 'start',
         ),
         array(
@@ -85,8 +85,12 @@ function loopis_pages_insert() {
             'post_name'  => 'admin',
         ),
         array(
-            'post_title' => '📡 Nyheter',
-            'post_name'  => 'news',
+            'post_title' => '👤 Min profil',
+            'post_name'  => 'user',
+        ),
+        array(
+            'post_title' => '🛒 Shoppen',
+            'post_name'  => 'shop',
         ),
     ) ;
 

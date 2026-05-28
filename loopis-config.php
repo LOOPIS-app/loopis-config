@@ -116,7 +116,7 @@ function get_loopis_config_data() {
 }
 
 // New site hook!
-add_action('wpmu_new_blog', 'loopis_initialize_database', 10, 1);
+add_action('wp_initialize_site', 'loopis_initialize_database', 10, 1);
 
 // Admin menu hook
 if (is_multisite()) {   
@@ -167,7 +167,6 @@ function loopis_plugin_ic(){
                 'Category' => 'Component',], 
                 ['Config_Status' => 'Ok',
                 'Config_Version' => $check[$path]['Version']]);
-            error_log("updated: {$name}");
         }
     }
 }
