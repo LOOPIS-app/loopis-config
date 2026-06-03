@@ -34,10 +34,12 @@ function loopis_ledger_create_table(){
         user_id BIGINT(20) UNSIGNED NOT NULL,
         post_id BIGINT(20) UNSIGNED DEFAULT NULL,
         blog_id BIGINT(20) UNSIGNED DEFAULT NULL,
-        event VARCHAR(50) NOT NULL DEFAULT 'Nan',
+        location VARCHAR(50) NOT NULL DEFAULT 'unknown',
+        event VARCHAR(50) NOT NULL DEFAULT 'custom',
+        description VARCHAR(50) DEFAULT '',
+        type VARCHAR(50) DEFAULT '',
         coins TINYINT NOT NULL,
         clover TINYINT DEFAULT 0,
-        payment_type VARCHAR(50) DEFAULT NULL,
         payment SMALLINT DEFAULT 0,
         timestamp DATETIME NOT NULL,
         PRIMARY KEY (id),
@@ -80,9 +82,10 @@ function loopis_ledger_create_account($uid, $blog_id){
                 array(
                     'user_id' => $uid,
                     'timestamp' => date('Y-m-d H:i:s', $date),
-                    'payment_type' => $payment_type. '-' .$payment_method,
+                    'description' => $payment_method,
                     'payment' =>  $payment,
-                    'event' => 'Payment',
+                    'event' => 'payment',
+                    'type' => strtolower($payment_type),
                     'coins' => $coins,
                 ),
                 array(
@@ -111,13 +114,23 @@ function loopis_ledger_create_account($uid, $blog_id){
                 ? strtotime($row['wpum_reward_date'][0]['value'])
                 : time();
 
+            $reason  = !empty($row['wpum_reward_reason'][0]['value'])
+                ? $row['wpum_reward_reason'][0]['value']
+                : 'unknown';
+            
+            $description  = !empty($row['wpum_reward_description'][0]['value'])
+                ? $row['wpum_reward_description'][0]['value']
+                : 'free money';
+
             $wpdb->insert(
                 $table_name,
                 array(
                     'user_id' => $uid,
                     'timestamp' => date('Y-m-d H:i:s', $date),
-                    'event' => 'Reward',
+                    'event' => 'reward',
                     'coins' => $stars,
+                    'type' => $reason,
+                    'description' => $description,
                 ),
                 array(
                     '%d', 
@@ -148,7 +161,7 @@ function loopis_ledger_create_account($uid, $blog_id){
                 'post_id' => $post_id,
                 'blog_id' => $blog_id,
                 'timestamp' => date('Y-m-d H:i:s', strtotime($booked_date)),
-                'event' => 'Booked',
+                'event' => 'booked',
                 'coins' => -1,
             ),
             array(
@@ -169,7 +182,7 @@ function loopis_ledger_create_account($uid, $blog_id){
                     'post_id' => $post_id,
                     'blog_id' => $blog_id,
                     'timestamp' => date('Y-m-d H:i:s', strtotime($fetch_date)),
-                    'event' => 'Fetched',
+                    'event' => 'fetched',
                     'coins' => 0,
                     'clover' => 1,
                 ),
@@ -202,7 +215,7 @@ function loopis_ledger_create_account($uid, $blog_id){
         if (!empty($fetch_date)){
             $coins = 1;
             $date = strtotime($fetch_date);
-            $event = 'Given';
+            $event = 'given';
             $wpdb->insert(
                 $table_name,
                 array(
@@ -226,7 +239,7 @@ function loopis_ledger_create_account($uid, $blog_id){
         if (!empty($remove_date)) {
             $coins = 0;
             $date = strtotime($remove_date);
-            $event = 'Removed';
+            $event = 'removed';
             $wpdb->insert(
             $table_name,
             array(
@@ -249,7 +262,7 @@ function loopis_ledger_create_account($uid, $blog_id){
         }
         $coins = 0;
         $date = strtotime($post_date);
-        $event = 'Submitted';
+        $event = 'submitted';
         $wpdb->insert(
             $table_name,
             array(
