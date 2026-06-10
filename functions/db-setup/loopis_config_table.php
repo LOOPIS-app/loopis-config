@@ -225,15 +225,15 @@ if (!defined('ABSPATH')) {
                 ])
         ),
         array(
-            'Unit' => 'Post SMTP',
+            'Unit' => 'Comment Mentioned',
             'Place' => 'Plugins',
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
             'Config_function' => '',
             'Category' => 'Component',
             'Config_Data' => json_encode([
-                'slug' => 'post-smtp',
-                'main' => 'post-smtp/postman-smtp.php'
+                'slug' => 'comment-mention',
+                'main' => 'comment-mention/comment-mention.php'
                 ])
         ),
         array(
@@ -246,18 +246,6 @@ if (!defined('ABSPATH')) {
             'Config_Data' => json_encode([
                 'slug' => 'wp-statistics',
                 'main' => 'wp-statistics/wp-statistics.php'
-                ])
-        ),
-        array(
-            'Unit' => 'WP User Manager',
-            'Place' => 'Plugins',
-            'Config_Status' => 'Nan',
-            'Config_Version' => '0.0.0',
-            'Config_function' => '',
-            'Category' => 'Component',
-            'Config_Data' => json_encode([
-                'slug' => 'wp-user-manager',
-                'main' => 'wp-user-manager/wp-user-manager.php'
                 ])
         ),
         array(

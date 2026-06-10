@@ -22,6 +22,14 @@ function loopis_components_install(){
     $data = $_POST['data'];
     $slug = sanitize_text_field($data['slug'] ?? '' );
     $zip_url = sanitize_text_field($data['zip_url'] ?? '' );
+    $check = get_plugins();
+    $path = $slug . '-staging/' . $slug . '.php';
+    if (isset($check[$path])){
+        return;
+    }
+    if (isset($check[$slug . '-main/' . $slug . '.php'])){
+        return;
+    }
     // Get upgrader
     $upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
     $result = $upgrader->install( $zip_url ); // Install
