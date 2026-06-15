@@ -63,8 +63,8 @@ function loopis_pages_insert() {
             'post_name'  => 'admin',
         ),
         array(
-            'post_title' => '🌈 Förnya medlemskap',
-            'post_name'  => 'renew',
+            'post_title' => '👤 Min profil',
+            'post_name'  => 'user',
         ),
         array(
             'post_title' => '🛒 Shoppen',
@@ -127,97 +127,6 @@ function loopis_pages_insert() {
 
 }
 
-/**
- * Alters WPUM pages for use in loopis
- * 
- * Runs post activation
- *
- * @return void
- */
-// Another possibillity might be to stop the wpum page creation, and create them from scratch
-function loopis_pages_rename() {
-    loopis_elog_function_start('loopis_pages_rename');
-    // Change array
-    $pages = array(
-        'log-in' => '👤 Logga in',
-        'register' => '📋 Bli medlem',
-        'password-reset' => '🔑 Byt lösenord',
-        'profile' => '👤 Min profil',
-        'account' => '⚙ Inställningar',
-    );
-    // Update pages
-    foreach ($pages as $post_name => $new_title) {
-        $page = get_page_by_path($post_name, OBJECT, 'page');
-        if ($page) {
-            wp_update_post(array(
-                'ID' => $page->ID,
-                'post_title' => $new_title,
-            ));
-        }
-    }
-    loopis_elog_function_end_success('loopis_pages_rename');
-}
-
-/**
- * Creates sub-pages with parent pages
- *
- * @return void
- */
-function loopis_pages_with_parents() {
-    loopis_elog_function_start('loopis_pages_with_parents');
-    
-    // Define sub-pages with their parents
-    $sub_pages = array(
-        'renew' => array(
-            array(
-                'post_title'  => '🙏 Tack',
-                'post_name'   => 'renew-confirm',
-            ),
-        ),
-        'register' => array(
-            array(
-                'post_title'  => '⚡ Betala medlemskap',
-                'post_name'   => 'register-pay',
-            ),
-            array(
-                'post_title'  => '💚 Välkommen',
-                'post_name'   => 'register-welcome',
-            ),
-        ),
-    );
-
-    // Create sub-pages
-    foreach ($sub_pages as $parent_slug => $children) {
-        $parent_page = get_page_by_path($parent_slug, OBJECT, 'page');
-        
-        if ($parent_page) {
-            foreach ($children as $child) {
-                $child_page = get_page_by_path($child['post_name'], OBJECT, 'page');
-                
-                if ($child_page == null) {
-                    $child_data = array(
-                        'post_title'     => $child['post_title'],
-                        'post_name'      => $child['post_name'],
-                        'post_author'    => 2,
-                        'post_status'    => 'publish',
-                        'post_type'      => 'page',
-                        'ping_status'    => 'closed',
-                        'comment_status' => 'closed',
-                        'post_parent'    => $parent_page->ID,
-                    );
-                    
-                    $new_page_id = wp_insert_post($child_data);
-                    
-                    if (!is_wp_error($new_page_id)) {
-                        loopis_elog_first_level('Created page: ' . $child['post_title']);
-                    }
-                }
-            }
-        }
-    }
-    
-    loopis_elog_function_end_success('loopis_pages_with_parents');
-}
 
 /**
  * Delete default WordPress pages and posts

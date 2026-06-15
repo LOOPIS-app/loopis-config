@@ -16,12 +16,10 @@
 
 function loopis_initialize_database($blog_id){
     // Go to sub-site
+    $blog_id = (int) $blog_id;
     switch_to_blog( $blog_id );
     // Terms
     loopis_cats_insert();
-    // Pages
-    loopis_pages_insert();
-    loopis_pages_rename();
     // Options
     loopis_settings_create();
     loopis_settings_insert();
@@ -46,9 +44,6 @@ function loopis_initialize_database($blog_id){
 function loopis_configure_site_database(){
     // Terms
     loopis_cats_insert();
-    // Pages
-    loopis_pages_insert();
-    loopis_pages_rename();
     // Options
     loopis_settings_create();
     loopis_settings_insert();

@@ -25,9 +25,9 @@ function loopis_cats_insert() {
     // Define the categories to insert
     if (is_multisite() && (get_current_blog_id()===1)){
         $categories = [
-            ['name' =>'💚 Efterfrågat',     'slug' => 'requested'   ]
-            ['name' =>'🧡 På gång',         'slug' => 'coming'      ]
-            ['name' =>'❤ Aktivt',           'slug' => 'active'      ]
+            ['name' =>'💚 Efterfrågat',     'slug' => 'requested'   ],
+            ['name' =>'🧡 På gång',         'slug' => 'coming'      ],
+            ['name' =>'❤ Aktivt',           'slug' => 'active'      ],
         ];
     } else{
         $categories = [
