@@ -9,6 +9,16 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
+
+function loopis_cat_b($slug) {
+    // Get category by slug
+    $category = get_category_by_slug($slug);
+    // Return ID if found, otherwise return false
+    return $category ? $category->term_id : false;
+}
+
+
+
 function loopis_ledger_setup(){
 
     loopis_ledger_create_table();
@@ -68,7 +78,7 @@ function loopis_ledger_create_table(){
 function loopis_ledger_create_account($uid, $blog_id){
     global $wpdb; 
     $table_name = $wpdb->base_prefix . 'loopis_ledger';
-    $fetch_id = loopis_cat('fetched');
+    $fetch_id = loopis_cat_b('fetched');
 
     $payments = get_user_meta($uid, 'wpum_payments', true);
     $balance = 0;

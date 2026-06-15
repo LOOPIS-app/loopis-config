@@ -52,13 +52,17 @@ function loopis_wp_options_set() {
         'auto_update_core_major'=> 'disabled',
         'loopis_config_version' => LOOPIS_CONFIG_VERSION,
         'fresh_site'            => '0',
-        'site_language'         => 'svenska',
-        // Add more options as needed
+        'upload_size_limit'     => 10000,     
     );
 
     if (is_multisite() && (get_current_blog_id()===1)){
-        $wp_options['blogname'] = 'LOOPIS HQ';
-        $wp_options['site_title'] = 'LOOPIS HQ';    
+        $wp_options['blogname'] = 'LOOPIS';
+        $wp_options['site_title'] = 'LOOPIS';    
+        $wp_options['network_title'] = 'LOOPIS network'; 
+        update_site_option( 'registration', 'user' );
+        update_site_option( 'add_new_users', 1 );
+        update_site_option( 'fileupload_maxk', 10000 ); 
+        update_site_option( 'site_name', 'LOOPIS' );   
     }
     // Set the options
     foreach ($wp_options as $option_name => $option_value) {

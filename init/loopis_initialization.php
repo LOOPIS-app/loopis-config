@@ -28,13 +28,9 @@ function loopis_initialize_database($blog_id){
     loopis_wp_options_set();
     loopis_roles_set();
     loopis_tags_insert();
-    update_site_option( 'registration', 'all' );
-    update_site_option( 'add_new_users', 1 );
 
     //lockers
     loopis_lockers_create();
-
-    loopis_activate_theme('loopis theme');
 
     // Back to main
     restore_current_blog();
