@@ -28,10 +28,12 @@ function loopis_initialize_database($blog_id){
     loopis_wp_options_set();
     loopis_roles_set();
     loopis_tags_insert();
-    // Back to main
-    restore_current_blog();
+
     //lockers
     loopis_lockers_create();
+
+    // Back to main
+    restore_current_blog();
 }
 /**
  * Function: loopis_configure_site_database

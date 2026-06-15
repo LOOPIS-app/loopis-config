@@ -23,23 +23,31 @@ function loopis_cats_insert() {
     loopis_elog_function_start('loopis_cats_insert');
 
     // Define the categories to insert
-    $categories = [
-        ['name' =>'⏳ Lottning',            'slug' => 'new'],
-        ['name' =>'🟢 Först till kvarn',    'slug' => 'old'],
-        ['name' =>'❤ Paxad',                'slug' => 'booked'],
-        ['name' =>'🤎 Paxad',               'slug' => 'booked_custom'],
-        ['name' =>'⏹ Skåpet',               'slug' =>'locker'],
-        ['name' =>'☑ Hämtad',               'slug' => 'fetched'],
-        ['name' =>'❌ Borttagen',           'slug' => 'removed'],
-        ['name' =>'💢 Ej mottagen',         'slug' => 'disappeared'],
-        ['name' =>'📦 Lager',               'slug' => 'storage'],
-        ['name' =>'😎 Pausad',              'slug' => 'paused'],
-        ['name' =>'⭕ Arkiverad',           'slug' => 'archived'],
-        ['name' =>'📌 Tips',                'slug' => 'tips'],
-        ['name' =>'🗓 Låna',                'slug' => 'borrow'],
-        ['name' =>'🎁 Saker att få',        'slug' => 'stuff'],
-        ['name' =>'⛔ Hidden',              'slug' => 'hidden'],
-    ];
+    if (is_multisite() && (get_current_blog_id()===1)){
+        $categories = [
+            ['name' =>'💚 Efterfrågat',     'slug' => 'requested'   ]
+            ['name' =>'🧡 På gång',         'slug' => 'coming'      ]
+            ['name' =>'❤ Aktivt',           'slug' => 'active'      ]
+        ];
+    } else{
+        $categories = [
+            ['name' =>'⏳ Lottning',            'slug' => 'new'],
+            ['name' =>'🟢 Först till kvarn',    'slug' => 'old'],
+            ['name' =>'❤ Paxad',                'slug' => 'booked'],
+            ['name' =>'🤎 Paxad',               'slug' => 'booked_custom'],
+            ['name' =>'⏹ Skåpet',               'slug' => 'locker'],
+            ['name' =>'☑ Hämtad',               'slug' => 'fetched'],
+            ['name' =>'❌ Borttagen',           'slug' => 'removed'],
+            ['name' =>'💢 Ej mottagen',         'slug' => 'disappeared'],
+            ['name' =>'📦 Lager',               'slug' => 'storage'],
+            ['name' =>'😎 Pausad',              'slug' => 'paused'],
+            ['name' =>'⭕ Arkiverad',           'slug' => 'archived'], 
+            ['name' =>'📌 Tips',                'slug' => 'tips'],
+            ['name' =>'🗓 Låna',                'slug' => 'borrow'],
+            ['name' =>'🎁 Saker att få',        'slug' => 'stuff'],
+            ['name' =>'⛔ Hidden',              'slug' => 'hidden'],
+        ];
+    }
     $parent_map = [
         'tips'           => 'stuff',
         'old'            => 'stuff',

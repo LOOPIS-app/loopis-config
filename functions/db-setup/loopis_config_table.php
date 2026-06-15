@@ -36,14 +36,14 @@ if (!defined('ABSPATH')) {
             'Category' => 'Initialization'
         ),
         array(
-            'Unit' => 'Loopis MU-plugins',
+            'Unit' => 'LOOPIS MU-plugins',
             'Place' => 'wp-content',
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
             'Config_function' => 'loopis_mu_install',
             'Config_Data' => json_encode([
                 'slug' => 'loopis-MU',
-                'zip_url' => 'https://github.com/LOOPIS-app/mu-plugins/archive/refs/heads/main.zip',
+                'zip_url' => 'https://github.com/LOOPIS-app/mu-plugins/archive/refs/heads/staging.zip',
             ]),
             'Category' => 'Install'
         ),
@@ -144,85 +144,101 @@ if (!defined('ABSPATH')) {
             'Category' => 'Install'
         ),
         array(
-            'Unit' => 'Loopis Admin',
-            'Place' => 'wp_content',
+            'Unit' => 'LOOPIS Admin',
+            'Place' => 'Plugins',
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
             'Config_function' => 'loopis_components_install',
             'Category' => 'Install',
             'Config_Data' => json_encode([
                 'slug' => 'loopis-admin',
-                'zip_url' => 'https://github.com/LOOPIS-app/loopis-admin/archive/refs/heads/main.zip',
+                'zip_url' => 'https://github.com/LOOPIS-app/loopis-admin/archive/refs/heads/staging.zip',
                 'ver_str' => 'LOOPIS_ADMIN_VERSION',
                 ])
         ),
         array(
-            'Unit' => 'Loopis Develooper',
-            'Place' => 'wp_content',
+            'Unit' => 'LOOPIS Cronjobs',
+            'Place' => 'Plugins',
+            'Config_Status' => 'Nan',
+            'Config_Version' => '0.0.0',
+            'Config_function' => 'loopis_components_install',
+            'Category' => 'Install',
+            'Config_Data' => json_encode([
+                'slug' => 'loopis-cronjobs',
+                'zip_url' => 'https://github.com/LOOPIS-app/loopis-cronjobs/archive/refs/heads/staging.zip',
+                'ver_str' => 'LOOPIS_CRONJOBS_VERSION',
+                ])
+        ),
+        array(
+            'Unit' => 'LOOPIS Develooper',
+            'Place' => 'Plugins',
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
             'Config_function' => 'loopis_components_install',
             'Category' => 'Install',
             'Config_Data' => json_encode([
                 'slug' => 'loopis-develooper',
-                'zip_url' => 'https://github.com/LOOPIS-app/loopis-develooper/archive/refs/heads/main.zip',
+                'zip_url' => 'https://github.com/LOOPIS-app/loopis-develooper/archive/refs/heads/staging.zip',
                 'ver_str' => 'LOOPIS_DEVELOOPER_VERSION',
                 ])
         ),
         array(
-            'Unit' => 'Loopis Users',
-            'Place' => 'wp_content',
+            'Unit' => 'LOOPIS Users',
+            'Place' => 'Plugins',
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
             'Config_function' => 'loopis_components_install',
             'Category' => 'Install',
             'Config_Data' => json_encode([
                 'slug' => 'loopis-users',
-                'zip_url' => 'https://github.com/LOOPIS-app/loopis-users/archive/refs/heads/main.zip',
+                'zip_url' => 'https://github.com/LOOPIS-app/loopis-users/archive/refs/heads/staging.zip',
                 'ver_str' => 'LOOPIS_USERS_VERSION',
                 ])
         ),
         array(
-            'Unit' => 'Loopis Content',
-            'Place' => 'wp_content',
+            'Unit' => 'LOOPIS Content',
+            'Place' => 'Plugins',
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
             'Config_function' => 'loopis_components_install',
             'Category' => 'Install',
             'Config_Data' => json_encode([
                 'slug' => 'loopis-content',
-                'zip_url' => 'https://github.com/LOOPIS-app/loopis-content/archive/refs/heads/main.zip',
+                'zip_url' => 'https://github.com/LOOPIS-app/loopis-content/archive/refs/heads/staging.zip',
                 'ver_str' => 'LOOPIS_CONTENT_VERSION',
                 ])
         ),
         array(
-            'Unit' => 'Loopis Themes',
-            'Place' => 'wp_content',
+            'Unit' => 'LOOPIS Themes',
+            'Place' => 'Themes',
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
             'Config_function' => 'loopis_themes_configure',
             'Category' => 'Install',
             'Config_Data' => json_encode([
                 'slug' => 'loopis-theme',
-                'zip_url' => 'https://github.com/LOOPIS-app/loopis-theme/archive/refs/heads/main.zip',
+                'zip_url' => 'https://github.com/LOOPIS-app/loopis-theme/archive/refs/heads/staging.zip',
                 'ver_str' => 'LOOPIS_THEME_VERSION',
+                'HQ_slug' => 'loopis-theme-hq',
+                'HQ_zip_url' => 'https://github.com/LOOPIS-app/loopis-theme-hq/archive/refs/heads/staging.zip',
+                'HQ_ver_str' => 'LOOPIS_THEME_HQ_VERSION',
                 ])
         ),
         array(
-            'Unit' => 'Post SMTP',
-            'Place' => 'wp_content',
+            'Unit' => 'Comment Mentioned',
+            'Place' => 'Plugins',
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
             'Config_function' => '',
             'Category' => 'Component',
             'Config_Data' => json_encode([
-                'slug' => 'post-smtp',
-                'main' => 'post-smtp/postman-smtp.php'
+                'slug' => 'comment-mention',
+                'main' => 'comment-mention/comment-mention.php'
                 ])
         ),
         array(
             'Unit' => 'WP Statistics',
-            'Place' => 'wp_content',
+            'Place' => 'Plugins',
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
             'Config_function' => '',
@@ -233,20 +249,8 @@ if (!defined('ABSPATH')) {
                 ])
         ),
         array(
-            'Unit' => 'WP User Manager',
-            'Place' => 'wp_content',
-            'Config_Status' => 'Nan',
-            'Config_Version' => '0.0.0',
-            'Config_function' => '',
-            'Category' => 'Component',
-            'Config_Data' => json_encode([
-                'slug' => 'wp-user-manager',
-                'main' => 'wp-user-manager/wp-user-manager.php'
-                ])
-        ),
-        array(
             'Unit' => 'EWWW Image Optimizer',
-            'Place' => 'wp_content',
+            'Place' => 'Plugins',
             'Config_Status' => 'Nan',
             'Config_Version' => '0.0.0',
             'Config_function' => '',
@@ -254,6 +258,18 @@ if (!defined('ABSPATH')) {
             'Config_Data' => json_encode([
                 'slug' => 'ewww-image-optimizer',
                 'main' => 'ewww-image-optimizer/ewww-image-optimizer.php'
+                ])
+        ),
+        array(
+            'Unit' => 'Query Monitor',
+            'Place' => 'Plugins',
+            'Config_Status' => 'Nan',
+            'Config_Version' => '0.0.0',
+            'Config_function' => '',
+            'Category' => 'Component',
+            'Config_Data' => json_encode([
+                'slug' => 'query-monitor',
+                'main' => 'query-monitor/query-monitor.php'
                 ])
         ),
     );

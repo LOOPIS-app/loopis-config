@@ -136,7 +136,7 @@ jQuery(document).ready(function ($) {
         ])
             .then(() => {
                 // when both are finished, submit
-                refreshLoopisState()
+                refreshLoopisState();
 
                 $('#run_loopis_config_installation').hide();
                 $('#run_loopis_config_update').show();
@@ -206,7 +206,7 @@ jQuery(document).ready(function ($) {
 
     function updateButtons(){
        if (installed) {//Enable update if installed and not versioncoherent
-           $('#run_loopis_config_installation').prop('disabled', true).text('Installed!');
+           $('#run_loopis_config_installation').prop('disabled', false).text('Installed!');
            if (outofdate){
                $('#run_loopis_config_update').prop('disabled', false).text('Update loopis');
            }else{

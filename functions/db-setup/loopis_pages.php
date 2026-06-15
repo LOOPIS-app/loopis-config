@@ -25,7 +25,7 @@ function loopis_pages_insert() {
     loopis_delete_default_content();
     
     // Define the pages to create
-    $pages_to_create = array(
+    $pages_to_create =  (!(is_multisite()&&get_current_blog_id()===1))  ? array(
         array(
             'post_title' => '🌈 Startsida',
             'post_name'  => 'start',
@@ -70,8 +70,29 @@ function loopis_pages_insert() {
             'post_title' => '🛒 Shoppen',
             'post_name'  => 'shop',
         ),
-        // Five more pages will be created by WPUM Plugin, see below function loopis_pages_rename()
-    );
+
+    ) : array(
+        array(
+            'post_title' => '🗺 Start',
+            'post_name'  => 'start',
+        ),
+        array(
+            'post_title' => '🗄 Integritet',
+            'post_name'  => 'privacy',
+        ),
+        array(
+            'post_title' => '🐙 Admin',
+            'post_name'  => 'admin',
+        ),
+        array(
+            'post_title' => '👤 Min profil',
+            'post_name'  => 'user',
+        ),
+        array(
+            'post_title' => '🛒 Shoppen',
+            'post_name'  => 'shop',
+        ),
+    ) ;
 
     // Common values for all pages
     $common_values = array(

@@ -22,6 +22,14 @@ function loopis_components_install(){
     $data = $_POST['data'];
     $slug = sanitize_text_field($data['slug'] ?? '' );
     $zip_url = sanitize_text_field($data['zip_url'] ?? '' );
+    $check = get_plugins();
+    $path = $slug . '-staging/' . $slug . '.php';
+    if (isset($check[$path])){
+        return;
+    }
+    if (isset($check[$slug . '-main/' . $slug . '.php'])){
+        return;
+    }
     // Get upgrader
     $upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
     $result = $upgrader->install( $zip_url ); // Install
@@ -30,7 +38,7 @@ function loopis_components_install(){
     }else{
         loopis_elog_first_level( "Installed: $slug!" );
     }
-    $plugin_slug = $slug . '-main/' . $slug . '.php'; // if installed then activate
+    $plugin_slug = $slug . '-staging/' . $slug . '.php'; // if installed then activate
     if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_slug ) ) {
         activate_plugin( $plugin_slug , '', is_multisite());
         loopis_elog_first_level( "Activated: $slug!" );
@@ -45,50 +53,26 @@ function loopis_components_install(){
  */
 function loopis_themes_configure() {
     loopis_elog_function_start('loopis_themes_configure');
+
     $data = $_POST['data'];
-    $slug = sanitize_text_field($data['slug'] ?? '' );
-    $zip_url = sanitize_text_field($data['zip_url'] ?? '' );
+    $themearray = array(
+        sanitize_text_field($data['slug'] ?? '' ) => sanitize_text_field($data['zip_url'] ?? '' ),
+        sanitize_text_field($data['HQ_slug'] ?? '' ) => sanitize_text_field($data['HQ_zip_url'] ?? '' )
+    );
     //set upgrader and attempt install
     $upgrader = new Theme_Upgrader(new Automatic_Upgrader_Skin());
-    $result = $upgrader->install($zip_url);
 
-    if ( is_wp_error($result) ) {
-        loopis_elog_first_level("Failed to install theme: " . $result->get_error_message());
-    }else{
-        loopis_elog_first_level( "Installed theme: {$slug}" );
+    foreach ($themearray as $slug => $zip_url) {
+        $result = $upgrader->install($zip_url);
 
-        $installed_themes = wp_get_themes();
-        $theme_stylesheet = null;
-
-        foreach ( $installed_themes as $stylesheet => $theme_obj ) {
-            if ( strtolower($theme_obj->get('Name')) === strtolower('LOOPIS Theme') ) {
-                $theme_stylesheet = $stylesheet;
-                break;
-            }
+        if ( is_wp_error($result) ) {
+            loopis_elog_first_level("Failed to install theme: " . $result->get_error_message());
+        }else{
+            loopis_elog_first_level( "Installed theme: {$slug}" );
         }
-
-        if ( $theme_stylesheet ) {
-            if (is_multisite()) {
-                $allowed_themes = get_site_option('allowedthemes', []);
-                $allowed_themes[$theme_stylesheet] = true;
-                update_site_option('allowedthemes', $allowed_themes);
-
-                // Optionally switch the theme on all sites
-                $sites = get_sites();
-                foreach ($sites as $site) {
-                    switch_to_blog($site->blog_id);
-                    switch_theme($theme_stylesheet);
-                    restore_current_blog();
-                }
-            } else {
-                switch_theme($theme_stylesheet);
-            }
-            loopis_elog_first_level( "Activated theme: {$slug}" );
-        } else {
-            loopis_elog_first_level( "Theme installed but not registered." );
-        }
-
     }
+
+    loopis_activate_theme('loopis theme hq');
 
     foreach (wp_get_themes() as $slug => $theme_obj) { // Get all themes
 
@@ -99,4 +83,30 @@ function loopis_themes_configure() {
         }
     }
     loopis_elog_function_end_success('loopis_themes_configure');
+}
+
+function loopis_activate_theme($slug='loopis theme'){
+    $installed_themes = wp_get_themes();
+    $theme_stylesheet = null;
+
+    foreach ( $installed_themes as $stylesheet => $theme_obj ) {
+        if ( strtolower($theme_obj->get('Name')) === strtolower($slug) ) {
+            $theme_stylesheet = $stylesheet;
+            break;
+        }
+    }
+
+    if ( $theme_stylesheet ) {
+        if (is_multisite()) {
+            $allowed_themes = get_site_option('allowedthemes', []);
+            $allowed_themes[$theme_stylesheet] = true;
+            update_site_option('allowedthemes', $allowed_themes);
+            switch_theme($theme_stylesheet);
+        } else {
+            switch_theme($theme_stylesheet);
+        }
+        loopis_elog_first_level( "Activated theme: {$slug}" );
+    } else {
+        loopis_elog_first_level( "Theme installed but not registered." );
+    }
 }

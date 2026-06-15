@@ -110,7 +110,7 @@ function loopis_sp_activate_plugins_handler() {
     error_log('=========================== End: Loopis Installer! ===========================');
     error_log('');
     // Redirect after activation
-    wp_redirect(admin_url('admin.php?page=loopis_config&activated=1'));
+    wp_redirect(admin_url('/network/admin.php?page=loopis_config'));
     exit;
 }
 
@@ -219,11 +219,11 @@ function loopis_config_insert($data) {
 *                     Only rows matching these conditions will be updated.
 * @return void
 */
-function loopis_config_update($data, $where) {
+function loopis_config_update($where, $data) {
     global $wpdb;
     $table = $wpdb->prefix . 'loopis_config';
 
-    $wpdb->update($table, $where,  $data);
+    $wpdb->update($table, $data,  $where);
 
     // Reset the cache
     wp_cache_delete('loopis_config_data', 'loopis');

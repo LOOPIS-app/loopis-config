@@ -116,7 +116,7 @@ function get_loopis_config_data() {
 }
 
 // New site hook!
-add_action('wpmu_new_blog', 'loopis_initialize_database', 10, 1);
+add_action('wp_initialize_site', 'loopis_initialize_database', 10, 1);
 
 // Admin menu hook
 if (is_multisite()) {   
@@ -146,53 +146,34 @@ register_activation_hook(__FILE__, function(){
 // Cache table data
 add_action('admin_init', function() {
     if (!current_user_can('administrator')) { return;} 
-    if (!current_user_can('administrator')) { return;} 
     $config = get_loopis_config_data();
-});
-
-
-add_action('admin_menu', function () {
-    if (!is_multisite(  )) { return; } 
-    add_menu_page(
-        'Loopis Site Config',
-        'Loopis Site Config',
-        'manage_options',
-        'loopis-site-config',
-        'loopis_site_config_page',
-        'dashicons-database-import',
-        80
-    );
-});
-
-add_action('admin_init', function () {
-    if (!isset($_POST['loopis_site_config'])) {
-        return;
+    if (get_current_blog_id() === 1){
+        loopis_plugin_ic();
     }
-
-    if (!isset($_POST['loopis_site_config_nonce']) ||
-        !wp_verify_nonce($_POST['loopis_site_config_nonce'], 'loopis_site_config_action')) {
-        wp_die('Security check failed');
+    if(!get_option('loopis_ledgered', FALSE)){
+        loopis_ledger_setup();
+        update_option('loopis_ledgered',TRUE);
     }
-    loopis_configure_site_database();
-    update_option('wp_site_config_completed', 1);
 });
 
-function loopis_site_config_page() {
-    ?>
-    <div class="wrap">
-        <h1>Loopis site configuration!</h1>
+function loopis_plugin_ic(){
+    $check = get_plugins();
+    $list =[
+        'post-smtp/postman-smtp.php'             => 'Post SMTP',
+        'wp-statistics/wp-statistics.php'         => 'WP statistics',
+        'ewww-image-optimizer/ewww-image-optimizer.php'  => 'EWWW Image Optimizer',
+        'comment-mention/comment-mention.php'       => 'Comment Mentioned',
+        'query-monitor/query-monitor.php'       => 'Query Monitor',
+        ];
+    include_once LOOPIS_CONFIG_DIR . '/functions/loopis_config_functions.php';
 
-        <?php if (get_option('wp_site_config_completed')) : ?>
-            <div class="notice notice-success">
-                <p>Configuration has already been completed.</p>
-            </div>
-        <?php endif; ?>
-
-        <form method="post">
-            <?php wp_nonce_field('loopis_site_config_action', 'loopis_site_config_nonce'); ?>
-            <input type="hidden" name="loopis_site_config" value="1" />
-            <?php submit_button('Configure', 'primary', 'submit', false); ?>
-        </form>
-    </div>
-    <?php
+    foreach ($list as $path => $name){
+        if (isset($check[$path])){
+            loopis_config_update(
+                ['Unit' => $name,
+                'Category' => 'Component',], 
+                ['Config_Status' => 'Ok',
+                'Config_Version' => $check[$path]['Version']]);
+        }
+    }
 }

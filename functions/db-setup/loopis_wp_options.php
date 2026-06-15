@@ -28,7 +28,6 @@ function loopis_wp_options_set() {
     
     // Define the options
     $wp_options = array(
-        'blogname'              => 'LOOPIS',
         'blogdescription'       => 'Ge & få saker i ditt grannskap.',
         'admin_email'           => 'admin@loopis.app',
         'users_can_register'    => '1',
@@ -52,13 +51,23 @@ function loopis_wp_options_set() {
         'WPLANG'                => 'sv_SE',
         'auto_update_core_major'=> 'disabled',
         'loopis_config_version' => LOOPIS_CONFIG_VERSION,
-        'fresh_site'            => '0'
-        // Add more options as needed
+        'fresh_site'            => '0',
+        'upload_size_limit'     => 10000,     
     );
 
+    if (is_multisite() && (get_current_blog_id()===1)){
+        $wp_options['blogname'] = 'LOOPIS';
+        $wp_options['site_title'] = 'LOOPIS';    
+        $wp_options['network_title'] = 'LOOPIS network'; 
+        update_site_option( 'registration', 'user' );
+        update_site_option( 'add_new_users', 1 );
+        update_site_option( 'fileupload_maxk', 10000 ); 
+        update_site_option( 'site_name', 'LOOPIS' );   
+    }
     // Set the options
     foreach ($wp_options as $option_name => $option_value) {
         update_option($option_name, $option_value);
     }
     loopis_elog_function_end_success('loopis_wp_options_set');
 }
+
