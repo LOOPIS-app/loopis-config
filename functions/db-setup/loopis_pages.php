@@ -96,7 +96,7 @@ function loopis_pages_insert() {
 
     // Common values for all pages
     $common_values = array(
-        'post_author'    => 1,
+        'post_author'    => 2,
         'post_status'    => 'publish',
         'post_type'      => 'page',
         'ping_status'    => 'closed',
@@ -198,7 +198,7 @@ function loopis_pages_with_parents() {
                     $child_data = array(
                         'post_title'     => $child['post_title'],
                         'post_name'      => $child['post_name'],
-                        'post_author'    => 1,
+                        'post_author'    => 2,
                         'post_status'    => 'publish',
                         'post_type'      => 'page',
                         'ping_status'    => 'closed',

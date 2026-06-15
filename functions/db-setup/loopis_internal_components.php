@@ -37,11 +37,46 @@ function loopis_components_install(){
         loopis_elog_first_level( "Failed installing $slug" );
     }else{
         loopis_elog_first_level( "Installed: $slug!" );
-    }
-    $plugin_slug = $slug . '-staging/' . $slug . '.php'; // if installed then activate
-    if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_slug ) ) {
-        activate_plugin( $plugin_slug , '', is_multisite());
-        loopis_elog_first_level( "Activated: $slug!" );
+        $installed_dir = '';
+        if ( is_array( $result ) && ! empty( $result['destination'] ) ) {
+            $installed_dir = basename( rtrim( $result['destination'], '/' ) );
+        } else {
+            $candidates = glob( WP_PLUGIN_DIR . '/' . $slug . '*', GLOB_ONLYDIR ) ?: [];
+            $installed_dir = $candidates[0] ? basename( $candidates[0] ) : '';
+        }
+        
+        if ( $installed_dir ) {
+            $target_dir = $slug;
+
+            if ( in_array( substr( $installed_dir, -8 ), array('-staging','-main') ) || $installed_dir !== $target_dir ) {
+                $from = WP_PLUGIN_DIR . '/' . $installed_dir;
+                $to   = WP_PLUGIN_DIR . '/' . $target_dir;
+
+                // If target exists, append a numeric suffix
+                $attempt = 1;
+                $final_to = $to;
+                while ( file_exists( $final_to ) ) {
+                    $final_to = $to . '-' . $attempt;
+                    $attempt++;
+                }
+
+                if ( @rename( $from, $final_to ) ) {
+                    $installed_dir = basename( $final_to );
+                    loopis_elog_first_level( "Renamed plugin dir to $installed_dir" );
+                } else {
+                    loopis_elog_first_level( "Failed to rename plugin dir $installed_dir" );
+                }
+            }
+
+            // Build plugin main file path and activate if present
+            $plugin_file = $installed_dir . '/' . $slug . '.php';
+            if ( file_exists( WP_PLUGIN_DIR . '/' . $plugin_file ) ) {
+                activate_plugin( $plugin_file, '', is_multisite() );
+                loopis_elog_first_level( "Activated: $slug!" );
+            } else {
+                loopis_elog_first_level( "Plugin main file not found: $plugin_file" );
+            }
+        }
     }
     loopis_elog_function_end_success('loopis_components_install');
 }
