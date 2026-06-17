@@ -42,7 +42,7 @@ function loopis_config_load_files() {
         loopis_config_include_folder('functions');
         loopis_config_include_folder('functions/update');
 }
-include_once LOOPIS_CONFIG_DIR . 'Migration.php';
+
 // Function to include all PHP files in a folder
 function loopis_config_include_folder($folder_name) {
     $absolute_path = LOOPIS_CONFIG_DIR . '/' . $folder_name;

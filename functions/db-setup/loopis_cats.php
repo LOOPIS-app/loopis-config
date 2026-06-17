@@ -24,12 +24,14 @@ function loopis_cats_insert() {
 
     // Define the categories to insert
     if (is_multisite() && (get_current_blog_id()===1)){
+        $uncat = ['name' =>'💚 Efterfrågat',     'slug' => 'requested', 'term_group' => 1];
         $categories = [
             ['name' =>'💚 Efterfrågat',     'slug' => 'requested'   ],
             ['name' =>'🧡 På gång',         'slug' => 'coming'      ],
             ['name' =>'❤ Aktivt',           'slug' => 'active'      ],
         ];
     } else{
+        $uncat = ['name' =>'⏳ Lottning', 'slug' => 'new', 'term_group' => 1];
         $categories = [
             ['name' =>'⏳ Lottning',            'slug' => 'new'],
             ['name' =>'🟢 Först till kvarn',    'slug' => 'old'],
@@ -72,14 +74,11 @@ function loopis_cats_insert() {
 
     if ($uncategorized && !is_wp_error($uncategorized)) {
         // Rename and update the slug
+
         $updated = wp_update_term(
             $uncategorized->term_id,
             'category',
-            [
-                'name'        => '⏳ Lottning',
-                'slug'        => 'new',
-                'term_group' => 1, // optional
-            ]
+            $uncat
         );
 
         if (is_wp_error($updated)) {
