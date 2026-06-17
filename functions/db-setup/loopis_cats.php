@@ -108,12 +108,13 @@ function loopis_cats_insert() {
             $term_ids[$category['slug']] = $term->term_id;
         }
     }
-
-    foreach ($parent_map as $child_slug => $parent_slug) {
-        $child_id  = $term_ids[$child_slug];
-        $parent_id = $term_ids[$parent_slug];
-        wp_update_term($child_id, 'category', ['parent' => $parent_id]);
-        loopis_elog_first_level("Set parent of $child_slug to $parent_slug");
+    if (!(is_multisite() && (get_current_blog_id()===1))){
+        foreach ($parent_map as $child_slug => $parent_slug) {
+            $child_id  = $term_ids[$child_slug];
+            $parent_id = $term_ids[$parent_slug];
+            wp_update_term($child_id, 'category', ['parent' => $parent_id]);
+            loopis_elog_first_level("Set parent of $child_slug to $parent_slug");
+        }
     }
 
     foreach ($term_ids as $term_id) {
@@ -127,7 +128,7 @@ function loopis_cats_insert() {
     }
     
     // Set 'new' as default category
-    $term = get_term_by('slug', 'new', 'category');
+    $term = get_term_by('slug', $uncat['slug'], 'category');
     if ($term) {
         update_option('default_category', $term->term_id);
         loopis_elog_first_level('Set default category to: new');
