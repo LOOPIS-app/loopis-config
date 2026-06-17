@@ -25,7 +25,48 @@ function loopis_wp_options_set() {
     $home_page_id = get_page_by_path('start');
     $blog_page_id = get_page_by_path('gifts');
     $privacy_page_id = get_page_by_path('privacy');
-    
+    $gosmtp_options = array(
+        'mailer' => array(
+            0 => array(
+              'mail_type' => 'smtp',
+              'backup_connection' => '',
+              'smtp_host' => 'mail.loopa.se',
+              'encryption' => 'tls',
+              'smtp_port' => '587',
+              'smtp_auth' => 'Yes',
+              'smtp_username' => 'admin@loopa.se',
+              'smtp_password' => '',
+              'disable_ssl_verification' => '',
+            ),
+        ),
+        'from_email' => 'admin@loopa.se',
+        'force_from_email' => 1,
+        'from_name' => 'LOOPIS',
+        'force_from_name' => 1,
+        'return_path' => '',
+        'logs' => array(
+            'enable_logs' => 1,
+            'log_attachments' => '',
+            'retention_period' => '2628000',
+            'log_columns' => array(
+                'from' => 'on',
+                'to' => 'on',
+                'source' => 'on',
+                'provider' => 'on',
+            ),
+        ),
+        'weekly_reports' => array(
+            'enable_weekly_reports' => '',
+            'weekday' => '',
+            'timestamp' => '',
+        ),
+    );
+    $ewww_options = array(
+        'medium_large' => true,
+        '1536x1536' => true,
+        '2048x2048' => true,
+        'pdf-full' => true,
+    );
     // Define the options
     $wp_options = array(
         'blogdescription'       => 'Ge & få saker i ditt grannskap.',
@@ -53,6 +94,10 @@ function loopis_wp_options_set() {
         'loopis_config_version' => LOOPIS_CONFIG_VERSION,
         'fresh_site'            => '0',
         'upload_size_limit'     => 10000,     
+        'gosmtp_options'        => $gosmtp_options,
+        'ewww_image_optimizer_disable_resizes' => $ewww_options,
+        'medium_size_w'           => 0,
+        'medium_size_h'           => 0,
     );
 
     if (is_multisite() && (get_current_blog_id()===1)){
