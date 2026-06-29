@@ -142,6 +142,13 @@ if (!defined('ABSPATH')) {
             'Config_Version' => '0.0.0',
             'Config_function' => 'loopis_wp_screen_options_set',
             'Category' => 'Install'
+        ),array(
+            'Unit' => 'Loopis site 2 installation',
+            'Place' => 'Database',
+            'Config_Status' => 'Nan',
+            'Config_Version' => '0.0.0',
+            'Config_function' => 'loopis_setup_site',
+            'Category' => 'Install'
         ),
         array(
             'Unit' => 'LOOPIS Admin',

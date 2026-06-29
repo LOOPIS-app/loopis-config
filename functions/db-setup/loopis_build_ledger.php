@@ -269,7 +269,7 @@ function loopis_ledger_create_account($uid, $blog_id){
             $fetcher = get_post_meta($post_id, 'fetcher', true);
             $post_date = get_post_field('post_date', $post_id);
             $location  = get_post_meta($post_id, 'location', true) ?? 'unknown';
-
+            $type = filter_var(get_post_meta($post_id,'previous_post',true), FILTER_VALIDATE_INT) ? 'forwarded' : ''; 
             if (!empty($fetch_date)&&!empty($fetcher)){
                 $coins = 1;
                 $date = strtotime($fetch_date);
@@ -337,6 +337,7 @@ function loopis_ledger_create_account($uid, $blog_id){
                     'coins' => $coins,
                     'clover' => 1,
                     'location' => $location,
+                    'type' => $type,
                 ),
                 array(
                     '%d',                     
@@ -346,6 +347,7 @@ function loopis_ledger_create_account($uid, $blog_id){
                     '%s', 
                     '%d', 
                     '%d',
+                    '%s',
                     '%s',
                 )
             );
