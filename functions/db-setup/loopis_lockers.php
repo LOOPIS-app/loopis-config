@@ -49,3 +49,38 @@ function loopis_lockers_create() {
     dbDelta($sql);
     loopis_elog_function_end_success('loopis_lockers_create');
 }
+
+function loopis_lockers_reconfigure() {
+    global $wpdb;
+
+    $table  = $wpdb->prefix . 'loopis_lockers';
+    $table2 = $wpdb->prefix . 'loopis_settings';
+
+    $entries = $wpdb->get_results("SELECT * FROM {$table}");
+    if (empty($entries)) return;
+
+    $values_sql = [];
+    $params = [];
+
+    foreach ($entries as $index => $list) {
+        $settings = [
+            "locker_{$index}_id"      => $list->locker_id,
+            "locker_{$index}_name"    => $list->locker_name,
+            "locker_{$index}_code"    => $list->locker_code,
+            "locker_{$index}_privacy" => 'false',
+            "locker_{$index}_warning_info" => '⚠ Det är mycket saker i skåpen just nu! <br>🐎 Hämta dina saker så snabbt som möjligt.<br> 🐌 Vänta någon dag med att lämna stora saker.',
+            "locker_{$index}_warning_header" => '⚠ Mycket saker i skåpen!',
+        ];
+
+        foreach ($settings as $key => $val) {
+            $values_sql[] = "(%s, %s)";
+            $params[] = $key;
+            $params[] = $val;
+        }
+    }
+
+    $sql = "INSERT INTO {$table2} (setting_key, setting_value) VALUES " . implode(', ', $values_sql);
+    $prepared = $wpdb->prepare($sql, ...$params);
+
+    return $wpdb->query($prepared);
+}
