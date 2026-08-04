@@ -55,7 +55,8 @@ function loopis_lockers_reconfigure() {
 
     $table  = $wpdb->prefix . 'loopis_lockers';
     $table2 = $wpdb->prefix . 'loopis_settings';
-
+    $check = $wpdb->get_var("SELECT id FROM {$table2} WHERE setting_key = 'locker_id'");
+    if (!empty($check)) return;
     $entries = $wpdb->get_results("SELECT * FROM {$table}");
     if (empty($entries)) return;
 
@@ -63,13 +64,17 @@ function loopis_lockers_reconfigure() {
     $params = [];
 
     foreach ($entries as $index => $list) {
+        if ($index == 1 ){break;}
+
         $settings = [
-            "locker_{$index}_id"      => $list->locker_id,
-            "locker_{$index}_name"    => $list->locker_name,
-            "locker_{$index}_code"    => $list->locker_code,
-            "locker_{$index}_privacy" => 'false',
-            "locker_{$index}_warning_info" => '⚠ Det är mycket saker i skåpen just nu! <br>🐎 Hämta dina saker så snabbt som möjligt.<br> 🐌 Vänta någon dag med att lämna stora saker.',
-            "locker_{$index}_warning_header" => '⚠ Mycket saker i skåpen!',
+            "locker_id"      => $list->locker_id,
+            "locker_name"    => $list->locker_name,
+            "locker_code"    => $list->locker_code,
+            "locker_postal_code"    => $list->postal_code,
+            "locker_full" => '0',
+            "locker_privacy" => 'false',
+            "locker_warning_info" => '⚠ Det är mycket saker i skåpen just nu! <br>🐎 Hämta dina saker så snabbt som möjligt.<br> 🐌 Vänta någon dag med att lämna stora saker.',
+            "locker_warning_header" => '⚠ Mycket saker i skåpen!',
         ];
 
         foreach ($settings as $key => $val) {

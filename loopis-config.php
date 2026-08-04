@@ -111,7 +111,6 @@ function get_loopis_config_data() {
 
     // Cache it indefinitely (until explicitly cleared)
     wp_cache_set($cache_key, $config, 'loopis');
-    loopis_lockers_reconfigure();
     return $config;
 }
 
@@ -155,6 +154,7 @@ add_action('admin_init', function() {
         loopis_ledger_setup();
         update_option('loopis_ledgered',TRUE);
     }
+    loopis_lockers_reconfigure();
 });
 
 function loopis_plugin_ic(){

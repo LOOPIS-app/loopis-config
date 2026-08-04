@@ -32,7 +32,7 @@ function loopis_initialize_database( WP_Site $new_site ){
     loopis_delete_default_content();
     
     //lockers
-    loopis_lockers_create();
+    //loopis_lockers_create();
 
     loopis_activate_theme();
     // Back to main
@@ -56,7 +56,7 @@ function loopis_configure_site_database(){
     loopis_roles_set();
     loopis_tags_insert();
     //lockers?
-    loopis_lockers_create();
+    //loopis_lockers_create();
     loopis_activate_theme($slug='loopis theme');
 }
 
