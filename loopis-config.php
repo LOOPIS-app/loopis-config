@@ -154,7 +154,6 @@ add_action('admin_init', function() {
         loopis_ledger_setup();
         update_option('loopis_ledgered',TRUE);
     }
-    loopis_lockers_reconfigure();
 });
 
 function loopis_plugin_ic(){
