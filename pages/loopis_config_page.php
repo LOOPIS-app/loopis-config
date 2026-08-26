@@ -149,7 +149,7 @@ function loopis_config_page() {
                 </tr>
         <?php endforeach; ?>
         </tbody>
-</table>
+    </table>
     </div>
     <?php 
 }

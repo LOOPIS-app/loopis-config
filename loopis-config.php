@@ -111,7 +111,6 @@ function get_loopis_config_data() {
 
     // Cache it indefinitely (until explicitly cleared)
     wp_cache_set($cache_key, $config, 'loopis');
-
     return $config;
 }
 
