@@ -47,8 +47,8 @@ function loopis_pages_insert() {
             'post_name'  => 'submit',
         ),
         array(
-            'post_title' => '💞 Event',
-            'post_name'  => 'event',
+            'post_title' => '🛟 Område',
+            'post_name'  => 'area',
         ),
         array(
             'post_title' => '📌 Tips!',

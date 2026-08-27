@@ -71,6 +71,7 @@ function loopis_settings_insert() {
             'welcome_email_footer' => '<table style="border-collapse: collapse"><tr><td style="vertical-align: middle;padding-right: 5px"><img src="/wp-content/images/LOOPIS_icon.png" alt="LOOPIS_logo" style="height: 32px"></td><td style="vertical-align: middle;width: 275px"><p style="font-size: 11px;font-style: italic;margin: 0;line-height: 1.2">Information från <a href="/">LOOPIS.app</a> <br> angående ditt användarkonto.</p></td></tr></table>',
         ];
     }else{
+        // Mainsite-records
         $defaults = [
             "area_privacy" => 'false',
             "locker_id"      => '00000',
