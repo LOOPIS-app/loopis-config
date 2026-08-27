@@ -145,7 +145,6 @@ register_activation_hook(__FILE__, function(){
 // Cache table data
 add_action('admin_init', function() {
     if (!current_user_can('administrator')) { return;} 
-
     $config = get_loopis_config_data();
     if (get_current_blog_id() === 1){
         loopis_plugin_ic();
