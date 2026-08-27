@@ -62,27 +62,28 @@ function loopis_settings_insert() {
 
     // Define table name with WordPress prefix
     $table = $wpdb->prefix . 'loopis_settings';
-    // Add or remove records here:
-    $mainsite = [
-        'welcome_email_subject' => '💚 Välkommen!',
-        'welcome_email_greeting' => 'Hej [user_first_name]!',
-        'welcome_email_message' => '<div style="padding: 10px;text-align: center;font-size: 18px;background: #f5f5f5;border-radius: 10px"><p>🎉 Ditt konto på LOOPIS.app är nu aktiverat.<br>→  Logga in med din vanliga webbläsare.</p><p><a href="/faq/tips-till-ny-medlem/">📌 Tips till ny medlem!</a></p></div>',
-        'welcome_email_footer' => '<table style="border-collapse: collapse"><tr><td style="vertical-align: middle;padding-right: 5px"><img src="/wp-content/images/LOOPIS_icon.png" alt="LOOPIS_logo" style="height: 32px"></td><td style="vertical-align: middle;width: 275px"><p style="font-size: 11px;font-style: italic;margin: 0;line-height: 1.2">Information från <a href="/">LOOPIS.app</a> <br> angående ditt användarkonto.</p></td></tr></table>',
+    if(get_current_blog_id()===1){
+        // Mainsite-records
+        $defaults = [
+            'welcome_email_subject' => '💚 Välkommen!',
+            'welcome_email_greeting' => 'Hej [user_first_name]!',
+            'welcome_email_message' => '<div style="padding: 10px;text-align: center;font-size: 18px;background: #f5f5f5;border-radius: 10px"><p>🎉 Ditt konto på LOOPIS.app är nu aktiverat.<br>→  Logga in med din vanliga webbläsare.</p><p><a href="/faq/tips-till-ny-medlem/">📌 Tips till ny medlem!</a></p></div>',
+            'welcome_email_footer' => '<table style="border-collapse: collapse"><tr><td style="vertical-align: middle;padding-right: 5px"><img src="/wp-content/images/LOOPIS_icon.png" alt="LOOPIS_logo" style="height: 32px"></td><td style="vertical-align: middle;width: 275px"><p style="font-size: 11px;font-style: italic;margin: 0;line-height: 1.2">Information från <a href="/">LOOPIS.app</a> <br> angående ditt användarkonto.</p></td></tr></table>',
         ];
-
-    // Add or remove records here:
-    $defaults = [
-        "area_privacy" => 'false',
-        "locker_id"      => '00000',
-        "locker_name"    => 'locker',
-        "locker_warning" => '0',
-        "locker_warning_info" => '⚠ Det är mycket saker i skåpen just nu! <br>🐎 Hämta dina saker så snabbt som möjligt.<br> 🐌 Vänta någon dag med att lämna stora saker.',
-        "locker_warning_header" => '⚠ Mycket saker i skåpen!',
-        "locker_code"    => '0000',
-        "locker_postal_code"    => '00000',
-        'event_name' => '🛸 LOOPIS HQ',
-        'event_name_history' => serialize(['🌳 LOOPIS på torget', '🛸 LOOPIS HQ']),
-    ];
+    }else{
+        $defaults = [
+            "area_privacy" => 'false',
+            "locker_id"      => '00000',
+            "locker_name"    => 'locker',
+            "locker_warning" => '0',
+            "locker_warning_info" => '⚠ Det är mycket saker i skåpen just nu! <br>🐎 Hämta dina saker så snabbt som möjligt.<br> 🐌 Vänta någon dag med att lämna stora saker.',
+            "locker_warning_header" => '⚠ Mycket saker i skåpen!',
+            "locker_code"    => '0000',
+            "locker_postal_code"    => '00000',
+            'event_name' => '🛸 LOOPIS HQ',
+            'event_name_history' => serialize(['🌳 LOOPIS på torget', '🛸 LOOPIS HQ']),
+        ];
+    }
 
     // Insert or update each default setting
     foreach ($defaults as $key => $value) {
