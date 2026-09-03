@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
  * 
  * @return void
  */
-function loopis_lockers_create() {
+function loopis_areas_create() {
     loopis_elog_function_start('loopis_lockers_create');
 
     // Access WordPress database object
@@ -89,4 +89,30 @@ function loopis_lockers_reconfigure() {
     $prepared = $wpdb->prepare($sql, ...$params);
 
     return $wpdb->query($prepared);
+}
+function loopis_area_instantiate() {
+    global $wpdb;
+    $table = $wpdb->base_prefix . 'loopis_areas';
+    $current_blog_id = get_current_blog_id();
+    $exists = $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT 1 FROM {$table} WHERE blog_id = %d LIMIT 1",
+            $current_blog_id
+        )
+    );
+
+    if (!$exists) {
+        $wpdb->insert(
+            $table,
+            array(
+                'blog_id'     => $current_blog_id,
+                'locker_id'   => '00000-0',
+                'locker_name' => 'skåpet på platsen',
+                'postal_code' => '00000',
+                'privacy'     => 0,
+            ),
+            array('%d', '%s', '%s', '%s', '%d')
+        );
+    }
+
 }

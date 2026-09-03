@@ -31,6 +31,7 @@ function loopis_initialize_database( WP_Site $new_site ){
     loopis_tags_insert();
     loopis_delete_default_content();
     loopis_pages_insert();
+    loopis_area_instantiate();
     
     //lockers
     //loopis_lockers_create();
@@ -56,6 +57,7 @@ function loopis_configure_site_database(){
     loopis_wp_options_set();
     loopis_roles_set();
     loopis_tags_insert();
+    loopis_area_instantiate();
     //lockers?
     //loopis_lockers_create();
     loopis_activate_theme($slug='loopis theme');
