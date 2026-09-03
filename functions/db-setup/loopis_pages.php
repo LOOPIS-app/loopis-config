@@ -47,28 +47,20 @@ function loopis_pages_insert() {
             'post_name'  => 'submit',
         ),
         array(
-            'post_title' => '💞 Event',
-            'post_name'  => 'event',
+            'post_title' => '🛟 Område',
+            'post_name'  => 'area',
         ),
         array(
-            'post_title' => '📌 Tips!',
-            'post_name'  => 'tips',
+            'post_title' => '⏹ Skåpet!',
+            'post_name'  => 'locker',
         ),
         array(
-            'post_title' => '🔔 Min aktivitet',
+            'post_title' => '👤 Min aktivitet',
             'post_name'  => 'activity',
         ),
         array(
-            'post_title' => '🐙 Admin',
+            'post_title' => '🦀 Admin',
             'post_name'  => 'admin',
-        ),
-        array(
-            'post_title' => '👤 Min profil',
-            'post_name'  => 'user',
-        ),
-        array(
-            'post_title' => '🛒 Shoppen',
-            'post_name'  => 'shop',
         ),
 
     ) : array(

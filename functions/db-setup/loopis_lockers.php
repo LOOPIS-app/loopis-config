@@ -21,32 +21,33 @@ if (!defined('ABSPATH')) {
  * 
  * @return void
  */
-function loopis_lockers_create() {
+function loopis_areas_create() {
     loopis_elog_function_start('loopis_lockers_create');
 
     // Access WordPress database object
     global $wpdb;
 
     // Define table name with WordPress prefix
-    $table = $wpdb->prefix . 'loopis_lockers';
+    $table = $wpdb->base_prefix . 'loopis_areas';
     $charset_collate = $wpdb->get_charset_collate();
 
     // Include WordPress database upgrade functions
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     
     // Create the table (or update if columns are missing)
-    $sql = "CREATE TABLE $table (
+    $sql = "CREATE TABLE {$table} (
         id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        blog_id bigint(20) unsigned NOT NULL,
         locker_id varchar(32) NOT NULL,
         locker_name varchar(128) DEFAULT NULL,
         postal_code varchar(16) NOT NULL,
-        locker_code varchar(32) DEFAULT NULL,
-        locker_full tinyint(1) DEFAULT 0,
+        privacy tinyint(1) NOT NULL DEFAULT 0,
         PRIMARY KEY (id),
-        UNIQUE KEY locker_id (locker_id)
-    ) $charset_collate;";
+        UNIQUE KEY blog_id (blog_id)
+    ) {$charset_collate};";
 
     dbDelta($sql);
+
     loopis_elog_function_end_success('loopis_lockers_create');
 }
 
@@ -88,4 +89,30 @@ function loopis_lockers_reconfigure() {
     $prepared = $wpdb->prepare($sql, ...$params);
 
     return $wpdb->query($prepared);
+}
+function loopis_area_instantiate() {
+    global $wpdb;
+    $table = $wpdb->base_prefix . 'loopis_areas';
+    $current_blog_id = get_current_blog_id();
+    $exists = $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT 1 FROM {$table} WHERE blog_id = %d LIMIT 1",
+            $current_blog_id
+        )
+    );
+
+    if (!$exists) {
+        $wpdb->insert(
+            $table,
+            array(
+                'blog_id'     => $current_blog_id,
+                'locker_id'   => '00000-0',
+                'locker_name' => 'skåpet på platsen',
+                'postal_code' => '00000',
+                'privacy'     => 0,
+            ),
+            array('%d', '%s', '%s', '%s', '%d')
+        );
+    }
+
 }

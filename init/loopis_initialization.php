@@ -15,7 +15,7 @@
  */
 
 function loopis_initialize_database( WP_Site $new_site ){
-    $blog_id = (int) ( $new_site->blog_id ?? $new_site->id ?? 0 );
+    $blog_id = (int) ($new_site->id ?? 0 );
     // Go to sub-site    
     if ( $blog_id <= 0 ) {
         return; 
@@ -30,6 +30,8 @@ function loopis_initialize_database( WP_Site $new_site ){
     loopis_roles_set();
     loopis_tags_insert();
     loopis_delete_default_content();
+    loopis_pages_insert();
+    loopis_area_instantiate();
     
     //lockers
     //loopis_lockers_create();
@@ -55,6 +57,7 @@ function loopis_configure_site_database(){
     loopis_wp_options_set();
     loopis_roles_set();
     loopis_tags_insert();
+    loopis_area_instantiate();
     //lockers?
     //loopis_lockers_create();
     loopis_activate_theme($slug='loopis theme');
