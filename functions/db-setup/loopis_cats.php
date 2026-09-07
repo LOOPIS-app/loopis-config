@@ -29,6 +29,7 @@ function loopis_cats_insert() {
             ['name' =>'💚 Efterfrågat',     'slug' => 'requested'   ],
             ['name' =>'🧡 På gång',         'slug' => 'coming'      ],
             ['name' =>'❤ Aktivt',           'slug' => 'active'      ],
+            ['name' =>'⛔️ Privat',           'slug' => 'private'      ],
         ];
     } else{
         $uncat = ['name' =>'⏳ Lottning', 'slug' => 'new', 'term_group' => 1];
@@ -40,7 +41,9 @@ function loopis_cats_insert() {
             ['name' =>'⏹ Skåpet',               'slug' => 'locker'],
             ['name' =>'☑ Hämtad',               'slug' => 'fetched'],
             ['name' =>'❌ Borttagen',           'slug' => 'removed'],
-            ['name' =>'💢 Ej mottagen',         'slug' => 'disappeared'],
+            ['name' =>'💢 Försvunnen',          'slug' => 'disappeared'],
+            ['name' =>'🧹 Bortplockad',         'slug' => 'extracted'],
+            ['name' =>'💩 Reklamerad',          'slug' => 'complaint'],
             ['name' =>'📦 Lager',               'slug' => 'storage'],
             ['name' =>'😎 Pausad',              'slug' => 'paused'],
             ['name' =>'⭕ Arkiverad',           'slug' => 'archived'], 
