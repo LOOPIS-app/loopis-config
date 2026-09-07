@@ -22,7 +22,7 @@ if (!defined('ABSPATH')) {
  * @return void
  */
 function loopis_areas_create() {
-    loopis_elog_function_start('loopis_lockers_create');
+    loopis_elog_function_start('loopis_areas_create');
 
     // Access WordPress database object
     global $wpdb;
@@ -48,7 +48,7 @@ function loopis_areas_create() {
 
     dbDelta($sql);
 
-    loopis_elog_function_end_success('loopis_lockers_create');
+    loopis_elog_function_end_success('loopis_areas_create');
 }
 
 function loopis_lockers_reconfigure() {
@@ -90,6 +90,7 @@ function loopis_lockers_reconfigure() {
 
     return $wpdb->query($prepared);
 }
+
 function loopis_area_instantiate() {
     global $wpdb;
     $table = $wpdb->base_prefix . 'loopis_areas';

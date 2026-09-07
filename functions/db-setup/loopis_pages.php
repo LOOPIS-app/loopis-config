@@ -84,6 +84,18 @@ function loopis_pages_insert() {
             'post_title' => '🛒 Shoppen',
             'post_name'  => 'shop',
         ),
+        array(
+            'post_title' => '📝 Special-signup',
+            'post_name'  => 'special-signup',
+        ),
+        array(
+            'post_title' => '🔲 QR',
+            'post_name'  => 'qr',
+        ),
+        array(
+            'post_title' => '🔄 Front-page',
+            'post_name'  => 'front-page',
+        ),
     ) ;
 
     // Common values for all pages
