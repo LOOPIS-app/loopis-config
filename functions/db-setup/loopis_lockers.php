@@ -117,3 +117,30 @@ function loopis_area_instantiate() {
     }
 
 }
+
+function loopis_qrs_create() {
+    loopis_elog_function_start('loopis_areas_create');
+
+    // Access WordPress database object
+    global $wpdb;
+
+    // Define table name with WordPress prefix
+    $table = $wpdb->base_prefix . 'loopis_qr_codes';
+    $charset_collate = $wpdb->get_charset_collate();
+
+    // Include WordPress database upgrade functions
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    
+    // Create the table (or update if columns are missing)
+    $sql = "CREATE TABLE {$table} (
+        id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        redirect varchar(2048) NOT NULL,
+        name varchar(128) NOT NULL,
+        location varchar(128) DEFAULT NULL,
+        PRIMARY KEY (id)
+    ) {$charset_collate};";
+
+    dbDelta($sql);
+
+    loopis_elog_function_end_success('loopis_areas_create');
+}
