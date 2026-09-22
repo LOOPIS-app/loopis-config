@@ -69,6 +69,10 @@ function loopis_pages_insert() {
             'post_name'  => 'start',
         ),
         array(
+            'post_title' => '📍 Områden',
+            'post_name'  => 'areas',
+        ),
+        array(
             'post_title' => '🗄 Integritet',
             'post_name'  => 'privacy',
         ),
@@ -77,7 +81,7 @@ function loopis_pages_insert() {
             'post_name'  => 'admin',
         ),
         array(
-            'post_title' => '👤 Min profil',
+            'post_title' => '📋 Mitt medlemskap',
             'post_name'  => 'user',
         ),
         array(
