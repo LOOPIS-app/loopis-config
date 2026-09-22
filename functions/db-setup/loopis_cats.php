@@ -26,9 +26,9 @@ function loopis_cats_insert() {
     if (is_multisite() && (get_current_blog_id()===1)){
         $uncat = ['name' =>'💚 Efterfrågat',     'slug' => 'requested', 'term_group' => 1];
         $categories = [
-            ['name' =>'💚 Efterfrågat',     'slug' => 'requested'   ],
-            ['name' =>'🧡 På gång',         'slug' => 'coming'      ],
-            ['name' =>'❤ Aktivt',           'slug' => 'active'      ],
+            ['name' =>'🩶 Efterfrågat',      'slug' => 'requested'   ],
+            ['name' =>'🧡 På gång',          'slug' => 'coming'      ],
+            ['name' =>'💚 Aktivt',           'slug' => 'active'      ],
             ['name' =>'⛔️ Privat',           'slug' => 'private'      ],
         ];
     } else{
@@ -66,6 +66,8 @@ function loopis_cats_insert() {
         'fetched'        => 'hidden',
         'locker'         => 'hidden',
         'disappeared'    => 'hidden',
+        'extracted'      => 'hidden',
+        'complaint'      => 'hidden',
     ];
     // Set term group for loopis cats
     $loopis_term_group = 1;
