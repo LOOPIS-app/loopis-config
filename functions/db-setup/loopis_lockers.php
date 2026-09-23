@@ -134,10 +134,12 @@ function loopis_qrs_create() {
     // Create the table (or update if columns are missing)
     $sql = "CREATE TABLE {$table} (
         id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        uid varchar(16) NOT NULL,
         redirect varchar(2048) NOT NULL,
         name varchar(128) NOT NULL,
-        location varchar(128) DEFAULT NULL,
-        PRIMARY KEY (id)
+        blog_id bigint(20) unsigned DEFAULT 1,
+        PRIMARY KEY (id),
+        UNIQUE KEY uid (uid)
     ) {$charset_collate};";
 
     dbDelta($sql);

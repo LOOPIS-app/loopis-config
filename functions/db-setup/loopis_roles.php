@@ -21,11 +21,8 @@ if (!defined('ABSPATH')) {
 function loopis_roles_set() {
     loopis_elog_function_start('loopis_roles_set');
 
-    // Get current roles
-    $current_roles = get_option('wp_user_roles');
-
     // Remove all default WordPress roles except administrator
-    $default_roles_to_remove = array('editor', 'author', 'contributor', 'subscriber');
+    $default_roles_to_remove = array('editor', 'author', 'contributor', 'subscriber','member_cancelled');
     foreach ($default_roles_to_remove as $role) {
         if (get_role($role)) {
             remove_role($role);
@@ -35,20 +32,31 @@ function loopis_roles_set() {
     
     // Create custom LOOPIS roles
     $roles = array(
-        'member_canceled' => array(
-            'name' => 'Member_canceled',
+        'member_earlier' => array(
+            'name' => 'Member_earlier',
             'capabilities' => array(
                 'read' => true,
+                'use_locker' => true,
+                'access_profile' => true,
             ),
         ),
         'member_archived' => array(
             'name' => 'Member_archived',
             'capabilities' => array(
                 'read' => true,
+                'use_locker' => true,
+                'access_profile' => true,
             ),
         ),
         'member_pending' => array(
             'name' => 'Member_pending',
+            'capabilities' => array(
+                'read' => true,
+                'access_profile' => true,
+            ),
+        ),
+        'member_support' => array(
+            'name' => 'Member_support',
             'capabilities' => array(
                 'read' => true,
             ),
@@ -62,6 +70,8 @@ function loopis_roles_set() {
                 'edit_published_posts' => true,
                 'upload_files' => true,
                 'unfiltered_html' => true,
+                'use_locker' => true,
+                'access_profile' => true,
             ),
         ),
         'board' => array(
@@ -139,23 +149,52 @@ function loopis_roles_set() {
             'board',
             'stocker',
         ),
+        'use_locker' => array(
+            'administrator',
+            'develooper', 
+            'member_earlier',
+            'member_archived',            
+            'member_pending',
+            'member',
+        ),
+        'access_profile' => array(
+            'administrator',
+            'develooper',
+            'member_earlier',
+            'member_archived',
+            'member_pending',
+            'member',
+        ),
     );
-    foreach ($roles as $role => $role_info) {
-        if (!get_role($role)) {
-            add_role($role, $role_info['name'], $role_info['capabilities']);
-        }
-    }
-    // Apply LOOPIS custom capabilities to roles
-    foreach($loopis_capabilities as $cap => $role_list){
-        foreach($role_list as $role_name){
-            $r = get_role($role_name);
-            if($r){
-                $r->add_cap($cap);
+    
+    foreach ($roles as $slug => $data)
+         {
+        $role = get_role($slug);
+
+        if (!$role) {
+            $role = add_role(
+                $slug,
+                $data['name'],
+                $data['capabilities']
+            );
+        } else {
+            foreach ($data['capabilities'] as $capability => $grant) {
+                if ($grant) {
+                    $role->add_cap($capability);
+                }
             }
         }
     }
-    // Save updated roles
-    update_option('wp_user_roles', $roles);
+
+    foreach ($loopis_capabilities as $capability => $role_slugs) {
+        foreach ($role_slugs as $role_slug) {
+            $role = get_role($role_slug);
+
+            if ($role) {
+                $role->add_cap($capability);
+            }
+        }
+    }
 
     loopis_elog_function_end_success('loopis_roles_set');
     return true;
