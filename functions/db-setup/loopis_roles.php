@@ -37,7 +37,6 @@ function loopis_roles_set() {
             'capabilities' => array(
                 'read' => true,
                 'use_locker' => true,
-                'access_profile' => true,
             ),
         ),
         'member_archived' => array(
@@ -45,14 +44,12 @@ function loopis_roles_set() {
             'capabilities' => array(
                 'read' => true,
                 'use_locker' => true,
-                'access_profile' => true,
             ),
         ),
         'member_pending' => array(
             'name' => 'Member_pending',
             'capabilities' => array(
                 'read' => true,
-                'access_profile' => true,
             ),
         ),
         'member_support' => array(
@@ -154,14 +151,6 @@ function loopis_roles_set() {
             'develooper', 
             'member_earlier',
             'member_archived',            
-            'member_pending',
-            'member',
-        ),
-        'access_profile' => array(
-            'administrator',
-            'develooper',
-            'member_earlier',
-            'member_archived',
             'member_pending',
             'member',
         ),
