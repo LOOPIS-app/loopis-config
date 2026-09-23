@@ -31,7 +31,7 @@ function loopis_pages_insert() {
             'post_name'  => 'start',
         ),
         array(
-            'post_title' => '🎁 Saker att få',
+            'post_title' => '🎁 Saker',
             'post_name'  => 'gifts',
         ),
         array(
@@ -39,7 +39,7 @@ function loopis_pages_insert() {
             'post_name'  => 'privacy',
         ),
         array(
-            'post_title' => '♻ Upptäck',
+            'post_title' => '🧭 Hitta',
             'post_name'  => 'discover',
         ),
         array(
@@ -47,7 +47,7 @@ function loopis_pages_insert() {
             'post_name'  => 'submit',
         ),
         array(
-            'post_title' => '🛟 Område',
+            'post_title' => '📍 Område',
             'post_name'  => 'area',
         ),
         array(
@@ -69,6 +69,10 @@ function loopis_pages_insert() {
             'post_name'  => 'start',
         ),
         array(
+            'post_title' => '📍 Områden',
+            'post_name'  => 'areas',
+        ),
+        array(
             'post_title' => '🗄 Integritet',
             'post_name'  => 'privacy',
         ),
@@ -77,7 +81,7 @@ function loopis_pages_insert() {
             'post_name'  => 'admin',
         ),
         array(
-            'post_title' => '👤 Min profil',
+            'post_title' => '📋 Mitt medlemskap',
             'post_name'  => 'user',
         ),
         array(
