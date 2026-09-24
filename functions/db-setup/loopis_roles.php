@@ -68,7 +68,6 @@ function loopis_roles_set() {
                 'upload_files' => true,
                 'unfiltered_html' => true,
                 'use_locker' => true,
-                'access_profile' => true,
             ),
         ),
         'board' => array(
